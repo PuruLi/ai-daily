@@ -64,6 +64,8 @@ def main() -> int:
         raise SystemExit("git pull failed")
 
     # Copy + rebuild index.
+    import sys as _sys
+    _sys.path.insert(0, str(repo))
     from scripts.publish_one import build_index  # type: ignore
 
     ddir = repo / "d"
