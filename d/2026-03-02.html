@@ -1,0 +1,563 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSS 日报 - 2026-03-02</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --primary:#4f46e5; --shadow:0 8px 22px rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.72 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; -webkit-text-size-adjust:100%; }
+    .layout { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:280px 1fr; gap:16px; padding:16px; }
+    .content, .sidebar { min-width:0; }
+    .sidebar { position:sticky; top:14px; height:fit-content; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+    .brand h1 { margin:0; font-size:22px; }
+    .sub { color:var(--muted); margin:6px 0; font-size:13px; }
+    nav { margin-top:10px; }
+    nav a { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-radius:8px; color:var(--text); text-decoration:none; font-size:14px; gap:8px; }
+    nav a:hover { background:#eef2ff; }
+    .hotbox { margin-top:14px; border-top:1px dashed var(--line); padding-top:12px; }
+    .hotbox h3 { margin:0 0 8px; font-size:18px; color:#111827; }
+    .hotbox ol { margin:0; padding-left:20px; }
+    .hotbox li { margin:10px 0; font-size:14px; line-height:1.55; }
+    .hotbox li a { color:#111827; text-decoration:none; font-weight:600; }
+    .hotbox li a:hover { text-decoration:underline; color:var(--primary); }
+    .hotbox li span { display:block; color:var(--muted); margin-top:3px; font-size:12px; }
+
+    .content section { margin-bottom:24px; }
+    .content h2 { margin:0 0 10px; font-size:21px; }
+    .count { color:var(--muted); font-size:12px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,.03); }
+    .card h3 { margin:10px 0 6px; font-size:18px; line-height:1.42; overflow-wrap:anywhere; word-break:break-word; }
+    .orig-title { font-size:12px; color:var(--muted); margin-bottom:8px; }
+    .summary p { margin:0 0 12px; color:#1f2937; line-height:1.86; }
+    .orig-summary p { margin:8px 0 0; color:#6b7280; font-size:13px; line-height:1.7; }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill { font-size:12px; border-radius:999px; padding:2px 10px; }
+    .pill.importance { background:#eef2ff; color:#3730a3; font-weight:600; }
+    .pill.platform { background:#ecfeff; color:#155e75; }
+    .source { color:var(--muted); font-size:12px; }
+
+    .ai-summary { margin:8px 0 10px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:8px 10px; }
+    .ai-title { font-size:12px; font-weight:700; color:#1d4ed8; margin-bottom:4px; }
+    .ai-summary ul { margin:0; padding-left:18px; }
+    .ai-summary li { margin:4px 0; font-size:13px; color:#1e3a8a; }
+    .ai-insight { margin:8px 0 0; color:#1e40af; font-size:13px; line-height:1.7; border-top:1px dashed #bfdbfe; padding-top:7px; }
+
+    .btn-fulltext { margin-top:8px; border:1px solid #c7d2fe; background:#eef2ff; color:#3730a3; border-radius:8px; padding:5px 10px; font-size:13px; cursor:pointer; }
+    .btn-fulltext:hover { background:#e0e7ff; }
+    .fulltext-source { display:none; }
+
+    .media-grid { margin:10px 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; }
+    .media-grid img { width:100%; max-height:340px; object-fit:contain; border-radius:10px; border:1px solid var(--line); background:#fff; cursor:zoom-in; }
+
+    .topic-tip { margin-top:10px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:10px 12px; }
+    .tip-tag { font-size:12px; display:inline-block; margin-bottom:6px; color:#065f46; font-weight:700; }
+    .topic-tip p { margin:4px 0; font-size:13px; }
+
+    .footer { display:flex; justify-content:space-between; gap:8px; border-top:1px dashed var(--line); padding-top:10px; margin-top:10px; font-size:13px; }
+    a { color:var(--primary); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .muted,.date { color:var(--muted); }
+
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:9999; align-items:center; justify-content:center; padding:24px; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:8px; background:#111; }
+    .lightbox .close { position:fixed; right:20px; top:14px; color:#fff; font-size:28px; cursor:pointer; user-select:none; }
+
+    .article-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.62); z-index:10000; align-items:center; justify-content:center; padding:16px; }
+    .article-modal.open { display:flex; }
+    .article-panel { width:min(900px,95vw); max-height:88vh; background:#fff; border-radius:12px; border:1px solid var(--line); display:flex; flex-direction:column; overflow:hidden; }
+    .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--line); }
+    .article-toolbar .title { font-size:14px; font-weight:600; color:#111827; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; }
+    .article-toolbar button { border:none; background:#f3f4f6; border-radius:8px; width:28px; height:28px; cursor:pointer; font-size:18px; line-height:1; }
+    .article-body { overflow:auto; padding:12px 14px; }
+    .article-body p { margin:0 0 10px; color:#1f2937; line-height:1.75; }
+
+    @media (max-width: 980px) {
+      body { font-size:14px; }
+      .layout { grid-template-columns:1fr; padding:10px; gap:10px; }
+      .sidebar { order:1; position:static; padding:12px; border-radius:12px; }
+      .content { order:2; }
+      .brand h1 { font-size:20px; }
+      .sub { font-size:12px; }
+      .hotbox h3 { font-size:18px; }
+      .hotbox li { font-size:15px; }
+      nav { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; }
+      nav a { flex:0 0 auto; white-space:nowrap; border:1px solid var(--line); background:#fafbff; }
+      .content h2 { font-size:19px; margin-bottom:8px; }
+      .card { padding:12px; border-radius:10px; }
+      .card h3 { font-size:17px; }
+      .footer { flex-direction:column; align-items:flex-start; gap:6px; }
+      .media-grid { grid-template-columns:1fr; }
+      .media-grid img { max-height:58vh; }
+      .article-panel { width:96vw; max-height:90vh; }
+      .article-toolbar .title { font-size:13px; }
+    }
+
+    @media (max-width: 420px) {
+      .layout { padding:8px; }
+      .card h3 { font-size:16px; }
+      .hotbox li { font-size:14px; }
+      .lightbox { padding:10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <div class="sub">2026-03-02</div>
+        <div class="sub">源：26（有内容 10 / 无内容 16 / 失败 0）</div>
+        <div class="sub">去重后：16 条</div>
+        <div class="sub">公众号源：0 条</div>
+      </div>
+      <nav><a href="#cat-0"><span>🔥 重磅发布</span><span class="count">1</span></a><a href="#cat-1"><span>🛠 工具推荐</span><span class="count">3</span></a><a href="#cat-2"><span>💡 行业观点</span><span class="count">1</span></a><a href="#cat-3"><span>📰 资讯动态</span><span class="count">11</span></a></nav>
+      <div class="hotbox">
+        <h3>今日重点</h3>
+        <ol><li><a href="#item-0-1">这个有点意思，相当于给牛马龙虾安排了个可视化监控，做 AI…</a><span>苍何</span></li><li><a href="#item-1-1">好消息，Happycapy守住了，三榜第一！ 感谢大家的投票…</a><span>向阳乔木</span></li><li><a href="#item-2-1">#分享 昨天 + 今天看了 Peter Steinberge…</a><span>nazha</span></li><li><a href="#item-1-2">用 OpenClaw 洞察 AI 工具新机会 🦞 我的小龙虾…</a><span>JitHub程序员</span></li><li><a href="#item-1-3">妙言2.7.0已上线。面向工程师的原生 Markdown 编…</a><span>Tw93</span></li><li><a href="#item-3-1">长沙三日行观察互联网行业现状 -基本工资，新人 5k，加上社…</a><span>你不知道的行业内幕</span></li><li><a href="#item-3-2">如果您正在构建人工智能产品并希望快速测试市场，请先发布网络版…</a><span>Tw93</span></li><li><a href="#item-3-3">大环境不好，影响到街边包子店生意了吗？ 并没有。 同理，你如…</a><span>你不知道的行业内幕</span></li><li><a href="#item-3-4">言出法随，BibiGPT 移动端已更新至 Expo 55 一…</a><span>吕立青_JimmyLv</span></li><li><a href="#item-3-5">Re 其实，在 AI 写代码之前，在任何一个大的软件公司你都…</a><span>宝玉</span></li></ol>
+      </div>
+    </aside>
+
+    <main class="content">
+      
+            <section id="cat-0">
+              <h2>🔥 重磅发布 <span class="count">1 篇</span></h2>
+              
+                <article id="item-0-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">苍何</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Ring Hyacinth: 项目开源啦！▶ 完整项目：<a href="https://github.com/ringhyacinth/Star-Office-UI" target="_blank" rel="noopener">https://github.com/ringhyacinth/Star-Office-UI</a>▶ Skill：<a href="https://github.com/ringhyacinth/Star-Office-UI/blob/master/SKILL.md" target="_blank" rel="noopener">https://github.com/ringhyacinth/Star-Office-UI/blob/master/SKILL.md</a>项目简介：1.</p><p>OpenClaw 龙虾的“像素办公室”：龙虾会根据状态自动走到不同位置（休息区 / 工作区 / bug 区）2. 左下角添加他昨天的工作小记。3. 支持邀请其他龙虾加入办公室（丰富功能开发中）4.</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCXXY4ga4AEkaSp?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/canghe/status/2028264038967423317" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 02 Mar 2026 00:20:04 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-1">
+              <h2>🛠 工具推荐 <span class="count">3 篇</span></h2>
+              
+                <article id="item-1-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>好消息，Happycapy守住了，三榜第一！感谢大家的投票支持。</p><p>向阳乔木: 好友 @Jarodxu7 团队开发的Happycapy在PH打榜争月榜第一。可理解为一个云端运行龙虾和Claude code产品。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-1')">点击查看全文</button>
+                <div id="fulltext-1-1" class="fulltext-source" data-title="好消息，Happycapy守住了，三榜第一！ 感谢大家的投票支持。" style="display:none;">
+                  <p>好消息，Happycapy守住了，三榜第一！</p><p>感谢大家的投票支持。</p><p>向阳乔木: 好友 @Jarodxu7 团队开发的Happycapy在PH打榜争月榜第一。</p><p>可理解为一个云端运行龙虾和Claude code产品。</p><p>今天投票最后一天，遇到俄罗斯团队，战况焦灼，互有反超。</p><p>用过觉得不错的，可投票帮一把，写个短评啥的。</p><p>投票链接 👉 <a href="http://www.producthunt.com/products/happycapy/launches/happycapy" target="_blank" rel="noopener">http://www.producthunt.com/products/happycapy/launches/happycapy</a></p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCUXKSzbEAAJXEh?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2028052761292808514" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 10:20:32 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">JitHub程序员</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：写增长的子木 Username：823EF161-7B59-4331-BBF8-8498081C80A7用 OpenClaw 洞察 AI 工具新机会🦞 我的小龙虾有点好玩，我都不知道她怎么搞出来的。我只是把 Stripe 入站列表里几份 CSV 表格丢给她每个表里面还夹着不少杂七杂八的站，字段也很有限，上个月和本月的去stripe下单UV。</p><p>结果她居然真能从里面洞察出，哪些新的 AI 工具收入增长比较猛，属实有点东西。</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/Fqvz8Z0mifhnHZZQVjO_E4xtjrJqv3.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a4b6ed25bae56612eaba88" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 22:00:13 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Tw93</span>
+                  </div>
+                  <h3>妙言2.7.0已上线。面向工程师的原生 Markdown 编辑器。 <a href="https://github.com/tw93/MiaoYan" target="_blank" rel="noopener">https://github.com/tw93/MiaoYan</a> 如果你想要一个没有 AI 噪音的 Markdown 编辑器，MiaoYan...</h3>
+                  <div class="orig-title">EN: MiaoYan 2.7.0 is live. A native Markdown editor for engineers. <a href="https://github.com/tw93/MiaoYan" target="_blank" rel="noopener">https://github.com/tw93/MiaoYan</a> If you want a Markdown editor without AI noise, MiaoYan...</div>
+                  
+                  <div class="summary"><p>妙言 2.7.0 上线。专为工程师打造的原生 Markdown 编辑器。 <a href="https://github.com/tw93/MiaoYan" target="_blank" rel="noopener">https://github.com/tw93/MiaoYan</a> 如果你想要一个没有 AI 噪音的 Markdown 编辑器，MiaoYan 可能是一个更好的地方，可以与你的 AI 工作流程一起写作，并让你的笔记接地气和可搜索。新功能： · Apple 公证完成。</p><p>投入 688 日元并写信给 Tim Cook 后，不再有“应用程序已损坏”或“无论如何打开”警告。· 预览稳定性升级...</p></div>
+                  <div class="orig-summary">原文：<p>MiaoYan 2.7.0 is live.A native Markdown editor for engineers. <a href="https://github.com/tw93/MiaoYanIf" target="_blank" rel="noopener">https://github.com/tw93/MiaoYanIf</a> you want a Markdown editor without AI noise, MiaoYan might be a better place to write alongside your AI workflows and keep your notes grounded and searchable.What’s new:· Apple notarization complete.</p><p>After investing ¥688 and writing to Tim Cook, no more “app is damaged” or “Open Anyway” warnings.· Preview stability upgrade…</p></div>
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-2')">点击查看全文</button>
+                <div id="fulltext-1-2" class="fulltext-source" data-title="妙言2.7.0已上线。面向工程师的原生 Markdown 编辑器。 https://github.com/tw93/MiaoYan 如果你想要一个没有 AI 噪音的 Markdown 编辑器，MiaoYan..." style="display:none;">
+                  <p>MiaoYan 2.7.0 is live. A native Markdown editor for engineers.</p><p><a href="https://github.com/tw93/MiaoYan" target="_blank" rel="noopener">https://github.com/tw93/MiaoYan</a></p><p>If you want a Markdown editor without AI noise, MiaoYan might be a better place to write alongside your AI workflows and keep your notes grounded and searchable.</p><p>What’s new:</p><p>· Apple notarization complete. After investing ¥688 and writing to Tim Cook, no more “app is damaged” or “Open Anyway” warnings.</p><p>· Preview stability upgrade. Fixed intermittent blank preview and improved WebContent crash recovery.</p><p>· Editing refinements. Fixed IME issues in split mode, resolved system shortcut conflicts, removed highlight flashing when switching notes.</p><p>· App Store readiness. Added sandbox entitlements and improved Security Scoped Bookmark persistence.</p><p>· Internationalization polish. Replaced hardcoded strings with i18n resources and improved first launch templates.</p><p>Built as a native macOS Markdown editor with long term performance and maintainability in mind.</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCVOypDakAAq8Ms?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/HiTw93/status/2028114240247312811" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 14:24:50 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-2">
+              <h2>💡 行业观点 <span class="count">1 篇</span></h2>
+              
+                <article id="item-2-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">nazha</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>#分享 昨天 + 今天看了 Peter Steinberger (OpenClaw 的作者) 的两个采访，分别是：- 两周前 Lex Fridman 长达三个小时的深度采访 <a href="https://www.youtube.com/watch?v=YFjfBk8HI5o-" target="_blank" rel="noopener">https://www.youtube.com/watch?v=YFjfBk8HI5o-</a> OpenAI 自己的一个采访 <a href="https://www.youtube.com/watch" target="_blank" rel="noopener">https://www.youtube.com/watch</a>?</p><p>v=9jgcT0Fqt7U都在说 OpenClaw 是个组件缝合怪，但确实做到了很多大厂都没做到的事情，其实我挺好奇他这个人的。比如他对 AI 的感受，对 Agent 的认知... 都挺值得我们学习和思考的。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-1')">点击查看全文</button>
+                <div id="fulltext-2-1" class="fulltext-source" data-title="#分享 昨天 + 今天看了 Peter Steinberger (OpenClaw 的作者) 的两个采访，分别是： - 两周前 Lex Fridman 长达三个小时的深度采访 https://www.youtube.com/wat..." style="display:none;">
+                  <p>#分享 昨天 + 今天看了 Peter Steinberger (OpenClaw 的作者) 的两个采访，分别是：</p><p>- 两周前 Lex Fridman 长达三个小时的深度采访 <a href="https://www.youtube.com/watch?v=YFjfBk8HI5o" target="_blank" rel="noopener">https://www.youtube.com/watch?v=YFjfBk8HI5o</a></p><p>- OpenAI 自己的一个采访 <a href="https://www.youtube.com/watch?v=9jgcT0Fqt7U" target="_blank" rel="noopener">https://www.youtube.com/watch?v=9jgcT0Fqt7U</a></p><p>都在说 OpenClaw 是个组件缝合怪，但确实做到了很多大厂都没做到的事情，其实我挺好奇他这个人的。比如他对 AI 的感受，对 Agent 的认知... 都挺值得我们学习和思考的。</p><p>在对待 AI 上，Peter 表现得比别人都乐观积极。哪怕面对 AI 生成出来的一堆烂摊子，乐观积极的人也会发现其中的蕴含的闪光点。然后 do something with it。Peter 觉得我们要以更轻松的方式看待 AI，不要太功利性，总觉得必须要用它来做出什么牛逼的东西来。Peter 说，你就玩，纯玩(approach it more like playful)，去感受每个模型（Learn how it feels）。玩，是最好的学习方式。Peter 觉得 OpenClaw 能成，个人原因是由于他过去一年都去玩、去学习、去构建，每个过程让他感到进步，Agent 也随之更好，对如何运作的理解也更好了.... 这是一种复合效应，源于投入的时间</p><p>他对待 Agent 的方式很值得思考。他认为对 Agent 要抱有同理心，把 Agent 当人看，不要当工具看。从 Agent 的角度来观察世界，比如说：Agent 都是从零开始的，而我们拥有它不曾拥有的上下文。在设计上，Peter 也想让 Openclaw 具有「自我意识」，知道自己是谁，甚至理解自己，了解自己的源代码是什么，知道自己是如何在一个特定的框架运行的...</p><p>把 Agent 当人看，还要不用过多地去限制它。在实践中，我们为了刻意去追求确定性，容易去限制 Agent 的能力边界。Peter 举了个例子，早期 OpenClaw 并没有支持语音的能力，但是有一次不小心，他发了语音，Claw 竟然理解了。这让它印象特别深刻。他觉得 Agent 更应该具备主动性，没有的东西，知道自己去创造。</p><p>OpenClaw 的大部分代码都是 Vibe Coding 的，Peter 对此也有自己不同的见解。</p><p>1）Keep it simple. 当你刚接触某个新技术，到你变得非常高效，很多人会陷入 the agentic trap 的陷阱，试图过度优化自己的配置，这并不会让你变得高效，而是让你感觉在变得高效。Peter 不会刻意优化提示词，对 Agent 非常口语化，想到什么就说什么，最多就是告诉它 A 在哪，B balaba... 他也不会搞什么 worktree 和 checkpoint，就很简单，不回滚代码，大不了重写</p><p>2）他把之前领导工程团队的思维也带进了 Vibe Coding，就像很多工程师写代码不会按照你期望的方式进行实现。AI 也一样，编写的代码不在 预期内。实现目的的路径有很多，有时候不必太在意是哪一条。如果那条就中选择的路径有问题（比如性能），那么换一条，或者重点修复它。稍微放手一些，我们不是在构建一个给人看的仓库，是在构建一个给 AI 利于导航的代码库，它的命名，逻辑可能是它所擅长的东西，也许没必要去刻意校正。</p><p>关于产品，魔法常常就是把很多已经存在的东西，以一种新的方式组合在一起，加入一些新想法。软件构建的艺术并不仅存在与代码，还包括你真正想要构建什么、它应该给人怎样的感受，架构如何...构建一个你真正注入情感的东西</p><p>OpenClaw 只是他在用玩的心态构建的众多产品的一个，在早期，他把这个发布到 X 的时候还反响平平。甚至中间还停了几个月去玩别的产品，因为觉得大的公司肯定会去做的，但是等了好几个月，大公司还在原地打转。</p><p>对于工具开发者而言，这不是「末日」而是「最佳的时代」，关键是不要把自己「视为 Programmer」，而应该是 「Creator or Builder」.</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCUOTUqaEAEPQo4?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/xiaokedada/status/2028043125714014699" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 09:42:15 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-3">
+              <h2>📰 资讯动态 <span class="count">11 篇</span></h2>
+              
+                <article id="item-3-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：TomXu在减肥 Username：763a24ee-baa1-4ca2-a5f1-c9c0899775dd长沙三日行观察互联网行业现状-基本工资，新人 5k，加上社保 7k-3 年经验小主管 8-10k，稳定性高-合伙人少，1-3 位即可，可共苦难共富-老板跑通从 0-1，底下人负责克隆放大-老板常去沿海城市交流，对齐一手信息和认知主要人才画像：-草根创业者居多(1 号位)-核心层培养多年，知根知底，经历过起伏和风浪-一线城市回流（深圳＞广州＞杭州＞上海＞北京），比如字节 2-2 和 3-1 的同学回来后，直接开个代运营公司，比比皆是。</p><p>三年就可以全款买套大平层。举个🌰：几年前疫情期间，长沙有十几万人做抖音账号引流中老年付费课程（包括不限于养生课 中医课 佛学课 等），低转高客单价几十到几百，最高甚至几万。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-1')">点击查看全文</button>
+                <div id="fulltext-3-1" class="fulltext-source" data-title="长沙三日行观察互联网行业现状 -基本工资，新人 5k，加上社保 7k -3 年经验小主管 8-10k，稳定性高 -合伙人少，1-3 位即可，可共苦难共富 -老板跑通从 0-1，底下..." style="display:none;">
+                  <p>用户昵称：TomXu在减肥</p><p>Username：763a24ee-baa1-4ca2-a5f1-c9c0899775dd</p><p>长沙三日行观察互联网行业现状</p><p>-基本工资，新人 5k，加上社保 7k</p><p>-3 年经验小主管 8-10k，稳定性高</p><p>-合伙人少，1-3 位即可，可共苦难共富</p><p>-老板跑通从 0-1，底下人负责克隆放大</p><p>-老板常去沿海城市交流，对齐一手信息和认知</p><p>主要人才画像：</p><p>-草根创业者居多(1 号位)</p><p>-核心层培养多年，知根知底，经历过起伏和风浪</p><p>-一线城市回流（深圳＞广州＞杭州＞上海＞北京），比如字节 2-2 和 3-1 的同学回来后，直接开个代运营公司，比比皆是。三年就可以全款买套大平层。</p><p>举个🌰：</p><p>几年前疫情期间，长沙有十几万人做抖音账号引流中老年付费课程（包括不限于养生课 中医课 佛学课 等），低转高客单价几十到几百，最高甚至几万。被帽子叔叔整治后，现在还有小几万人在做。</p><p>因为房价低（均价 1 万上下，江景豪宅不到 3 万），老板们脸上都洋溢着幸福的笑容。</p><p>老板们普遍自嘲，疫情期间有一波线上互联网红利，团队快速扩充到几百人，前簇后拥也有面子。</p><p>现在回归正常模式，业务收紧，几十人也能干，因为有 AI 工作流和 Agent 赋能。几个小公司老板自己都在用 Claude 和 OpenClaw，学会了再传下去。</p><p>员工基本 18 点就下班了，我去一家公司，晚上 6 点半就剩下几个核心，或者晚上要开直播的员工。</p><p>大公司也在长沙设立运营中心，包括新媒体运营 客服 审核 以及湖南本地化招商 销售 市场推广等。</p><p>以上心得，来自三天聊的MCN （娱播 带货 ）打粉 账号代运营 短剧漫剧 投流公司 大健康 等公司</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/LPFtKrVMfYcUHgPAZHeY37dU8k0mA6.heic" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a428ca9f3cd84f65135309" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 11:53:46 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Tw93</span>
+                  </div>
+                  <h3>如果您正在构建人工智能产品并希望快速测试市场，请先发布网络版本。准备好后，使用 Pake 将其打包为原生...</h3>
+                  <div class="orig-title">EN: If you’re building an AI product and want to test the market fast, ship the web version first. When you’re ready, use Pake to package it into native...</div>
+                  
+                  <div class="summary"><p>如果您正在构建 AI 产品并希望快速测试市场，请首先发布 Web 版本。准备好后，使用 Pake 通过单个命令将其打包到适用于 macOS、Windows 和 Linux 的本机桌面应用程序。Pake 3.10.0 已上线。</p><p>将任何网页变成桌面应用程序。 <a href="https://github.com/tw93/PakeHighlights" target="_blank" rel="noopener">https://github.com/tw93/PakeHighlights</a>：· 通过 –multi-window 支持多窗口，在 macOS 上使用 Cmd+N 以及正确的托盘集成。· –internal-url-rege...</p></div>
+                  <div class="orig-summary">原文：<p>If you’re building an AI product and want to test the market fast, ship the web version first.When you’re ready, use Pake to package it into native desktop apps for macOS, Windows, and Linux with a single command.Pake 3.10.0 is live.</p><p>Turn any webpage into a desktop app. <a href="https://github.com/tw93/PakeHighlights" target="_blank" rel="noopener">https://github.com/tw93/PakeHighlights</a>:· Multi-window support via –multi-window, with Cmd+N on macOS and proper tray integration.· –internal-url-rege…</p></div>
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-2')">点击查看全文</button>
+                <div id="fulltext-3-2" class="fulltext-source" data-title="如果您正在构建人工智能产品并希望快速测试市场，请先发布网络版本。准备好后，使用 Pake 将其打包为原生..." style="display:none;">
+                  <p>If you’re building an AI product and want to test the market fast, ship the web version first. When you’re ready, use Pake to package it into native desktop apps for macOS, Windows, and Linux with a single command.</p><p>Pake 3.10.0 is live. Turn any webpage into a desktop app. <a href="https://github.com/tw93/Pake" target="_blank" rel="noopener">https://github.com/tw93/Pake</a></p><p>Highlights:</p><p>· Multi-window support via –multi-window, with Cmd+N on macOS and proper tray integration.</p><p>· –internal-url-regex for fine-grained control over internal links, useful for complex AI dashboards and multi-route tools.</p><p>· Improved Windows icon quality with prioritized 256px ICO entries.</p><p>· Retina DMG background fix for cleaner macOS distribution builds.</p><p>Build on the web, validate with users, then ship desktop when it matters. Keep the loop tight.</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/HiTw93/status/2028251438468481116" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 23:30:00 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：哥飞 Username：a2d6acc1-626f-4d15-a22a-849e88a4c9f0大环境不好，影响到街边包子店生意了吗？并没有。</p><p>同理，你如果目标是月入几千到上万刀，大环境不管怎么变化，都不太会影响到你的。天塌下来，有高个的顶着。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-3')">点击查看全文</button>
+                <div id="fulltext-3-3" class="fulltext-source" data-title="大环境不好，影响到街边包子店生意了吗？ 并没有。 同理，你如果目标是月入几千到上万刀，大环境不管怎么变化，都不太会影响到你的。 天塌下来，有高个的顶着。 ..." style="display:none;">
+                  <p>用户昵称：哥飞</p><p>Username：a2d6acc1-626f-4d15-a22a-849e88a4c9f0</p><p>大环境不好，影响到街边包子店生意了吗？</p><p>并没有。</p><p>同理，你如果目标是月入几千到上万刀，大环境不管怎么变化，都不太会影响到你的。</p><p>天塌下来，有高个的顶着。</p><p>没必要因为觉得 AI 会让 SaaS 企业贬值，所以不去做自己的 AI SaaS 小生意。</p><p>你做的是月入几千到上万刀的小生意，不是做来卖给 VC 的，更不是拿来上市敲钟的，完全没必要去考虑大环境的变化。</p><p>能持续赚钱，养活家人孩子，我们的目标就是这么简单。</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a44c5bc5a1d4e649cd42fa" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 14:25:31 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">吕立青_JimmyLv</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>言出法随，BibiGPT 移动端已更新至 Expo 55</p><p>一大波功能即将对齐 Web 桌面端啦～</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCU8k7kbEAAwMxm?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HCU8lPIbYAAwqPp?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Jimmy_JingLv/status/2028093821553443275" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 13:03:41 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-5" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT 云风Re @yfractal 其实，在 AI 写代码之前，在任何一个大的软件公司你都能见到无数同事写的代码，给出一样的评价：“你说他聪明吧，他能写出这种代码。你说他蠢吧，写的东西还真能跑” 。</p><p>区别只在于，老板可以开掉不满意的，再招聘一个。现在选择没那么多了。</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2028156798306300201" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 12:55:08 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-6" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>搭一个zlib 的bot，本地安装Cli版本的Telegram，名叫telethon。</p><p>写一个Skill，一句话下载任意电子书。</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCUfofFawAAcDEg?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2028062310569574531" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 10:58:29 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-7" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Tw93</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>赛博终于装好了，非常帅！</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCUFPVHbsAAisO1?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/HiTw93/status/2028032975007531009" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 09:01:54 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-8" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">哥飞</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>大环境不好，影响到街边包子店生意了吗？并没有。</p><p>同理，你如果目标是月入几千到上万刀，大环境不管怎么变化，都不太会影响到你的。天塌下来，有高个的顶着。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-4')">点击查看全文</button>
+                <div id="fulltext-3-4" class="fulltext-source" data-title="大环境不好，影响到街边包子店生意了吗？ 并没有。 同理，你如果目标是月入几千到上万刀，大环境不管怎么变化，都不太会影响到你的。 天塌下来，有高个的顶着。 ..." style="display:none;">
+                  <p>大环境不好，影响到街边包子店生意了吗？</p><p>并没有。</p><p>同理，你如果目标是月入几千到上万刀，大环境不管怎么变化，都不太会影响到你的。</p><p>天塌下来，有高个的顶着。</p><p>没必要因为觉得 AI 会让 SaaS 企业贬值，所以不去做自己的 AI SaaS 小生意。</p><p>你做的是月入几千到上万刀的小生意，不是做来卖给 VC 的，更不是拿来上市敲钟的，完全没必要去考虑大环境的变化。</p><p>能持续赚钱，养活家人孩子，我们的目标就是这么简单。</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/gefei55/status/2028115633259606412" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 14:30:22 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-9" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">elvis</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT DAIR.AI<a href="http://x.com/i/article/2027932893008330752" target="_blank" rel="noopener">http://x.com/i/article/2027932893008330752</a></p></div>
+                  <div class="orig-summary">原文：<p>RT DAIR.AI<a href="http://x.com/i/article/2027932893008330752" target="_blank" rel="noopener">http://x.com/i/article/2027932893008330752</a></p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/omarsar0/status/2028094226056044732" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 13:04:27 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-10" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>即梦手机版App特别适合锻炼孩子的语言表达能力。做法：1. 拿出孩子画作，或直接画一幅，即梦App拍照。</p><p>2. 让孩子按住输入框，语音输入PS。孩子为了修改图片，会绞尽脑汁精准描述。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-5')">点击查看全文</button>
+                <div id="fulltext-3-5" class="fulltext-source" data-title="即梦手机版App特别适合锻炼孩子的语言表达能力。 做法： 1. 拿出孩子画作，或直接画一幅，即梦App拍照。 2. 让孩子按住输入框，语音输入PS。 孩子为了修改图片，..." style="display:none;">
+                  <p>即梦手机版App特别适合锻炼孩子的语言表达能力。</p><p>做法：</p><p>1. 拿出孩子画作，或直接画一幅，即梦App拍照。</p><p>2. 让孩子按住输入框，语音输入PS。</p><p>孩子为了修改图片，会绞尽脑汁精准描述。</p><p>跟豆包比，目标更清晰，不担心闲聊或让豆包给视频刷。</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2028081502475665801" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 12:14:44 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-11" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>发现一个X的Bug还是特性。如果你在帖子开头@了某人，这条帖子会认为是回复贴，而不是主贴...</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2028041518251216921" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 01 Mar 2026 09:35:51 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">×</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = src;
+      box.classList.add('open');
+    }
+    function closeLightbox() {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = '';
+      box.classList.remove('open');
+    }
+
+    function openArticleModal(id) {
+      var src = document.getElementById(id);
+      if (!src) return;
+      var modal = document.getElementById('articleModal');
+      var title = document.getElementById('articleModalTitle');
+      var body = document.getElementById('articleModalBody');
+      title.textContent = src.getAttribute('data-title') || '全文';
+      body.innerHTML = src.innerHTML || '';
+      modal.classList.add('open');
+    }
+    function closeArticleModal() {
+      var modal = document.getElementById('articleModal');
+      var body = document.getElementById('articleModalBody');
+      body.innerHTML = '';
+      modal.classList.remove('open');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeArticleModal();
+      }
+    });
+  </script>
+</body>
+</html>
