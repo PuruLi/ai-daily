@@ -1,0 +1,793 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSS 日报 - 2026-03-04</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --primary:#4f46e5; --shadow:0 8px 22px rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.72 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; -webkit-text-size-adjust:100%; }
+    .layout { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:280px 1fr; gap:16px; padding:16px; }
+    .content, .sidebar { min-width:0; }
+    .sidebar { position:sticky; top:14px; height:fit-content; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+    .brand h1 { margin:0; font-size:22px; }
+    .sub { color:var(--muted); margin:6px 0; font-size:13px; }
+    nav { margin-top:10px; }
+    nav a { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-radius:8px; color:var(--text); text-decoration:none; font-size:14px; gap:8px; }
+    nav a:hover { background:#eef2ff; }
+    .hotbox { margin-top:14px; border-top:1px dashed var(--line); padding-top:12px; }
+    .hotbox h3 { margin:0 0 8px; font-size:18px; color:#111827; }
+    .hotbox ol { margin:0; padding-left:20px; }
+    .hotbox li { margin:10px 0; font-size:14px; line-height:1.55; }
+    .hotbox li a { color:#111827; text-decoration:none; font-weight:600; }
+    .hotbox li a:hover { text-decoration:underline; color:var(--primary); }
+    .hotbox li span { display:block; color:var(--muted); margin-top:3px; font-size:12px; }
+
+    .content section { margin-bottom:24px; }
+    .content h2 { margin:0 0 10px; font-size:21px; }
+    .count { color:var(--muted); font-size:12px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,.03); }
+    .card h3 { margin:10px 0 6px; font-size:18px; line-height:1.42; overflow-wrap:anywhere; word-break:break-word; }
+    .orig-title { font-size:12px; color:var(--muted); margin-bottom:8px; }
+    .summary p { margin:0 0 12px; color:#1f2937; line-height:1.86; }
+    .orig-summary p { margin:8px 0 0; color:#6b7280; font-size:13px; line-height:1.7; }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill { font-size:12px; border-radius:999px; padding:2px 10px; }
+    .pill.importance { background:#eef2ff; color:#3730a3; font-weight:600; }
+    .pill.platform { background:#ecfeff; color:#155e75; }
+    .source { color:var(--muted); font-size:12px; }
+
+    .ai-summary { margin:8px 0 10px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:8px 10px; }
+    .ai-title { font-size:12px; font-weight:700; color:#1d4ed8; margin-bottom:4px; }
+    .ai-summary ul { margin:0; padding-left:18px; }
+    .ai-summary li { margin:4px 0; font-size:13px; color:#1e3a8a; }
+    .ai-insight { margin:8px 0 0; color:#1e40af; font-size:13px; line-height:1.7; border-top:1px dashed #bfdbfe; padding-top:7px; }
+
+    .btn-fulltext { margin-top:8px; border:1px solid #c7d2fe; background:#eef2ff; color:#3730a3; border-radius:8px; padding:5px 10px; font-size:13px; cursor:pointer; }
+    .btn-fulltext:hover { background:#e0e7ff; }
+    .fulltext-source { display:none; }
+
+    .media-grid { margin:10px 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; }
+    .media-grid img { width:100%; max-height:340px; object-fit:contain; border-radius:10px; border:1px solid var(--line); background:#fff; cursor:zoom-in; }
+
+    .topic-tip { margin-top:10px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:10px 12px; }
+    .tip-tag { font-size:12px; display:inline-block; margin-bottom:6px; color:#065f46; font-weight:700; }
+    .topic-tip p { margin:4px 0; font-size:13px; }
+
+    .footer { display:flex; justify-content:space-between; gap:8px; border-top:1px dashed var(--line); padding-top:10px; margin-top:10px; font-size:13px; }
+    a { color:var(--primary); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .muted,.date { color:var(--muted); }
+
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:9999; align-items:center; justify-content:center; padding:24px; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:8px; background:#111; }
+    .lightbox .close { position:fixed; right:20px; top:14px; color:#fff; font-size:28px; cursor:pointer; user-select:none; }
+
+    .article-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.62); z-index:10000; align-items:center; justify-content:center; padding:16px; }
+    .article-modal.open { display:flex; }
+    .article-panel { width:min(900px,95vw); max-height:88vh; background:#fff; border-radius:12px; border:1px solid var(--line); display:flex; flex-direction:column; overflow:hidden; }
+    .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--line); }
+    .article-toolbar .title { font-size:14px; font-weight:600; color:#111827; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; }
+    .article-toolbar button { border:none; background:#f3f4f6; border-radius:8px; width:28px; height:28px; cursor:pointer; font-size:18px; line-height:1; }
+    .article-body { overflow:auto; padding:12px 14px; }
+    .article-body p { margin:0 0 10px; color:#1f2937; line-height:1.75; }
+
+    @media (max-width: 980px) {
+      body { font-size:14px; }
+      .layout { grid-template-columns:1fr; padding:10px; gap:10px; }
+      .sidebar { order:1; position:static; padding:12px; border-radius:12px; }
+      .content { order:2; }
+      .brand h1 { font-size:20px; }
+      .sub { font-size:12px; }
+      .hotbox h3 { font-size:18px; }
+      .hotbox li { font-size:15px; }
+      nav { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; }
+      nav a { flex:0 0 auto; white-space:nowrap; border:1px solid var(--line); background:#fafbff; }
+      .content h2 { font-size:19px; margin-bottom:8px; }
+      .card { padding:12px; border-radius:10px; }
+      .card h3 { font-size:17px; }
+      .footer { flex-direction:column; align-items:flex-start; gap:6px; }
+      .media-grid { grid-template-columns:1fr; }
+      .media-grid img { max-height:58vh; }
+      .article-panel { width:96vw; max-height:90vh; }
+      .article-toolbar .title { font-size:13px; }
+    }
+
+    @media (max-width: 420px) {
+      .layout { padding:8px; }
+      .card h3 { font-size:16px; }
+      .hotbox li { font-size:14px; }
+      .lightbox { padding:10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <div class="sub">2026-03-04</div>
+        <div class="sub">源：26（有内容 10 / 无内容 16 / 失败 0）</div>
+        <div class="sub">去重后：27 条</div>
+        <div class="sub">公众号源：0 条</div>
+      </div>
+      <nav><a href="#cat-0"><span>🔥 重磅发布</span><span class="count">5</span></a><a href="#cat-1"><span>🛠 工具推荐</span><span class="count">7</span></a><a href="#cat-2"><span>📚 教程技巧</span><span class="count">1</span></a><a href="#cat-3"><span>📰 资讯动态</span><span class="count">14</span></a></nav>
+      <div class="hotbox">
+        <h3>今日重点</h3>
+        <ol><li><a href="#item-0-1">Claude Opus 4.6 凭空编造了一个 GitHub…</a><span>宝玉</span></li><li><a href="#item-0-2">普通人要到很久之后才会知道Qwen引领了一个多么伟大的时代…</a><span>宝玉</span></li><li><a href="#item-0-3">独立开发者们冲鸭～ 【时机极好】 今日起 #BuildInP…</a><span>吕立青_JimmyLv</span></li><li><a href="#item-0-4">OpenAI 发布了 GPT-5.3 Instant，替换…</a><span>宝玉</span></li><li><a href="#item-0-5">即日起，发布未经许可使用人工智能生成武装冲突视频的用户，将被…</a><span>宝玉</span></li><li><a href="#item-1-1">因为小龙虾🦞让以前没用过 claude code 这样 ag…</a><span>宝玉</span></li><li><a href="#item-1-2">一切以Claude Code为核心打磨工作流，Obsidia…</a><span>向阳乔木</span></li><li><a href="#item-1-3">连续 4 天，让 Claude Code 实时跟进战争情况并…</a><span>吕立青_JimmyLv</span></li><li><a href="#item-1-4">有了Obsidian cli后，可以创建一个读书笔记Skil…</a><span>向阳乔木</span></li><li><a href="#item-3-1">在 Mac 上运行 OpenClaw 之类的重型软件，但担心…</a><span>Tw93</span></li></ol>
+      </div>
+    </aside>
+
+    <main class="content">
+      
+            <section id="cat-0">
+              <h2>🔥 重磅发布 <span class="count">5 篇</span></h2>
+              
+                <article id="item-0-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Claude Opus 4.6 凭空编造了一个 GitHub 仓库 ID，然后通过 Vercel API 把这个陌生仓库部署到了用户的团队账户上。Vercel CEO Guillermo Rauch 披露了这起事件的经过：一位用户发现自己团队里突然出现了一个完全不认识的开源项目部署，吓得立刻报告。</p><p>Vercel 安全团队介入调查后发现，这不是黑客入侵，而是 AI 智能体（agent）在执行部署任务时&quot;编了个数字&quot;。具体来说，这个 AI 智能体知道用户的项目名称和项目 ID，但在需要填写 GitHub 仓库 ID 时，它没有调用 GitHub API 去查询真实的 ID，而是自己捏造了一个看起来很像真的数字&quot;913939401&quot;。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-1')">点击查看全文</button>
+                <div id="fulltext-0-1" class="fulltext-source" data-title="Claude Opus 4.6 凭空编造了一个 GitHub 仓库 ID，然后通过 Vercel API 把这个陌生仓库部署到了用户的团队账户上。 Vercel CEO Guillermo Rauch 披露了这起事件..." style="display:none;">
+                  <p>Claude Opus 4.6 凭空编造了一个 GitHub 仓库 ID，然后通过 Vercel API 把这个陌生仓库部署到了用户的团队账户上。</p><p>Vercel CEO Guillermo Rauch 披露了这起事件的经过：一位用户发现自己团队里突然出现了一个完全不认识的开源项目部署，吓得立刻报告。</p><p>Vercel 安全团队介入调查后发现，这不是黑客入侵，而是 AI 智能体（agent）在执行部署任务时&quot;编了个数字&quot;。</p><p>具体来说，这个 AI 智能体知道用户的项目名称和项目 ID，但在需要填写 GitHub 仓库 ID 时，它没有调用 GitHub API 去查询真实的 ID，而是自己捏造了一个看起来很像真的数字&quot;913939401&quot;。这个编造的 ID 恰好对应了 GitHub 上一个真实存在的公开仓库，于是这个毫不相关的代码就被部署到了用户的环境中。</p><p>好在这个仓库本身无害，没有造成安全事故。</p><p>Guillermo Rauch: A Vercel user reported an issue that sounded extremely scary. An unknown GitHub OSS codebase being deployed to their team.</p><p>We, of course, took the report extremely seriously and began an investigation. Security and infra engineering engaged.</p><p>Turns out Opus 4.6 *hallucinated a</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2028934937894653976" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 20:45:59 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-0-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT Panda普通人要到很久之后才会知道Qwen引领了一个多么伟大的时代如果没有这两年Qwen的无私贡献，你们熟悉的国内新能源电车根本搭载不了现在这样好用的大模型，以及迅速做出自家的VLA模型机器人公司同理你们以为这些模型都是他们 PR稿里说的，随便掏点研发费用就能做出来的效果吗，你去让他们的模型团队摸着良心说是不是用了Qwen，他们什么话都不敢说，没有人会承认用了Qwen开源的免费模型Zephyr: BruhAlibaba Qwen disintegrating in real time</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCgSYTBbAAAms3w?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2028927560973701325" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 18:54:58 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-0-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">吕立青_JimmyLv</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>独立开发者们冲鸭～ 【时机极好】今日起 #BuildInPublic 为宝宝开发一款纯本地端侧模型的记录 App哈哈哈，要说为啥能完全公开，那就是【没有人比我更懂独立带娃了】，带娃 2 年多，没分开超过 8h 😂夏雨婷: 今天阿里千问宣布开源 4 款 Qwen3.5 小尺寸模型系列，9B：紧凑尺寸，越级性能特点：结构紧凑，但性能媲美 gpt-oss-120B，让人惊艳。</p><p>———跟苹果合作的这段时间从大模型工程师转型成了嵌入式工程师，积累了大量小内存系统开发经验</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCf6Fp-aMAAnenG?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Jimmy_JingLv/status/2028866090915561596" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 16:12:25 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-0-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>OpenAI 发布了 GPT-5.3 Instant，替换 ChatGPT 中使用最广的日常对话模型 GPT-5.2 Instant。核心改进有三块：1. 第一是减少“说教感”之前的模型经常在回答前加一大段“我能帮什么、不能帮什么”的免责声明，或者对正常问题过度拒绝。</p><p>新版本会直接回答问题，不再绕弯子。OpenAI 在博客里放了一个弓箭弹道计算的对比案例，旧版先用半屏篇幅解释安全边界，新版开头就进入正题。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-2')">点击查看全文</button>
+                <div id="fulltext-0-2" class="fulltext-source" data-title="OpenAI 发布了 GPT-5.3 Instant，替换 ChatGPT 中使用最广的日常对话模型 GPT-5.2 Instant。 核心改进有三块： 1. 第一是减少“说教感” 之前的模型经常在回答前..." style="display:none;">
+                  <p>OpenAI 发布了 GPT-5.3 Instant，替换 ChatGPT 中使用最广的日常对话模型 GPT-5.2 Instant。</p><p>核心改进有三块：</p><p>1. 第一是减少“说教感”</p><p>之前的模型经常在回答前加一大段“我能帮什么、不能帮什么”的免责声明，或者对正常问题过度拒绝。新版本会直接回答问题，不再绕弯子。OpenAI 在博客里放了一个弓箭弹道计算的对比案例，旧版先用半屏篇幅解释安全边界，新版开头就进入正题。</p><p>2. 第二是联网搜索质量提升</p><p>旧版容易把搜索结果堆成链接列表，新版会结合自身知识对搜索内容做筛选和整合，把最相关的信息前置。博客用了一个棒球休赛期签约的例子，旧版回答的是上一个休赛期的旧闻，新版准确抓到了最新赛季的关键交易。</p><p>3. 第三是事实准确性</p><p>在高风险领域（医学、法律、金融）的内部测试中，联网场景下幻觉率降低了 26.8%，纯靠模型自身知识时降低了 19.7%。</p><p>GPT-5.3 Instant 今天起面向所有 ChatGPT 用户上线，API 开发者可通过 gpt-5.3-chat-latest 调用。</p><p>旧版 GPT-5.2 Instant 将保留三个月，6 月 3 日正式下线。</p><p>OpenAI: GPT-5.3 Instant in ChatGPT is now rolling out to everyone.</p><p>More accurate, less cringe.</p><p><a href="https://openai.com/index/gpt-5-3-instant/" target="_blank" rel="noopener">https://openai.com/index/gpt-5-3-instant/</a></p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2028897907198603495" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 18:18:50 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-0-5" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT Michael Anti即日起，发布未经许可使用人工智能生成武装冲突视频的用户，将被暂停参与X平台创作者收益分成计划90天。再次违规者将被永久取消该计划的参与资格。</p><p>Nikita Bier: Today we are revising our Creator Revenue Sharing policies to maintain authenticity of content on Timeline and prevent manipulation of the program.</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-3')">点击查看全文</button>
+                <div id="fulltext-0-3" class="fulltext-source" data-title="RT Michael Anti: 即日起，发布未经许可使用人工智能生成武装冲突视频的用户，将被暂停参与X平台创作者收益分成计划90天。再次违规者将被永久取消该计划的参与资..." style="display:none;">
+                  <p>RT Michael Anti</p><p>即日起，发布未经许可使用人工智能生成武装冲突视频的用户，将被暂停参与X平台创作者收益分成计划90天。再次违规者将被永久取消该计划的参与资格。</p><p>Nikita Bier: Today we are revising our Creator Revenue Sharing policies to maintain authenticity of content on Timeline and prevent manipulation of the program.</p><p>During times of war, it is critical that people have access to authentic information on the ground. With today’s AI technologies,</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2028879682590941629" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 16:45:51 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-1">
+              <h2>🛠 工具推荐 <span class="count">7 篇</span></h2>
+              
+                <article id="item-1-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>因为小龙虾🦞让以前没用过 claude code 这样 agent 的人用上了 agent让很多只用 claude code 写代码的人发现 agent 还可以做写代码之外的事情小龙虾让很多以前没管过人当过领导的突然有下属可以指挥了，那种微信群发一条：XX 你跟进一下小龙虾让 Agent 从戳一戳动一动变成了 7x24 牛马plantegg: 我逢人就问，小龙虾跟你做了什么震惊/牛逼/大开眼界的事情，基本上听完给我的感觉就是：啥，就这？</p><p>我用 claude code 就是这么干的啊对我来说小龙虾多了一个通过 IM 控制的方式而已，另外小龙虾那些 case 都是授权多一点，skill 多一点，这些在 claude 里面完全可以实现来，跪求甩几个 case</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCfR5fTbYAEt_2J?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2028854050091888910" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 15:24:34 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>一切以Claude Code为核心打磨工作流，Obsidian作为存储和查看器，语音输入优先。核心工具是Skill、Cli和MCP，语音输入用闪电说，硬件用大疆mic3：① 听歌：Spotify MCP + 音乐风格查找 Skill，语音输入播放任意歌曲。</p><p>② 阅读：一句话下载电子书 + 读书笔记 Skill，全网AI Newsletter采集阅读Skill。③ 编程：这个不用多说。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-1')">点击查看全文</button>
+                <div id="fulltext-1-1" class="fulltext-source" data-title="一切以Claude Code为核心打磨工作流，Obsidian作为存储和查看器，语音输入优先。 核心工具是Skill、Cli和MCP，语音输入用闪电说，硬件用大疆mic3： ① 听歌：Spo..." style="display:none;">
+                  <p>一切以Claude Code为核心打磨工作流，Obsidian作为存储和查看器，语音输入优先。</p><p>核心工具是Skill、Cli和MCP，语音输入用闪电说，硬件用大疆mic3：</p><p>① 听歌：Spotify MCP + 音乐风格查找 Skill，语音输入播放任意歌曲。</p><p>② 阅读：一句话下载电子书 + 读书笔记 Skill，全网AI Newsletter采集阅读Skill。</p><p>③ 编程：这个不用多说。</p><p>④ 写作：文章配图、生成封面、X/公众号发布，准备对应Skill处理。</p><p>基本就够了，持续打磨、迭代优化即可。</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2028882295030169717" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 17:16:48 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">吕立青_JimmyLv</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>连续 4 天，让 Claude Code 实时跟进战争情况并给出投资建议</p><p>已经分析三十几篇啦，真的是见证了 Claude Opus 模型的强大！</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCf8ZYsbcAA7dAe?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Jimmy_JingLv/status/2028867674332348798" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 16:18:42 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>有了Obsidian cli后，可以创建一个读书笔记Skill。一边放电子书，一边放Claude Code。</p><p>只需要说开始做笔记，AI会询问书名，没有会新建一个。后续是粘划线或语音输入想法。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-2')">点击查看全文</button>
+                <div id="fulltext-1-2" class="fulltext-source" data-title="有了Obsidian cli后，可以创建一个读书笔记Skill。 一边放电子书，一边放Claude Code。 只需要说开始做笔记，AI会询问书名，没有会新建一个。 后续是粘划线或语..." style="display:none;">
+                  <p>有了Obsidian cli后，可以创建一个读书笔记Skill。</p><p>一边放电子书，一边放Claude Code。</p><p>只需要说开始做笔记，AI会询问书名，没有会新建一个。</p><p>后续是粘划线或语音输入想法。</p><p>AI还会时不时点评一句，感觉像有人陪读。</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCfgIA1a0AADvYN?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2028836689008050633" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 14:15:35 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-5" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>订阅了一年Spotify，实现用Skill控制播放音乐。大模型+音乐知识库skill，获取精准推荐，命令行控制播放。</p><p>用龙虾作者的spogo库，实现Spotify Cli版。加上自己写的音乐风格库，播放控制用applescript，效率高。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-3')">点击查看全文</button>
+                <div id="fulltext-1-3" class="fulltext-source" data-title="订阅了一年Spotify，实现用Skill控制播放音乐。 大模型+音乐知识库skill，获取精准推荐，命令行控制播放。 用龙虾作者的spogo库，实现Spotify Cli版。 加上自己..." style="display:none;">
+                  <p>订阅了一年Spotify，实现用Skill控制播放音乐。</p><p>大模型+音乐知识库skill，获取精准推荐，命令行控制播放。</p><p>用龙虾作者的spogo库，实现Spotify Cli版。</p><p>加上自己写的音乐风格库，播放控制用applescript，效率高。</p><p>等后续开源Skill。</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCfL010bIAACECX?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HCfL8BqaIAAgRj6?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HCfML11aAAA9bwh?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HCfMtFWaMAAynGR?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2028816241377657019" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 12:54:20 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-6" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">JitHub程序员</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：Zero君聊AI Username：31E6D5FE-9849-44F7-8486-07497E14E9F1OpenClaw用得越多我也觉得Claude Code真牛👍稳如老狗</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a6b838c196450e835071fa" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 10:30:16 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-7" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT Eric Xu (e/Mettā)构建了一个我自己用起来很舒服的工具：Noah. 装在我的计算机上，装在我父母的计算机上，装在我小孩的计算机上，通过自然语言来解决任何 IT 类的疑难杂症, 比如打印机问题，路由问题，清理空间等等放出一个预览版供社区使用并提供反馈。</p><p>目前需要 Claude API， 下一个版本加入其他模型和本地模型支持<a href="https://github.com/xuy/noah/blob/main/docs/README.zh-CN.mdEric" target="_blank" rel="noopener">https://github.com/xuy/noah/blob/main/docs/README.zh-CN.mdEric</a> Xu (e/Mettā): Announcing Noah — a tool to address every aspect of your computer issues, running locally on your computer (Mac/Windows).It diagnoses problems, explains what&#x27;s wrong in pla…</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-4')">点击查看全文</button>
+                <div id="fulltext-1-4" class="fulltext-source" data-title="RT Eric Xu (e/Mettā): 构建了一个我自己用起来很舒服的工具：Noah. 装在我的计算机上，装在我父母的计算机上，装在我小孩的计算机上，通过自然语言来解决任何 ..." style="display:none;">
+                  <p>RT Eric Xu (e/Mettā)</p><p>构建了一个我自己用起来很舒服的工具：Noah. 装在我的计算机上，装在我父母的计算机上，装在我小孩的计算机上，通过自然语言来解决任何 IT 类的疑难杂症, 比如打印机问题，路由问题，清理空间等等</p><p>放出一个预览版供社区使用并提供反馈。</p><p>目前需要 Claude API， 下一个版本加入其他模型和本地模型支持</p><p><a href="https://github.com/xuy/noah/blob/main/docs/README.zh-CN.md" target="_blank" rel="noopener">https://github.com/xuy/noah/blob/main/docs/README.zh-CN.md</a></p><p>Eric Xu (e/Mettā): Announcing Noah — a tool to address every aspect of your computer issues, running locally on your computer (Mac/Windows).</p><p>It diagnoses problems, explains what&#x27;s wrong in plain English, asks before touching anything, and remembers what it&#x27;s learned about your setup.</p><p>For now, it</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2028866974751613156" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 14:40:38 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-2">
+              <h2>📚 教程技巧 <span class="count">1 篇</span></h2>
+              
+                <article id="item-2-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>OpenClaw安全指南余弦团队出品，你可以不读，但是得让你的小龙虾读并且部署安全防护。Github：<a href="https://github.com/slowmist/openclaw-security-practice-guide" target="_blank" rel="noopener">https://github.com/slowmist/openclaw-security-practice-guide</a></p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2028788697458708638" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 11:04:53 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-3">
+              <h2>📰 资讯动态 <span class="count">14 篇</span></h2>
+              
+                <article id="item-3-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Tw93</span>
+                  </div>
+                  <h3>在 Mac 上运行 OpenClaw 之类的重型软件，但担心它可能会休眠？即使盖子关闭或显示屏关闭，安非他明也能让您的 Mac 保持清醒......</h3>
+                  <div class="orig-title">EN: Running something heavy like OpenClaw on your Mac but worried it might sleep? Amphetamine keeps your Mac awake even with the lid closed or the display...</div>
+                  
+                  <div class="summary"><p>在 Mac 上运行 OpenClaw 等繁重的程序，但担心它可能会休眠？即使盖子合上或显示屏关闭，安非他明也能让您的 Mac 保持清醒。按时间或触发器（如特定应用程序、电源、WiFi、VPN 或 CPU 使用率）进行设置。</p><p>免费、简单、可靠。</p></div>
+                  <div class="orig-summary">原文：<p>Running something heavy like OpenClaw on your Mac but worried it might sleep?Amphetamine keeps your Mac awake even with the lid closed or the display off.Set it by time or triggers like specific apps, power, WiFi, VPN, or CPU usage.</p><p>Free.Simple and reliable.</p></div>
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCfzraGawAE0Izs?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/HiTw93/status/2028978980800610572" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 23:41:00 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">吕立青_JimmyLv</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>其实我最近意识到一个非常有用的点：Prompt 不仅是对 AI 起作用，也是对人脑同样起作用。比如说我现在唤起 iPhone，我会说：“Hey Siri，帮我打开淘宝查看订单。</p><p>”虽然淘宝现在还不支持真正的去查看订单，但我的人脑会被 Prompt。从而意识到自己的意图是查看订单，而不会被首页花里胡哨的促销信息所吸引了。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-1')">点击查看全文</button>
+                <div id="fulltext-3-1" class="fulltext-source" data-title="其实我最近意识到一个非常有用的点：Prompt 不仅是对 AI 起作用，也是对人脑同样起作用。 比如说我现在唤起 iPhone，我会说：“Hey Siri，帮我打开淘宝查看订单..." style="display:none;">
+                  <p>其实我最近意识到一个非常有用的点：Prompt 不仅是对 AI 起作用，也是对人脑同样起作用。</p><p>比如说我现在唤起 iPhone，我会说：“Hey Siri，帮我打开淘宝查看订单。”虽然淘宝现在还不支持真正的去查看订单，但我的人脑会被 Prompt。</p><p>从而意识到自己的意图是查看订单，而不会被首页花里胡哨的促销信息所吸引了。</p><p>更多的场景可能是：比如说，“Hey Siri，打开 Twitter 发布博文”，而不是直接就开始刷了起来。这种意图优先的方式，其实是通过语音的方式来触发的，也算是语音输入习惯后对大脑的一种 hack。</p><p>马天翼: 当你用了这么多 AI 大模型之后，再回头看看现在 iOS 上的 Siri，你语音给他一个指令试试看，以及连续对话试试看。</p><p>你就知道，Siri 在现在到底有多愚蠢。</p><p>而这样的 Siri 至今仍存在在 iPhone 上，不得不说，苹果现在真的具备“创新”能力。</p><p>真的是 Only Apple Can Do</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCdBSX0agAEn6TY?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Jimmy_JingLv/status/2028800594602021230" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 11:52:09 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>OpenAI 推理模型核心研究员 Max Schwarzer 宣布离职，下一站是 Anthropic。Schwarzer 在 OpenAI 的履历相当硬核——他是 o1 推理模型的早期参与者之一，o1-preview 最初就跑在他的一次实验性训练上。</p><p>后来他主导了 o1 和 o3 的后训练（post-training，即模型训练完成后的对齐和调优阶段），并在过去一年里领导了整个后训练团队，先后交付了 GPT-5、5.1、5.2 和 5.3-Codex。简单说，这是 OpenAI 推理路线上的关键人物。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-2')">点击查看全文</button>
+                <div id="fulltext-3-2" class="fulltext-source" data-title="OpenAI 推理模型核心研究员 Max Schwarzer 宣布离职，下一站是 Anthropic。 Schwarzer 在 OpenAI 的履历相当硬核——他是 o1 推理模型的早期参与者之一，o1-prev..." style="display:none;">
+                  <p>OpenAI 推理模型核心研究员 Max Schwarzer 宣布离职，下一站是 Anthropic。</p><p>Schwarzer 在 OpenAI 的履历相当硬核——他是 o1 推理模型的早期参与者之一，o1-preview 最初就跑在他的一次实验性训练上。后来他主导了 o1 和 o3 的后训练（post-training，即模型训练完成后的对齐和调优阶段），并在过去一年里领导了整个后训练团队，先后交付了 GPT-5、5.1、5.2 和 5.3-Codex。</p><p>简单说，这是 OpenAI 推理路线上的关键人物。</p><p>他在告别帖中提到，离开的原因是想回归一线研究，不再做管理。他说自己对 Anthropic 的研究品味和价值观印象深刻，身边许多信任的同事近年也陆续加入了 Anthropic，他将在那里专注强化学习（RL）研究。</p><p>值得注意的是，Schwarzer 特意感谢了 OpenAI CEO Sam Altman、CTO Mark Chen、CEO Fidji Simo 等高层，措辞相当体面，没有任何不愉快的暗示。但一位带队交付了 GPT-5 系列后训练的核心人才选择出走，本身就说明了一些问题。</p><p>最近一两年，OpenAI 向 Anthropic 的人才流动已经不是个案，而是一个趋势。</p><p>Max Schwarzer: I&#x27;ve decided to leave OpenAI. I&#x27;m incredibly proud of all the work I&#x27;ve been part of here, from helping create the reasoning paradigm with @MillionInt, scaling up test-time compute with @polynoamial, working on RL algorithms with my fellow strawberries, shipping o1-preview (which</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2028957497076142080" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 22:15:38 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：哈雷Halley Username：25e70bf4-556a-4daa-a0ab-5a9d7d0335b6看到有人说每天更新75条短视频三年一千万，我真见过有人这么做，不过是公众号，日更800天，阅读量还是个位数，因为他的文章质量和第一天没有任何区别，没有任何迭代进化。</p><p>猛烈的执行力好似给人安全感，可惜都是骗人的。</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a705222766bce7ecfd9faf" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 15:58:26 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-5" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">吕立青_JimmyLv</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>概念：让我们重新介绍自己。</p></div>
+                  <div class="orig-summary">原文：<p>Notion: Allow us to reintroduce ourselves.</p></div>
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCfvyleawAAZIDG?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Jimmy_JingLv/status/2028853831841509759" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 15:23:42 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-6" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">吕立青_JimmyLv</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>都要 3 年了啊，3 年又 3 年...</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCfsQiZaIAAqgGb?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Jimmy_JingLv/status/2028849931826716861" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 15:08:12 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-7" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">卡尔的AI沃茨</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Pavel Durov：所有 Telegram 聊天机器人现在都可以实时向用户发送响应——这对于人工智能助手来说非常有用。</p></div>
+                  <div class="orig-summary">原文：<p>Pavel Durov: All Telegram chatbots can now stream responses to users in real time — great for AI assistants.</p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/aiwarts/status/2028848228406591658" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 15:01:26 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-8" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Tw93</span>
+                  </div>
+                  <h3>Maple 1.17 已上线。隐藏书签栏并保持干净的浏览空间。此更新改进了新选项卡和书签体验，添加了“打开方式...”</h3>
+                  <div class="orig-title">EN: Maple 1.17 is live. Hide your bookmark bar and keep a clean browsing space. This update refines the new tab and bookmark experience, adds an “Open in...</div>
+                  
+                  <div class="summary"><p>Maple 1.17 已上线。隐藏您的书签栏并保持干净的浏览空间。</p><p>此更新完善了新选项卡和书签体验，添加了“在新选项卡中打开”选项，改进了多语言支持，并解决了 Bing 日期和排序等问题。 <a href="https://github.com/tw93/Maple" target="_blank" rel="noopener">https://github.com/tw93/Maple</a></p></div>
+                  <div class="orig-summary">原文：<p>Maple 1.17 is live.Hide your bookmark bar and keep a clean browsing space.</p><p>This update refines the new tab and bookmark experience, adds an “Open in New Tab” option, improves multi-language support, and cleans up issues like Bing date and sorting. <a href="https://github.com/tw93/Maple" target="_blank" rel="noopener">https://github.com/tw93/Maple</a></p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/HiTw93/status/2028837801085595891" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 14:20:00 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-9" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Tw93</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>这种生烫牛肉米线真真真好吃，特别是这个油辣椒一绝，加点儿薄荷叶，很美味！</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCfD2d3bIAAyYrl?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/HiTw93/status/2028805507621015815" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 12:11:41 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-10" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>AI资讯日报，3月3日：<a href="https://gorden-sun.notion.site/3-3-AI-318594247325801c9209c42c901c4d40?source=copy_link" target="_blank" rel="noopener">https://gorden-sun.notion.site/3-3-AI-318594247325801c9209c42c901c4d40?source=copy_link</a></p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCe2xnDakAAEsE3?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2028791143388029129" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 11:14:36 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-11" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">吕立青_JimmyLv</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>当初 Typeless 有多好用，现在就有多难受。😭</p><p>回旋镖最终还是击中了我自己，还好有 Spokenly 撑一下。</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCeyHxkboAMgSVl?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Jimmy_JingLv/status/2028786006657466594" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 10:54:11 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-12" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">苍何</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>见证历史，OpenClaw 成为了 Github Star 第一！</p><p>AI 时代，一切都像开火箭一样快。</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCertUzb0AA7QUB?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/canghe/status/2028778962734944326" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 10:26:12 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-13" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">哥飞</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>今天元宵节，传统过法是过了元宵才算过完年了。不过一般上班族和学生早都开学了。</p><p>记得以前读高中时，元宵节时已经在学校了，而我们这些从乡镇上来的学生，普遍离家较远，我回家坐大巴要80分钟左右，一天还只有固定几趟，所以肯定是不回家的。那就会邀约三五好友，一起去河边一条街吃东西。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-3')">点击查看全文</button>
+                <div id="fulltext-3-3" class="fulltext-source" data-title="今天元宵节，传统过法是过了元宵才算过完年了。 不过一般上班族和学生早都开学了。 记得以前读高中时，元宵节时已经在学校了，而我们这些从乡镇上来的学生，普遍..." style="display:none;">
+                  <p>今天元宵节，传统过法是过了元宵才算过完年了。</p><p>不过一般上班族和学生早都开学了。</p><p>记得以前读高中时，元宵节时已经在学校了，而我们这些从乡镇上来的学生，普遍离家较远，我回家坐大巴要80分钟左右，一天还只有固定几趟，所以肯定是不回家的。</p><p>那就会邀约三五好友，一起去河边一条街吃东西。</p><p>那时候我一个月生活费150元，其中90元是一个月三餐的菜钱，剩下的60元才是零花钱。</p><p>于是就偶尔去吃肉丸汤，打打牙祭，一块钱一碗，几个丸子忘记了，但肯定不多，只是因为可以无限续汤，于是成了我们的最爱。</p><p>吃完了，就站桥边人行道上看别人放烟花。</p><p>那时候乡镇里烟花种类很少，大家也不舍得买贵的，但是在县城不一样，有各种各样的烟花。</p><p>现在大家生活条件好了，各种烟花随处都可以买了。</p><p>过年时，我就带着我的娃和侄子侄女们去买烟花玩。</p><p>有些他们不敢放，就我来放，他们看就行。</p><p>各种以前没玩到的，我都玩了个遍，算是弥补童年遗憾了。</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/gefei55/status/2028763502761156765" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 09:24:46 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-14" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：小马宋王大洋 Username：45F3C106-D400-4470-9B97-E6CAC451492C每次看到短视频博主发的视频突然比往常多了3、4分钟，不用问，一定是妙界按摩仪的功劳了！</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a6cfdd25bae566121e6a9d" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Tue, 03 Mar 2026 12:11:09 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">×</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = src;
+      box.classList.add('open');
+    }
+    function closeLightbox() {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = '';
+      box.classList.remove('open');
+    }
+
+    function openArticleModal(id) {
+      var src = document.getElementById(id);
+      if (!src) return;
+      var modal = document.getElementById('articleModal');
+      var title = document.getElementById('articleModalTitle');
+      var body = document.getElementById('articleModalBody');
+      title.textContent = src.getAttribute('data-title') || '全文';
+      body.innerHTML = src.innerHTML || '';
+      modal.classList.add('open');
+    }
+    function closeArticleModal() {
+      var modal = document.getElementById('articleModal');
+      var body = document.getElementById('articleModalBody');
+      body.innerHTML = '';
+      modal.classList.remove('open');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeArticleModal();
+      }
+    });
+  </script>
+</body>
+</html>
