@@ -1,0 +1,433 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSS 日报 - 2026-03-05</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --primary:#4f46e5; --shadow:0 8px 22px rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.72 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; -webkit-text-size-adjust:100%; }
+    .layout { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:280px 1fr; gap:16px; padding:16px; }
+    .content, .sidebar { min-width:0; }
+    .sidebar { position:sticky; top:14px; height:fit-content; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+    .brand h1 { margin:0; font-size:22px; }
+    .sub { color:var(--muted); margin:6px 0; font-size:13px; }
+    nav { margin-top:10px; }
+    nav a { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-radius:8px; color:var(--text); text-decoration:none; font-size:14px; gap:8px; }
+    nav a:hover { background:#eef2ff; }
+    .hotbox { margin-top:14px; border-top:1px dashed var(--line); padding-top:12px; }
+    .hotbox h3 { margin:0 0 8px; font-size:18px; color:#111827; }
+    .hotbox ol { margin:0; padding-left:20px; }
+    .hotbox li { margin:10px 0; font-size:14px; line-height:1.55; }
+    .hotbox li a { color:#111827; text-decoration:none; font-weight:600; }
+    .hotbox li a:hover { text-decoration:underline; color:var(--primary); }
+    .hotbox li span { display:block; color:var(--muted); margin-top:3px; font-size:12px; }
+
+    .content section { margin-bottom:24px; }
+    .content h2 { margin:0 0 10px; font-size:21px; }
+    .count { color:var(--muted); font-size:12px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,.03); }
+    .card h3 { margin:10px 0 6px; font-size:18px; line-height:1.42; overflow-wrap:anywhere; word-break:break-word; }
+    .orig-title { font-size:12px; color:var(--muted); margin-bottom:8px; }
+    .summary p { margin:0 0 12px; color:#1f2937; line-height:1.86; }
+    .orig-summary p { margin:8px 0 0; color:#6b7280; font-size:13px; line-height:1.7; }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill { font-size:12px; border-radius:999px; padding:2px 10px; }
+    .pill.importance { background:#eef2ff; color:#3730a3; font-weight:600; }
+    .pill.platform { background:#ecfeff; color:#155e75; }
+    .source { color:var(--muted); font-size:12px; }
+
+    .ai-summary { margin:8px 0 10px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:8px 10px; }
+    .ai-title { font-size:12px; font-weight:700; color:#1d4ed8; margin-bottom:4px; }
+    .ai-summary ul { margin:0; padding-left:18px; }
+    .ai-summary li { margin:4px 0; font-size:13px; color:#1e3a8a; }
+    .ai-insight { margin:8px 0 0; color:#1e40af; font-size:13px; line-height:1.7; border-top:1px dashed #bfdbfe; padding-top:7px; }
+
+    .btn-fulltext { margin-top:8px; border:1px solid #c7d2fe; background:#eef2ff; color:#3730a3; border-radius:8px; padding:5px 10px; font-size:13px; cursor:pointer; }
+    .btn-fulltext:hover { background:#e0e7ff; }
+    .fulltext-source { display:none; }
+
+    .media-grid { margin:10px 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; }
+    .media-grid img { width:100%; max-height:340px; object-fit:contain; border-radius:10px; border:1px solid var(--line); background:#fff; cursor:zoom-in; }
+
+    .topic-tip { margin-top:10px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:10px 12px; }
+    .tip-tag { font-size:12px; display:inline-block; margin-bottom:6px; color:#065f46; font-weight:700; }
+    .topic-tip p { margin:4px 0; font-size:13px; }
+
+    .footer { display:flex; justify-content:space-between; gap:8px; border-top:1px dashed var(--line); padding-top:10px; margin-top:10px; font-size:13px; }
+    a { color:var(--primary); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .muted,.date { color:var(--muted); }
+
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:9999; align-items:center; justify-content:center; padding:24px; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:8px; background:#111; }
+    .lightbox .close { position:fixed; right:20px; top:14px; color:#fff; font-size:28px; cursor:pointer; user-select:none; }
+
+    .article-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.62); z-index:10000; align-items:center; justify-content:center; padding:16px; }
+    .article-modal.open { display:flex; }
+    .article-panel { width:min(900px,95vw); max-height:88vh; background:#fff; border-radius:12px; border:1px solid var(--line); display:flex; flex-direction:column; overflow:hidden; }
+    .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--line); }
+    .article-toolbar .title { font-size:14px; font-weight:600; color:#111827; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; }
+    .article-toolbar button { border:none; background:#f3f4f6; border-radius:8px; width:28px; height:28px; cursor:pointer; font-size:18px; line-height:1; }
+    .article-body { overflow:auto; padding:12px 14px; }
+    .article-body p { margin:0 0 10px; color:#1f2937; line-height:1.75; }
+
+    @media (max-width: 980px) {
+      body { font-size:14px; }
+      .layout { grid-template-columns:1fr; padding:10px; gap:10px; }
+      .sidebar { order:1; position:static; padding:12px; border-radius:12px; }
+      .content { order:2; }
+      .brand h1 { font-size:20px; }
+      .sub { font-size:12px; }
+      .hotbox h3 { font-size:18px; }
+      .hotbox li { font-size:15px; }
+      nav { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; }
+      nav a { flex:0 0 auto; white-space:nowrap; border:1px solid var(--line); background:#fafbff; }
+      .content h2 { font-size:19px; margin-bottom:8px; }
+      .card { padding:12px; border-radius:10px; }
+      .card h3 { font-size:17px; }
+      .footer { flex-direction:column; align-items:flex-start; gap:6px; }
+      .media-grid { grid-template-columns:1fr; }
+      .media-grid img { max-height:58vh; }
+      .article-panel { width:96vw; max-height:90vh; }
+      .article-toolbar .title { font-size:13px; }
+    }
+
+    @media (max-width: 420px) {
+      .layout { padding:8px; }
+      .card h3 { font-size:16px; }
+      .hotbox li { font-size:14px; }
+      .lightbox { padding:10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <div class="sub">2026-03-05</div>
+        <div class="sub">源：26（有内容 5 / 无内容 21 / 失败 0）</div>
+        <div class="sub">去重后：11 条</div>
+        <div class="sub">公众号源：0 条</div>
+      </div>
+      <nav><a href="#cat-0"><span>🔥 重磅发布</span><span class="count">1</span></a><a href="#cat-1"><span>🛠 工具推荐</span><span class="count">1</span></a><a href="#cat-2"><span>📰 资讯动态</span><span class="count">9</span></a></nav>
+      <div class="hotbox">
+        <h3>今日重点</h3>
+        <ol><li><a href="#item-2-1">当您构建 AI 代理时，不要将提示视为配置字符串。将它们视为…</a><span>elvis</span></li><li><a href="#item-2-2">在人工智能代理中更好地利用内存的好技巧。</a><span>elvis</span></li><li><a href="#item-2-3">RT elvis：密切关注主动的人工智能代理。这是我见过的特…</a><span>elvis</span></li><li><a href="#item-0-1">这个World Monitor开源项目 让屌丝产生一种掌控天…</a><span>JitHub程序员</span></li><li><a href="#item-1-1">超思维回来了！我非常想念这个。在大多数克劳德代码会话中，我总…</a><span>elvis</span></li><li><a href="#item-2-4">良渚自行车披萨小哥，一人一车一煤气炉，每天卖50个披萨，下午…</a><span>你不知道的行业内幕</span></li><li><a href="#item-2-5">大牛猫竟然把这个隐秘给说出来了哈哈哈。 其实这事儿很多人都不…</a><span>你不知道的行业内幕</span></li><li><a href="#item-2-6">今天和几个年轻 founder 吃饭，我真的感觉这些小登创业…</a><span>你不知道的行业内幕</span></li><li><a href="#item-2-7">以前说失业了，去跑网约车。 未来在合肥，这条路可能跑不通了，…</a><span>你不知道的行业内幕</span></li><li><a href="#item-2-8">所以5.4还是要来了</a><span>卡尔的AI沃茨</span></li></ol>
+      </div>
+    </aside>
+
+    <main class="content">
+      
+            <section id="cat-0">
+              <h2>🔥 重磅发布 <span class="count">1 篇</span></h2>
+              
+                <article id="item-0-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">JitHub程序员</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：程序员伯恩 Username：581FA81F-3B8B-49F2-A438-16D0357D5638这个World Monitor开源项目让屌丝产生一种掌控天下的感觉😅😅</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/Fj4BSelsdh67Z6Iz5lpoHLfM4WkNv3.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a8284d36f52af7f931bb69" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 12:40:45 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-1">
+              <h2>🛠 工具推荐 <span class="count">1 篇</span></h2>
+              
+                <article id="item-1-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">elvis</span>
+                  </div>
+                  <h3>超思维回来了！我非常想念这个。在大多数克劳德代码会话中，我总觉得我可以从代理那里榨取更多东西。我总是使用一些堰...</h3>
+                  <div class="orig-title">EN: ultrathink is back! i missed this so much. in most claude code sessions, i always feel i can squeeze out more from agents. i am always using some weir...</div>
+                  
+                  <div class="summary"><p>Ultrathink 回来了！我非常怀念这个。</p><p>在大多数克劳德代码会话中，我总觉得我可以从代理那里榨取更多东西。我总是使用一些奇怪的提示来“深入思考”。</p><p>我很高兴这个速记又回来了，所以我不必如此努力地手动尝试。😅Ado：Ultrathink 回来了！</p></div>
+                  <div class="orig-summary">原文：<p>ultrathink is back!i missed this so much. in most claude code sessions, i always feel i can squeeze out more from agents. i am always using some weird prompts to &quot;think deeper&quot;. i am glad this shorthand is back, so i don&#x27;t have to be manually trying so hard. 😅Ado: Ultrathink is back!</p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/omarsar0/status/2029303135336845383" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 21:09:04 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-2">
+              <h2>📰 资讯动态 <span class="count">9 篇</span></h2>
+              
+                <article id="item-2-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">elvis</span>
+                  </div>
+                  <h3>当您构建 AI 代理时，不要将提示视为配置字符串。将它们视为可执行的业务逻辑。因为这就是他们真正的样子。 @ar...</h3>
+                  <div class="orig-title">EN: When you build AI agents, don&#x27;t treat prompts like config strings. Treat them like executable business logic. Because that&#x27;s what they really are. @ar...</div>
+                  
+                  <div class="summary"><p>当你构建 AI 代理时，不要将提示视为配置字符串。将它们视为可执行的业务逻辑。</p><p>因为这就是它们的真正本质。@arshdilbagi 的博客和斯坦福 CS 224G 讲座列出了我见过的用于 LLM 评估的最清晰的心理模型之一。</p><p>停止将评估视为单元测试。这适用于确定性软件。</p><p>对于 LLM 产品，它会产生虚假的信心，因为现实世界的使用情况会改变……</p></div>
+                  <div class="orig-summary">原文：<p>When you build AI agents, don&#x27;t treat prompts like config strings.Treat them like executable business logic.Because that&#x27;s what they really are.@arshdilbagi&#x27;s blog and this Stanford CS 224G lecture lay out one of the clearest mental models I have seen for LLM evaluation.Stop treating evals like unit tests.That works for deterministic software.For LLM products, it creates false confidence because real-world usage chan…</p></div>
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-1')">点击查看全文</button>
+                <div id="fulltext-2-1" class="fulltext-source" data-title="当您构建 AI 代理时，不要将提示视为配置字符串。将它们视为可执行的业务逻辑。因为这就是他们真正的样子。 @ar..." style="display:none;">
+                  <p>When you build AI agents, don&#x27;t treat prompts like config strings.</p><p>Treat them like executable business logic. Because that&#x27;s what they really are.</p><p>@arshdilbagi&#x27;s blog and this Stanford CS 224G lecture lay out one of the clearest mental models I have seen for LLM evaluation.</p><p>Stop treating evals like unit tests.</p><p>That works for deterministic software.</p><p>For LLM products, it creates false confidence because real-world usage changes over time.</p><p>Example: an insurance prompt passed 20 eval cases. The team shipped. In production, a new class of requests showed up and failed quietly. No crash, no alert, just wrong answers at scale.</p><p>The fix is not &quot;write more eval cases,&quot; which is what many teams do.</p><p>It is building evals as a living feedback loop. Start with a small set, ship, watch what breaks in production, add those failures back, and re-run on every prompt or model change.</p><p>What eval failure caught your team off guard?</p><p>Blog: <a href="https://go.adaline.ai/bflXl9t" target="_blank" rel="noopener">https://go.adaline.ai/bflXl9t</a></p><p>Stanford CS 224G lecture: <a href="https://go.adaline.ai/D9TmfoF" target="_blank" rel="noopener">https://go.adaline.ai/D9TmfoF</a></p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HClB82mawAA3PeD?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/omarsar0/status/2029225624825659668" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 16:01:04 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">elvis</span>
+                  </div>
+                  <h3>在人工智能代理中更好地利用内存的好技巧。</h3>
+                  <div class="orig-title">EN: Good tips for better utilizing memory in AI agents.</div>
+                  
+                  <div class="summary"><p>DAIR.AI：关于 LLM 代理内存的有趣新研究。代理工程师，请注意这一点。</p><p>（将其加入书签）它引入了一种诊断框架，可将代理内存系统中的检索失败与利用失败分开。主要发现：- 检索方法很重要</p></div>
+                  <div class="orig-summary">原文：<p>DAIR.AI: Interesting new research on LLM agent memory.Agent engineers, pay attention to this one.(bookmark it)It introduces a diagnostic framework that separates retrieval failures from utilization failures in agent memory systems.The main findings:- Retrieval method matters far</p></div>
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCktWK8aUAA1I3q?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/omarsar0/status/2029221579402424489" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 15:45:00 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">elvis</span>
+                  </div>
+                  <h3>RT elvis：密切关注主动的人工智能代理。这是我见过的特工安全带最疯狂的应用之一。麻省理工学院的论文介绍了 N...</h3>
+                  <div class="orig-title">EN: RT elvis: Pay close attention to proactive AI agents. This is one of the wildest applications of agent harnesses I&#x27;ve seen. The MIT paper introduces N...</div>
+                  
+                  <div class="summary"><p>RT elvis 密切关注主动式 AI 代理。这是我见过的代理线束最疯狂的应用之一。</p><p>麻省理工学院的论文介绍了 NeuroSkill，这是一个实时代理系统，通过将脑机接口信号与基础模型集成来模拟人类认知和情绪状态。通过 SKILL dot md 提供“人类心理状态”。</p><p>该系统在边缘完全离线运行。其 NeuroLoop 线束启用…</p></div>
+                  <div class="orig-summary">原文：<p>RT elvisPay close attention to proactive AI agents.This is one of the wildest applications of agent harnesses I&#x27;ve seen.The MIT paper introduces NeuroSkill, a real-time agentic system that models human cognitive and emotional state by integrating Brain-Computer Interface signals with foundation models.&quot;Human State of Mind&quot; provided via SKILL dot md.The system runs fully offline on the edge.Its NeuroLoop harness enabl…</p></div>
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-2')">点击查看全文</button>
+                <div id="fulltext-2-2" class="fulltext-source" data-title="RT elvis：密切关注主动的人工智能代理。这是我见过的特工安全带最疯狂的应用之一。麻省理工学院的论文介绍了 N..." style="display:none;">
+                  <p>RT elvis</p><p>Pay close attention to proactive AI agents.</p><p>This is one of the wildest applications of agent harnesses I&#x27;ve seen.</p><p>The MIT paper introduces NeuroSkill, a real-time agentic system that models human cognitive and emotional state by integrating Brain-Computer Interface signals with foundation models.</p><p>&quot;Human State of Mind&quot; provided via SKILL dot md.</p><p>The system runs fully offline on the edge.</p><p>Its NeuroLoop harness enables agentic workflows that engage users across cognitive and emotional levels, responding to both explicit and implicit requests through actionable tool calls.</p><p>Why does it matter?</p><p>Most AI agents respond only to explicit user requests. NeuroSkill explores the frontier of proactive agents that sense and respond to implicit human states, opening new possibilities for adaptive human-AI interaction.</p><p>Paper: <a href="https://arxiv.org/abs/2603.03212" target="_blank" rel="noopener">https://arxiv.org/abs/2603.03212</a></p><p>Learn to build effective AI agents in our academy: <a href="https://academy.dair.ai/" target="_blank" rel="noopener">https://academy.dair.ai/</a></p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCkrv5vawAU7_gu?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/omarsar0/status/2029294279600787932" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 14:24:04 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：西元Levy Username：D85EEEC6-8114-49AE-B513-AD2CC779E3B7良渚自行车披萨小哥，一人一车一煤气炉，每天卖50个披萨，下午4点出摊7点收摊，每个披萨赚20块，一个月每天都按时出摊净赚3万，还不用担心被AI取代这才是真正的一人公司</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/Fr2uSQwYAalMGskunbuEA_7Ds4lKv3.heic" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a810103ae946fdcf730bee" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 10:57:20 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-5" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：Akira神小狼 Username：2531D24D-9BA3-4E87-805E-E21E9D5D0566大牛猫竟然把这个隐秘给说出来了哈哈哈。其实这事儿很多人都不知道。</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FrYxrt9GpVjYTbeA8r9xFKUlhGn1v3.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a8520425bae56612441db3" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 15:38:44 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-6" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：海松 Username：6E90ECB6-768A-4B0A-A457-57ABA89AA078今天和几个年轻 founder 吃饭，我真的感觉这些小登创业者的水平是国际级，把老登中登投资人们远远甩开。做的事情一个比一个牛逼。</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a8508e20c7639c5edff505" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 15:32:30 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-7" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：浅仓南2010 Username：56BA8C1F-638E-4351-ACB0-9A8D8818974B以前说失业了，去跑网约车。未来在合肥，这条路可能跑不通了，或者说很难跑，因为合肥现在已经申请不到运营牌照了，停止发放网约车运营牌照。</p><p>那如果我们还想跑网约车怎么办呢？你要去第三方进行租赁，租赁的坑很多，首当其冲的就是一旦出险的话，赔付成本非常非常高，可能出个险，小半年的网约车就白跑了。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-3')">点击查看全文</button>
+                <div id="fulltext-2-3" class="fulltext-source" data-title="以前说失业了，去跑网约车。 未来在合肥，这条路可能跑不通了，或者说很难跑，因为合肥现在已经申请不到运营牌照了，停止发放网约车运营牌照。 那如果我们还想跑..." style="display:none;">
+                  <p>用户昵称：浅仓南2010</p><p>Username：56BA8C1F-638E-4351-ACB0-9A8D8818974B</p><p>以前说失业了，去跑网约车。</p><p>未来在合肥，这条路可能跑不通了，或者说很难跑，因为合肥现在已经申请不到运营牌照了，停止发放网约车运营牌照。</p><p>那如果我们还想跑网约车怎么办呢？你要去第三方进行租赁，租赁的坑很多，首当其冲的就是一旦出险的话，赔付成本非常非常高，可能出个险，小半年的网约车就白跑了。</p><p>那有没有可能在没有运营牌照的情况下跑网约车呢？会有人这么操作，但是风险非常大，随时有可能会被查。</p><p>全国不止合肥一座城市停发网约车车牌照。</p><p>哎，失业后的某条路。</p><p>又被堵死了。</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69a844ab9f3cd84f6577ca5c" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 14:41:47 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-8" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">卡尔的AI沃茨</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>OpenAI：5.4 比您想象的要早。</p></div>
+                  <div class="orig-summary">原文：<p>OpenAI: 5.4 sooner than you Think.</p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/aiwarts/status/2029207573581443294" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 14:49:21 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-9" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">哥飞</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>做个调查，在今天之前，你听过林俊旸这个名字吗？知道 Qwen 模型负责人是他吗？</p><p>反正我是不知道的。我只是想了解一下，对于一个今天你才第一次知道的陌生人，你的立场是哪里来的呢？</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/gefei55/status/2029145042175365516" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Wed, 04 Mar 2026 10:40:52 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">×</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = src;
+      box.classList.add('open');
+    }
+    function closeLightbox() {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = '';
+      box.classList.remove('open');
+    }
+
+    function openArticleModal(id) {
+      var src = document.getElementById(id);
+      if (!src) return;
+      var modal = document.getElementById('articleModal');
+      var title = document.getElementById('articleModalTitle');
+      var body = document.getElementById('articleModalBody');
+      title.textContent = src.getAttribute('data-title') || '全文';
+      body.innerHTML = src.innerHTML || '';
+      modal.classList.add('open');
+    }
+    function closeArticleModal() {
+      var modal = document.getElementById('articleModal');
+      var body = document.getElementById('articleModalBody');
+      body.innerHTML = '';
+      modal.classList.remove('open');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeArticleModal();
+      }
+    });
+  </script>
+</body>
+</html>
