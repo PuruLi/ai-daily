@@ -1,0 +1,733 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSS 日报 - 2026-03-08</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --primary:#4f46e5; --shadow:0 8px 22px rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.72 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; -webkit-text-size-adjust:100%; }
+    .layout { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:280px 1fr; gap:16px; padding:16px; }
+    .content, .sidebar { min-width:0; }
+    .sidebar { position:sticky; top:14px; height:fit-content; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+    .brand h1 { margin:0; font-size:22px; }
+    .sub { color:var(--muted); margin:6px 0; font-size:13px; }
+    nav { margin-top:10px; }
+    nav a { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-radius:8px; color:var(--text); text-decoration:none; font-size:14px; gap:8px; }
+    nav a:hover { background:#eef2ff; }
+    .hotbox { margin-top:14px; border-top:1px dashed var(--line); padding-top:12px; }
+    .hotbox h3 { margin:0 0 8px; font-size:18px; color:#111827; }
+    .hotbox ol { margin:0; padding-left:20px; }
+    .hotbox li { margin:10px 0; font-size:14px; line-height:1.55; }
+    .hotbox li a { color:#111827; text-decoration:none; font-weight:600; }
+    .hotbox li a:hover { text-decoration:underline; color:var(--primary); }
+    .hotbox li span { display:block; color:var(--muted); margin-top:3px; font-size:12px; }
+
+    .content section { margin-bottom:24px; }
+    .content h2 { margin:0 0 10px; font-size:21px; }
+    .count { color:var(--muted); font-size:12px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,.03); }
+    .card h3 { margin:10px 0 6px; font-size:18px; line-height:1.42; overflow-wrap:anywhere; word-break:break-word; }
+    .orig-title { font-size:12px; color:var(--muted); margin-bottom:8px; }
+    .summary p { margin:0 0 12px; color:#1f2937; line-height:1.86; }
+    .orig-summary p { margin:8px 0 0; color:#6b7280; font-size:13px; line-height:1.7; }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill { font-size:12px; border-radius:999px; padding:2px 10px; }
+    .pill.importance { background:#eef2ff; color:#3730a3; font-weight:600; }
+    .pill.platform { background:#ecfeff; color:#155e75; }
+    .source { color:var(--muted); font-size:12px; }
+
+    .ai-summary { margin:8px 0 10px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:8px 10px; }
+    .ai-title { font-size:12px; font-weight:700; color:#1d4ed8; margin-bottom:4px; }
+    .ai-summary ul { margin:0; padding-left:18px; }
+    .ai-summary li { margin:4px 0; font-size:13px; color:#1e3a8a; }
+    .ai-insight { margin:8px 0 0; color:#1e40af; font-size:13px; line-height:1.7; border-top:1px dashed #bfdbfe; padding-top:7px; }
+
+    .btn-fulltext { margin-top:8px; border:1px solid #c7d2fe; background:#eef2ff; color:#3730a3; border-radius:8px; padding:5px 10px; font-size:13px; cursor:pointer; }
+    .btn-fulltext:hover { background:#e0e7ff; }
+    .fulltext-source { display:none; }
+
+    .media-grid { margin:10px 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; }
+    .media-grid img { width:100%; max-height:340px; object-fit:contain; border-radius:10px; border:1px solid var(--line); background:#fff; cursor:zoom-in; }
+
+    .topic-tip { margin-top:10px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:10px 12px; }
+    .tip-tag { font-size:12px; display:inline-block; margin-bottom:6px; color:#065f46; font-weight:700; }
+    .topic-tip p { margin:4px 0; font-size:13px; }
+
+    .footer { display:flex; justify-content:space-between; gap:8px; border-top:1px dashed var(--line); padding-top:10px; margin-top:10px; font-size:13px; }
+    a { color:var(--primary); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .muted,.date { color:var(--muted); }
+
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:9999; align-items:center; justify-content:center; padding:24px; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:8px; background:#111; }
+    .lightbox .close { position:fixed; right:20px; top:14px; color:#fff; font-size:28px; cursor:pointer; user-select:none; }
+
+    .article-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.62); z-index:10000; align-items:center; justify-content:center; padding:16px; }
+    .article-modal.open { display:flex; }
+    .article-panel { width:min(900px,95vw); max-height:88vh; background:#fff; border-radius:12px; border:1px solid var(--line); display:flex; flex-direction:column; overflow:hidden; }
+    .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--line); }
+    .article-toolbar .title { font-size:14px; font-weight:600; color:#111827; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; }
+    .article-toolbar button { border:none; background:#f3f4f6; border-radius:8px; width:28px; height:28px; cursor:pointer; font-size:18px; line-height:1; }
+    .article-body { overflow:auto; padding:12px 14px; }
+    .article-body p { margin:0 0 10px; color:#1f2937; line-height:1.75; }
+
+    @media (max-width: 980px) {
+      body { font-size:14px; }
+      .layout { grid-template-columns:1fr; padding:10px; gap:10px; }
+      .sidebar { order:1; position:static; padding:12px; border-radius:12px; }
+      .content { order:2; }
+      .brand h1 { font-size:20px; }
+      .sub { font-size:12px; }
+      .hotbox h3 { font-size:18px; }
+      .hotbox li { font-size:15px; }
+      nav { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; }
+      nav a { flex:0 0 auto; white-space:nowrap; border:1px solid var(--line); background:#fafbff; }
+      .content h2 { font-size:19px; margin-bottom:8px; }
+      .card { padding:12px; border-radius:10px; }
+      .card h3 { font-size:17px; }
+      .footer { flex-direction:column; align-items:flex-start; gap:6px; }
+      .media-grid { grid-template-columns:1fr; }
+      .media-grid img { max-height:58vh; }
+      .article-panel { width:96vw; max-height:90vh; }
+      .article-toolbar .title { font-size:13px; }
+    }
+
+    @media (max-width: 420px) {
+      .layout { padding:8px; }
+      .card h3 { font-size:16px; }
+      .hotbox li { font-size:14px; }
+      .lightbox { padding:10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <div class="sub">2026-03-08</div>
+        <div class="sub">源：26（有内容 8 / 无内容 18 / 失败 0）</div>
+        <div class="sub">去重后：24 条</div>
+        <div class="sub">公众号源：0 条</div>
+      </div>
+      <nav><a href="#cat-0"><span>🔥 重磅发布</span><span class="count">3</span></a><a href="#cat-1"><span>🛠 工具推荐</span><span class="count">6</span></a><a href="#cat-2"><span>📚 教程技巧</span><span class="count">1</span></a><a href="#cat-3"><span>📰 资讯动态</span><span class="count">14</span></a></nav>
+      <div class="hotbox">
+        <h3>今日重点</h3>
+        <ol><li><a href="#item-0-1">Sarvam：印度开源的LLM模型 分30B和105B两个大…</a><span>Gorden Sun</span></li><li><a href="#item-0-2">RT Tw93：Mole 1.29 已上线。一次可以释放数十…</a><span>Tw93</span></li><li><a href="#item-3-1">对于工程师而言，nanobot 这种更轻、更适合放在个人电脑…</a><span>Tw93</span></li><li><a href="#item-1-1">很多人说 Cursor 现在现金流很好，但是注意文章中几个细…</a><span>宝玉</span></li><li><a href="#item-3-2">人们：wow，openclaw 杀死了 GUI！GUI 只是…</a><span>宝玉</span></li><li><a href="#item-1-2">I love this 🥹</a><span>levelsio</span></li><li><a href="#item-3-3">如果您正在设计自己的代理工具，那么值得一读。</a><span>elvis</span></li><li><a href="#item-3-4">关于法学硕士代理强化学习的新调查。 LLM RL 仍然将模型…</a><span>elvis</span></li><li><a href="#item-0-3">Helios：14B大小的实时视频生成模型 北大开源的视频模…</a><span>Gorden Sun</span></li><li><a href="#item-3-5">🤣 笑死，我的小龙虾自己适配了 bibigpt-skill，…</a><span>吕立青_JimmyLv</span></li></ol>
+      </div>
+    </aside>
+
+    <main class="content">
+      
+            <section id="cat-0">
+              <h2>🔥 重磅发布 <span class="count">3 篇</span></h2>
+              
+                <article id="item-0-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Sarvam：印度开源的LLM模型分30B和105B两个大小，105B评分高于GLM-4.5-Air（106B），在印度语上做了强化。官方介绍：<a href="https://www.sarvam.ai/blogs/sarvam-30b-105b" target="_blank" rel="noopener">https://www.sarvam.ai/blogs/sarvam-30b-105b</a></p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCz27Y4akAAwlev?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2030269215891152978" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 13:07:56 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-0-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Tw93</span>
+                  </div>
+                  <h3>RT Tw93：Mole 1.29 已上线。一次可以释放数十GB的Mac清理工具。 <a href="https://github.com/tw93/Mole" target="_blank" rel="noopener">https://github.com/tw93/Mole</a> What’s new: · destructive com...</h3>
+                  <div class="orig-title">EN: RT Tw93: Mole 1.29 is live. The Mac cleaning tool that can free up tens of GBs in one go. <a href="https://github.com/tw93/Mole" target="_blank" rel="noopener">https://github.com/tw93/Mole</a> What’s new: · destructive com...</div>
+                  
+                  <div class="summary"><p>RT Tw93Mole 1.29 上线，一次性释放数十GB Mac 清理工具。<a href="https://github.com/tw93/Mole" target="_blank" rel="noopener">https://github.com/tw93/Mole</a>新增功能：· 破坏性命令现在支持 --dry-run / -n 在执行前进行完整预览· mo status 和 moanalyze 现在支持 --json，在非 TTY 管道中具有自动 JSON 模式· Xcode DeviceSupport 更智能的清理，以及 Automator 和 Shortcuts 中更安全的 sudo 处理此版本使 Mole 变得更加强大…</p></div>
+                  <div class="orig-summary">原文：<p>RT Tw93Mole 1.29 is live.The Mac cleaning tool that can free up tens of GBs in one go. <a href="https://github.com/tw93/MoleWhat" target="_blank" rel="noopener">https://github.com/tw93/MoleWhat</a>’s new:· destructive commands now support --dry-run / -n for full preview before execution· mo status and mo analyze now support --json, with auto JSON mode in non TTY pipelines· smarter cleanup for Xcode DeviceSupport, plus safer sudo handling in Automator and ShortcutsThis release makes Mole much b…</p></div>
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-1')">点击查看全文</button>
+                <div id="fulltext-0-1" class="fulltext-source" data-title="RT Tw93：Mole 1.29 已上线。一次可以释放数十GB的Mac清理工具。 https://github.com/tw93/Mole What’s new: · destructive com..." style="display:none;">
+                  <p>RT Tw93</p><p>Mole 1.29 is live. The Mac cleaning tool that can free up tens of GBs in one go.</p><p><a href="https://github.com/tw93/Mole" target="_blank" rel="noopener">https://github.com/tw93/Mole</a></p><p>What’s new:</p><p>· destructive commands now support --dry-run / -n for full preview before execution</p><p>· mo status and mo analyze now support --json, with auto JSON mode in non TTY pipelines</p><p>· smarter cleanup for Xcode DeviceSupport, plus safer sudo handling in Automator and Shortcuts</p><p>This release makes Mole much better for automation, scripting, and safer cleanup. If Mole helps, I’d love to hear what hidden junk or safe cleanup targets you want next.</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCzn5smbgAAS8P9?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/HiTw93/status/2030303470541320228" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 12:02:12 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-0-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Helios：14B大小的实时视频生成模型北大开源的视频模型，14B大小，但是在单卡H100可以实现实时生成，速度比1.3B的模型还快。支持文生视频、图生视频、视频生成视频和互动式生成（类似世界模型）。</p><p>Github：<a href="https://github.com/PKU-YuanGroup/Helios" target="_blank" rel="noopener">https://github.com/PKU-YuanGroup/Helios</a></p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2030284008559706241" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 14:06:43 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-1">
+              <h2>🛠 工具推荐 <span class="count">6 篇</span></h2>
+              
+                <article id="item-1-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>很多人说 Cursor 现在现金流很好，但是注意文章中几个细节：1.Cursor 的个人订阅利润率为负，但企业套餐的利润率为正。</p><p>2. 截至去年 11 月，企业合同仅占 Cursor 年化收入的 13.6%，如今 Cursor 约 60% 的收入来自企业客户3. 客户流失的信号 压力正在不断累积。也就是说 Cursor 主要利润来源还是企业用户，企业用户有个特点，就是切换很慢，比个人用户使用的市场流行的产品滞后半年一年是很正常的。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-1')">点击查看全文</button>
+                <div id="fulltext-1-1" class="fulltext-source" data-title="很多人说 Cursor 现在现金流很好，但是注意文章中几个细节： 1. Cursor 的个人订阅利润率为负，但企业套餐的利润率为正。 2. 截至去年 11 月，企业合同仅占 Curs..." style="display:none;">
+                  <p>很多人说 Cursor 现在现金流很好，但是注意文章中几个细节：</p><p>1. Cursor 的个人订阅利润率为负，但企业套餐的利润率为正。</p><p>2. 截至去年 11 月，企业合同仅占 Cursor 年化收入的 13.6%，如今 Cursor 约 60% 的收入来自企业客户</p><p>3. 客户流失的信号 压力正在不断累积。</p><p>也就是说 Cursor 主要利润来源还是企业用户，企业用户有个特点，就是切换很慢，比个人用户使用的市场流行的产品滞后半年一年是很正常的。</p><p>一个稍微大一点公司使用哪个产品要走漫长的流程，很多公司在早先的时候采用了 Cursor，即使员工已经更多用 Claude Code，企业因为惯性不会马上切到 Claude Code，还是要有一个漫长的流程，等这个流程走完，才会彻底退订 Cursor 转投 Claude Code，那时候才是 Cursor 真正危险的时候。</p><p>当然 Cursor 本身也在积极求变，也许后面发力找到很好的生态位也是很有可能的。</p><p>AI 时代一切变化太快。</p><p>宝玉: Forbes：Cursor 为 AI 编程霸主地位而战</p><p>【1】&quot;战时状态&quot;</p><p>1 月 5 日，Cursor 的员工们结束假期回到公司，迎接他们的是一场全员大会，演示文稿的标题赫然写着&quot;战时状态&quot;。</p><p>假期期间，一些员工试用了 Anthropic 最新发布的模型 Opus</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCyVjjIWIAAE0PM?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030363129096397123" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 19:21:06 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">levelsio</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Rohan Paul：Claude 似乎正在解决一个超级烦人的开发人员问题。Anthropic 宣布了一项名为 Claude Code 自动模式的研究预览功能，预计将于 2026 年 3 月 12 日推出。</p><p>想法很简单：让 Claude 在编码过程中自动处理权限提示，这样</p></div>
+                  <div class="orig-summary">原文：<p>Rohan Paul: Claude seems to be fixing a super annoying developer problem.Anthropic announced a research preview feature called Auto Mode for Claude Code, expected to roll out by March 12, 2026.</p><p>The idea is simple: let Claude automatically handle permission prompts during coding so</p></div>
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCyQRERaUAAgv9j?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/levelsio/status/2030317355960553985" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 16:19:13 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>基于 AI Agent 的交互不是因为 CLI 多好，是因为基于 GUI 还没摸索出来，GUI 如果没设计好反而对使用效率是阻力。现在相当于先回归到原始 CLI 状态重新开始摸索 AI Agent 的最佳交互模式。</p><p>rebornix: GUI 死了，IDE也死了，你只需要 CLI。哦对了，你可能还是需要 Diff View 的，还有 git worktree ，LSP可能也得试试，Remote 也很重要。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-2')">点击查看全文</button>
+                <div id="fulltext-1-2" class="fulltext-source" data-title="基于 AI Agent 的交互不是因为 CLI 多好，是因为基于 GUI 还没摸索出来，GUI 如果没设计好反而对使用效率是阻力。 现在相当于先回归到原始 CLI 状态重新开始摸索..." style="display:none;">
+                  <p>基于 AI Agent 的交互不是因为 CLI 多好，是因为基于 GUI 还没摸索出来，GUI 如果没设计好反而对使用效率是阻力。</p><p>现在相当于先回归到原始 CLI 状态重新开始摸索 AI Agent 的最佳交互模式。</p><p>rebornix: GUI 死了，IDE也死了，你只需要 CLI。哦对了，你可能还是需要 Diff View 的，还有 git worktree ，LSP可能也得试试，Remote 也很重要。哦对了我们还做了一个 GUI App 包含了全部这些功能，你还可以在里面打开 integrated terminal。</p><p>(手动狗头)</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030402172962185277" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 21:56:15 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT eraera3 4不赞同，软件行业从来不缺复杂问题。crud横行只是因为之前程序猿贵，只能搞crudAustin: 近期对 AI 编程的一些认识：一、编辑器即将消失，Cursor 或将没落。</p><p>事实就是，现在已经没多少人去动手敲代码了，工程师们大量使用 Codex 和 Claude Code 来处理编码工作，然后通过 Git 对比新旧代码，如果没问题就直接提交。二、代码质量变得廉价，将来没人会在意 AI 编程的“屎山”问题。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-3')">点击查看全文</button>
+                <div id="fulltext-1-3" class="fulltext-source" data-title="RT eraera: 3 4不赞同，软件行业从来不缺复杂问题。crud横行只是因为之前程序猿贵，只能搞crud" style="display:none;">
+                  <p>RT eraera</p><p>3 4不赞同，软件行业从来不缺复杂问题。crud横行只是因为之前程序猿贵，只能搞crud</p><p>Austin: 近期对 AI 编程的一些认识：</p><p>一、编辑器即将消失，Cursor 或将没落。</p><p>事实就是，现在已经没多少人去动手敲代码了，工程师们大量使用 Codex 和 Claude Code 来处理编码工作，然后通过 Git 对比新旧代码，如果没问题就直接提交。</p><p>二、代码质量变得廉价，将来没人会在意 AI 编程的“屎山”问题。</p><p>AI</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030393386708898244" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 19:16:02 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-5" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT 陈成我反编译了 Claude Code 的 /loop 命令，搞清楚它底层到底在干嘛。结论：它就是一个 cron 包装器，但细节很有意思 👇• 输入 /loop 5m 检查部署 → AI 解析时间 → 生成 cron 表达式 → 调用内部 CronCreate• 每秒 tick 一次，但只在 REPL 空闲时才触发• 任务有 ±10% 随机抖动，防止多任务同时撞车• 3 天自动过期，不会无限跑• 最多 50 个并发任务本质就是：AI 帮你写 cron，AI 帮你跑 cron。</p><p>完整分析 👉 <a href="https://gist.github.com/sorrycc/1b2166228413234928039e84a26a3b8f" target="_blank" rel="noopener">https://gist.github.com/sorrycc/1b2166228413234928039e84a26a3b8f</a></p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030360433228415460" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 14:38:15 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-6" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT Jesse Lau 遁一子</p><p>如果感觉claude code表现得有点挫</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-4')">点击查看全文</button>
+                <div id="fulltext-1-4" class="fulltext-source" data-title="RT Jesse Lau 遁一子: 如果感觉claude code表现得有点挫 因为ta某一个版本开始自动设成medium effort了。 打开/model 按左右键切换到high" style="display:none;">
+                  <p>RT Jesse Lau 遁一子</p><p>如果感觉claude code表现得有点挫</p><p>因为ta某一个版本开始自动设成medium effort了。</p><p>打开/model 按左右键切换到high</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030433701855633415" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 20:53:54 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-2">
+              <h2>📚 教程技巧 <span class="count">1 篇</span></h2>
+              
+                <article id="item-2-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">levelsio</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>如何在 90 天内达到 100 万美元的 MRR：- 从 VC 筹集 $$$ - 在你朋友的 SaaS 上花费 100 万美元 - 他们在你的 SaaS 上花费 100 万美元 - 在推文中表示你在 90 天内达到了 100 万美元的 MRR - 一个月后取消订阅，因为现在你已经发了推文 - 使用该月 * 12 表示你现在的 ARR 达到了 1200 万美元 恭喜，你做到了！</p><p>Jon Yongfook：一些高速增长的故事是可信的，而另一些则不可信。</p></div>
+                  <div class="orig-summary">原文：<p>How to get to $1 million MRR in 90 days:- Raise $$$ from VCs- Spend $1M on your friend&#x27;s SaaS- They spend $1M on yours- Tweet you got to $1M MRR in 90 days- Cancel the subscription after one month cause now you already tweeted it- Use that month * 12 to say you got to $12M ARR nowCongrats, you did it!</p><p>Jon Yongfook: Some hyper-growth stories are believable.Others are not.</p></div>
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-1')">点击查看全文</button>
+                <div id="fulltext-2-1" class="fulltext-source" data-title="如何在 90 天内达到 100 万美元的 MRR： - 从 VC 筹集 $$$ - 在你朋友的 SaaS 上花费 100 万美元 - 他们在你的 SaaS 上花费 100 万美元 - 发推文说你在我的网站上达到了 100 万美元的 MRR" style="display:none;">
+                  <p>How to get to $1 million MRR in 90 days:</p><p>- Raise $$$ from VCs</p><p>- Spend $1M on your friend&#x27;s SaaS</p><p>- They spend $1M on yours</p><p>- Tweet you got to $1M MRR in 90 days</p><p>- Cancel the subscription after one month cause now you already tweeted it</p><p>- Use that month * 12 to say you got to $12M ARR now</p><p>Congrats, you did it!</p><p>Jon Yongfook: Some hyper-growth stories are believable. Others are not.</p><p>Claude / Anthropic is doing crazy revenue numbers and it checks out, literally everyone I know is using it.</p><p>Other startups claiming “$1 million MRR in 90 days” and nobody I know is using it let alone paying.</p><p>Curious.</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/levelsio/status/2030316835468365968" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 16:17:09 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-3">
+              <h2>📰 资讯动态 <span class="count">14 篇</span></h2>
+              
+                <article id="item-3-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Tw93</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>对于工程师而言，nanobot 这种更轻、更适合放在个人电脑上的 OpenClaw 形态，其实会顺手很多。它不是那种一上来就特别重的系统，更像是一个能长期放在自己环境里的 agent 助手，平时安静待着，有事情的时候就能接上去做。</p><p>我本地现在就常驻着两个 nanobot，一个偏代码方向，平时帮我看 issue、整理思路、往下推技术方案，另一个偏生活方向，去处理一些更日常的事情，相当于替换半年前习惯的 ChatBot。再加一个定时任务一直盯着，假如服务挂了就自动拉起，同时用 Amphetamine 让我家里电脑一直在线。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-1')">点击查看全文</button>
+                <div id="fulltext-3-1" class="fulltext-source" data-title="对于工程师而言，nanobot 这种更轻、更适合放在个人电脑上的 OpenClaw 形态，其实会顺手很多。它不是那种一上来就特别重的系统，更像是一个能长期放在自己环境里..." style="display:none;">
+                  <p>对于工程师而言，nanobot 这种更轻、更适合放在个人电脑上的 OpenClaw 形态，其实会顺手很多。它不是那种一上来就特别重的系统，更像是一个能长期放在自己环境里的 agent 助手，平时安静待着，有事情的时候就能接上去做。</p><p>我本地现在就常驻着两个 nanobot，一个偏代码方向，平时帮我看 issue、整理思路、往下推技术方案，另一个偏生活方向，去处理一些更日常的事情，相当于替换半年前习惯的 ChatBot。再加一个定时任务一直盯着，假如服务挂了就自动拉起，同时用 Amphetamine 让我家里电脑一直在线。跑久了以后，它就很像自己环境里一个稳定存在的部分，不需要你每次都特意去打开、去维护、去折腾。</p><p>很多时候你写代码写到一半，或者人在外面不方便开电脑的时候，有些事情就可以顺手丢给它先做，等你回来看，前面的准备工作已经做掉一部分了。这种体验很实际，对喜欢轻量、简单、自己可控的工程师来说会很自然。考虑到不想折腾的话，我其实更建议直接用安装版本，开箱就能跑起来。像我自己会想再加一点想要的东西，就会直接 clone 到本地去用，让 nanobot 自己优化自己的代码，自己去迭代自己，最近也加了不少好玩的东西，确实很有意思。</p><p><a href="https://github.com/HKUDS/nanobot" target="_blank" rel="noopener">https://github.com/HKUDS/nanobot</a></p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HC0l3P5acAA9_uU?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/HiTw93/status/2030433565650104576" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 08 Mar 2026 00:01:00 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT yetone人们：wow，openclaw 杀死了 GUI！GUI 只是为了人类方便的妥协产物，GUI 是被淘汰的东西！</p><p>人类再也不需要 GUI 软件了！以后只有为 Agent 造软件的人才会活下来！</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-2')">点击查看全文</button>
+                <div id="fulltext-3-2" class="fulltext-source" data-title="RT yetone: 人们：wow，openclaw 杀死了 GUI！GUI 只是为了人类方便的妥协产物，GUI 是被淘汰的东西！人类再也不需要 GUI 软件了！以后只有为 Agent 造软件的人..." style="display:none;">
+                  <p>RT yetone</p><p>人们：wow，openclaw 杀死了 GUI！GUI 只是为了人类方便的妥协产物，GUI 是被淘汰的东西！人类再也不需要 GUI 软件了！以后只有为 Agent 造软件的人才会活下来！</p><p>openclaw 作者：wow，我发现 GUI 已经大于 CLI 了，GUI 竟然不用多开窗口哎！简直爽爆了！</p><p>Peter Steinberger 🦞: Oh right i realize hell freezes over, we reached the point where app &gt; cli</p><p>That combined with the speed increase also means less windows necessary, codex goes brrrr now! <a href="https://developers.openai.com/codex/app/" target="_blank" rel="noopener">https://developers.openai.com/codex/app/</a></p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HC0uxcLWUAAlY-4?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030391059780370507" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 19:12:28 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">elvis</span>
+                  </div>
+                  <h3>如果您正在设计自己的代理工具，那么值得一读。</h3>
+                  <div class="orig-title">EN: Great read if you are engineering your own agent harness.</div>
+                  
+                  <div class="summary"><p>DAIR.AI：关于 LLM 代理的自动线束合成的新研究。如果您正在设计自己的代理线束，那么请阅读。</p><p>代理线束是让代理与其环境交互的脚手架：工具、代码执行、文件系统、API。构建良好的线束是</p></div>
+                  <div class="orig-summary">原文：<p>DAIR.AI: New research on automatic harness synthesis for LLM agents.Great read if you are engineering your own agent harness.The agent harness is the scaffolding that lets an agent interact with its environment: tools, code execution, file systems, APIs.Building a good harness is</p></div>
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HC0J5iebwAA7M_0?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/omarsar0/status/2030292920155181476" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 14:42:07 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">elvis</span>
+                  </div>
+                  <h3>关于法学硕士代理强化学习的新调查。 LLM RL 仍然将模型视为在相对狭窄的设置中优化的序列生成器。嗬……</h3>
+                  <div class="orig-title">EN: New survey on agentic reinforcement learning for LLMs. LLM RL still treats models like sequence generators optimized in relatively narrow settings. Ho...</div>
+                  
+                  <div class="summary"><p>关于法学硕士代理强化学习的新调查。法学硕士强化学习仍然将模型视为在相对狭窄的环境中优化的序列生成器。</p><p>然而，真正的智能体在开放式、部分可观察的环境中运行，其中规划、记忆、工具使用、推理、自我完善和感知都相互作用。本文认为，智能体强化学习应该被视为它自己的景观。它引入了一个广泛的分类法……</p></div>
+                  <div class="orig-summary">原文：<p>New survey on agentic reinforcement learning for LLMs.LLM RL still treats models like sequence generators optimized in relatively narrow settings.</p><p>However, real agents operate in open-ended, partially observable environments where planning, memory, tool use, reasoning, self-improvement, and perception all interact.This paper argues that agentic RL should be treated as its own landscape.It introduces a broad taxonomy…</p></div>
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-3')">点击查看全文</button>
+                <div id="fulltext-3-3" class="fulltext-source" data-title="关于法学硕士代理强化学习的新调查。 LLM RL 仍然将模型视为在相对狭窄的设置中优化的序列生成器。嗬……" style="display:none;">
+                  <p>New survey on agentic reinforcement learning for LLMs.</p><p>LLM RL still treats models like sequence generators optimized in relatively narrow settings. However, real agents operate in open-ended, partially observable environments where planning, memory, tool use, reasoning, self-improvement, and perception all interact.</p><p>This paper argues that agentic RL should be treated as its own landscape.</p><p>It introduces a broad taxonomy that organizes the field across core agent capabilities and application domains, then maps the open-source environments, benchmarks, and frameworks shaping the space.</p><p>If you are building agents, this is a strong paper worth checking out.</p><p>Paper: <a href="https://arxiv.org/abs/2509.02547" target="_blank" rel="noopener">https://arxiv.org/abs/2509.02547</a></p><p>Learn to build effective AI agents in our academy: <a href="https://academy.dair.ai/" target="_blank" rel="noopener">https://academy.dair.ai/</a></p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HC0IDjyakAI15SR?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/omarsar0/status/2030287867617153248" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 14:22:03 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-5" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">吕立青_JimmyLv</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>🤣 笑死，我的小龙虾自己适配了 bibigpt-skill，所以随手甩它一个 B 站、YouTube、小宇宙任何链接都能总结啦～关键是！！</p><p>它还给自己写了篇博客，快给你的小龙虾也看看，聪明的都能自己安装上<a href="https://bibigpt.co/blog/posts/openclaw-bibigpt-skill-ai-agent-video-2026" target="_blank" rel="noopener">https://bibigpt.co/blog/posts/openclaw-bibigpt-skill-ai-agent-video-2026</a></p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCzKU_zbAAAq0s4?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HCzKVRWbQAAftZI?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Jimmy_JingLv/status/2030220004566978897" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 09:52:23 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-6" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">levelsio</span>
+                  </div>
+                  <h3>这显然不是证券欺诈：“企业可以互相购买，只要任何联系都透明（例如，共享公司......</h3>
+                  <div class="orig-title">EN: It&#x27;s not securities fraud apparently: &quot;Businesses can buy from each other, and as long as there&#x27;s transparency about any connections (e.g., shared inc...</div>
+                  
+                  <div class="summary"><p>这显然不是证券欺诈：“企业可以相互购买，只要任何联系（例如，共享孵化器关系）都是透明的，它就不会自动违反一般商业法。关于同一孵化器中的初创公司之间相互购买服务以增加收入：如果交易合法（即提供实际服务并提供服务），这本质上并不是非法的。</p></div>
+                  <div class="orig-summary">原文：<p>It&#x27;s not securities fraud apparently:&quot;Businesses can buy from each other, and as long as there&#x27;s transparency about any connections (e.g., shared incubator ties), it doesn&#x27;t automatically violate general business laws.Regarding mutual purchases of services between startups in the same incubator to boost revenue: This isn&#x27;t inherently illegal if the transactions are legitimate (i.e., actual services are provided and p…</p></div>
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-4')">点击查看全文</button>
+                <div id="fulltext-3-4" class="fulltext-source" data-title="这显然不是证券欺诈：“企业可以互相购买，只要任何联系都透明（例如，共享公司......" style="display:none;">
+                  <p>It&#x27;s not securities fraud apparently:</p><p>&quot;Businesses can buy from each other, and as long as there&#x27;s transparency about any connections (e.g., shared incubator ties), it doesn&#x27;t automatically violate general business laws.</p><p>Regarding mutual purchases of services between startups in the same incubator to boost revenue:</p><p>This isn&#x27;t inherently illegal if the transactions are legitimate (i.e., actual services are provided and paid for at fair market value) and properly accounted&quot;</p><p><a href="https://x.com/i/grok/share/908a5877831f4ab599b978d8c027dde8" target="_blank" rel="noopener">https://x.com/i/grok/share/908a5877831f4ab599b978d8c027dde8</a></p><p>fabian: @levelsio uhm that’s 30u30 level securities fraud?</p><p>doubt this is widespread tbh</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/levelsio/status/2030360792311173367" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 19:11:49 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-7" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">elvis</span>
+                  </div>
+                  <h3>人工智能长视频生成正在迅速改进。我很早就接触到了 @UtopaiStudios 的新 PAI 模型，它让我对未来的可能性大吃一惊……</h3>
+                  <div class="orig-title">EN: AI long-form video generation is rapidly improving. I got early access to @UtopaiStudios new PAI model, and it has blown my mind about what&#x27;s possible...</div>
+                  
+                  <div class="summary"><p>AI 长格式视频生成正在迅速改进。我很早就接触到了 @UtopaiStudios 的新 PAI 模型，它让我对未来的可能性大吃一惊。</p><p>I really like their editing tools.Will continue to test this out and share more fun examples.</p></div>
+                  <div class="orig-summary">原文：<p>AI long-form video generation is rapidly improving.I got early access to @UtopaiStudios new PAI model, and it has blown my mind about what&#x27;s possible.</p><p>I really like their editing tools.Will continue to test this out and share more fun examples.</p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/omarsar0/status/2030337728542355721" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 17:40:10 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-8" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">levelsio</span>
+                  </div>
+                  <h3>100% xAI 需要 IDE 代码编辑器 @elonmusk</h3>
+                  <div class="orig-title">EN: 100% xAI needs an IDE code editor @elonmusk</div>
+                  
+                  <div class="summary"><p>100%xAI 需要一个 IDE 代码编辑器 @elonmuskAusten Allred：如果我是他们，我会疯狂地合作并开始使用 xAI</p></div>
+                  <div class="orig-summary">原文：<p>100%xAI needs an IDE code editor @elonmuskAusten Allred: If I were them I’d get to partner like crazy and start working with xAI</p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/levelsio/status/2030335461135208550" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 17:31:10 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-9" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">levelsio</span>
+                  </div>
+                  <h3>这就是（一些）风险投资资助的初创公司如何在 30 天内获得 1000 万美元的 ARR</h3>
+                  <div class="orig-title">EN: This is how (some) VC-funded startups get to that $10M ARR in 30 days</div>
+                  
+                  <div class="summary"><p>罗希特·米塔尔（Rohit Mittal）：我听说创始人正在与其他公司进行 1:1 的收入互换，这样双方都可以在下一轮中显示出更高的收入。不确定这有多真实，但这是阴暗的。</p><p>请不要这样做。硅谷依靠大量信任运行。</p><p>如果这种信任消失，它就永远不会回来。</p></div>
+                  <div class="orig-summary">原文：<p>Rohit Mittal: I&#x27;ve heard founders are doing 1:1 revenue swap with other companies so both can show higher revenue for their next round.Not sure how true it is, but it is shady as hell.Please don&#x27;t do this.Silicon Valley runs on a lot of trust.If that goes away, it will never come back.</p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/levelsio/status/2030314333813498246" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 16:07:13 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-10" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>AI资讯日报，3月7日：<a href="https://gorden-sun.notion.site/3-7-AI-31c59424732580cabfd6cb7543d1acd1?source=copy_link" target="_blank" rel="noopener">https://gorden-sun.notion.site/3-7-AI-31c59424732580cabfd6cb7543d1acd1?source=copy_link</a></p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HC0Ffs1aAAA2QYa?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2030285061959147646" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 14:10:54 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-11" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Tw93</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>给 <a href="https://weekly.tw93.fun/" target="_blank" rel="noopener">https://weekly.tw93.fun/</a> 出门拍封面图，哈哈随便看看～</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HCzM4q5bgAAqhN5?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HCzMvJWaoAA9X95?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HCzMvJWb0AEEPJW?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HCzMvJWa4AAWJEK?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/HiTw93/status/2030222819037155645" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 10:03:34 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-12" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">levelsio</span>
+                  </div>
+                  <h3>数字游牧民终于逃离巴厘岛</h3>
+                  <div class="orig-title">EN: Digital nomads when they finally escape Bali</div>
+                  
+                  <div class="summary"><p>Marc Lou：我不想念巴厘岛</p></div>
+                  <div class="orig-summary">原文：<p>Marc Lou: I don’t miss Bali</p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/levelsio/status/2030371660147073299" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 19:55:00 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-13" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">JitHub程序员</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：Azm1_ Username：104b492b-f494-4bc5-aa2a-cce8497a2f9c在xhs刷到好几个都说用openclaw几天赚了十几w😂小龙虾这么牛吗</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69ac3895c5a1d4e6498fb75b" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 14:39:17 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-14" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：泼皮破落户儿 Username：6DBCD25C-63C5-432A-9066-B8BEDB778F05李煜，一个工作绩效很差、产出为0，但很会写签名档的公司管理层。</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69ac252b25bae56612a231c4" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sat, 07 Mar 2026 13:16:27 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">×</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = src;
+      box.classList.add('open');
+    }
+    function closeLightbox() {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = '';
+      box.classList.remove('open');
+    }
+
+    function openArticleModal(id) {
+      var src = document.getElementById(id);
+      if (!src) return;
+      var modal = document.getElementById('articleModal');
+      var title = document.getElementById('articleModalTitle');
+      var body = document.getElementById('articleModalBody');
+      title.textContent = src.getAttribute('data-title') || '全文';
+      body.innerHTML = src.innerHTML || '';
+      modal.classList.add('open');
+    }
+    function closeArticleModal() {
+      var modal = document.getElementById('articleModal');
+      var body = document.getElementById('articleModalBody');
+      body.innerHTML = '';
+      modal.classList.remove('open');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeArticleModal();
+      }
+    });
+  </script>
+</body>
+</html>
