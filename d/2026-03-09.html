@@ -1,0 +1,403 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSS 日报 - 2026-03-09</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --primary:#4f46e5; --shadow:0 8px 22px rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.72 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; -webkit-text-size-adjust:100%; }
+    .layout { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:280px 1fr; gap:16px; padding:16px; }
+    .content, .sidebar { min-width:0; }
+    .sidebar { position:sticky; top:14px; height:fit-content; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+    .brand h1 { margin:0; font-size:22px; }
+    .sub { color:var(--muted); margin:6px 0; font-size:13px; }
+    nav { margin-top:10px; }
+    nav a { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-radius:8px; color:var(--text); text-decoration:none; font-size:14px; gap:8px; }
+    nav a:hover { background:#eef2ff; }
+    .hotbox { margin-top:14px; border-top:1px dashed var(--line); padding-top:12px; }
+    .hotbox h3 { margin:0 0 8px; font-size:18px; color:#111827; }
+    .hotbox ol { margin:0; padding-left:20px; }
+    .hotbox li { margin:10px 0; font-size:14px; line-height:1.55; }
+    .hotbox li a { color:#111827; text-decoration:none; font-weight:600; }
+    .hotbox li a:hover { text-decoration:underline; color:var(--primary); }
+    .hotbox li span { display:block; color:var(--muted); margin-top:3px; font-size:12px; }
+
+    .content section { margin-bottom:24px; }
+    .content h2 { margin:0 0 10px; font-size:21px; }
+    .count { color:var(--muted); font-size:12px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,.03); }
+    .card h3 { margin:10px 0 6px; font-size:18px; line-height:1.42; overflow-wrap:anywhere; word-break:break-word; }
+    .orig-title { font-size:12px; color:var(--muted); margin-bottom:8px; }
+    .summary p { margin:0 0 12px; color:#1f2937; line-height:1.86; }
+    .orig-summary p { margin:8px 0 0; color:#6b7280; font-size:13px; line-height:1.7; }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill { font-size:12px; border-radius:999px; padding:2px 10px; }
+    .pill.importance { background:#eef2ff; color:#3730a3; font-weight:600; }
+    .pill.platform { background:#ecfeff; color:#155e75; }
+    .source { color:var(--muted); font-size:12px; }
+
+    .ai-summary { margin:8px 0 10px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:8px 10px; }
+    .ai-title { font-size:12px; font-weight:700; color:#1d4ed8; margin-bottom:4px; }
+    .ai-summary ul { margin:0; padding-left:18px; }
+    .ai-summary li { margin:4px 0; font-size:13px; color:#1e3a8a; }
+    .ai-insight { margin:8px 0 0; color:#1e40af; font-size:13px; line-height:1.7; border-top:1px dashed #bfdbfe; padding-top:7px; }
+
+    .btn-fulltext { margin-top:8px; border:1px solid #c7d2fe; background:#eef2ff; color:#3730a3; border-radius:8px; padding:5px 10px; font-size:13px; cursor:pointer; }
+    .btn-fulltext:hover { background:#e0e7ff; }
+    .fulltext-source { display:none; }
+
+    .media-grid { margin:10px 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; }
+    .media-grid img { width:100%; max-height:340px; object-fit:contain; border-radius:10px; border:1px solid var(--line); background:#fff; cursor:zoom-in; }
+
+    .topic-tip { margin-top:10px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:10px 12px; }
+    .tip-tag { font-size:12px; display:inline-block; margin-bottom:6px; color:#065f46; font-weight:700; }
+    .topic-tip p { margin:4px 0; font-size:13px; }
+
+    .footer { display:flex; justify-content:space-between; gap:8px; border-top:1px dashed var(--line); padding-top:10px; margin-top:10px; font-size:13px; }
+    a { color:var(--primary); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .muted,.date { color:var(--muted); }
+
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:9999; align-items:center; justify-content:center; padding:24px; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:8px; background:#111; }
+    .lightbox .close { position:fixed; right:20px; top:14px; color:#fff; font-size:28px; cursor:pointer; user-select:none; }
+
+    .article-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.62); z-index:10000; align-items:center; justify-content:center; padding:16px; }
+    .article-modal.open { display:flex; }
+    .article-panel { width:min(900px,95vw); max-height:88vh; background:#fff; border-radius:12px; border:1px solid var(--line); display:flex; flex-direction:column; overflow:hidden; }
+    .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--line); }
+    .article-toolbar .title { font-size:14px; font-weight:600; color:#111827; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; }
+    .article-toolbar button { border:none; background:#f3f4f6; border-radius:8px; width:28px; height:28px; cursor:pointer; font-size:18px; line-height:1; }
+    .article-body { overflow:auto; padding:12px 14px; }
+    .article-body p { margin:0 0 10px; color:#1f2937; line-height:1.75; }
+
+    @media (max-width: 980px) {
+      body { font-size:14px; }
+      .layout { grid-template-columns:1fr; padding:10px; gap:10px; }
+      .sidebar { order:1; position:static; padding:12px; border-radius:12px; }
+      .content { order:2; }
+      .brand h1 { font-size:20px; }
+      .sub { font-size:12px; }
+      .hotbox h3 { font-size:18px; }
+      .hotbox li { font-size:15px; }
+      nav { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; }
+      nav a { flex:0 0 auto; white-space:nowrap; border:1px solid var(--line); background:#fafbff; }
+      .content h2 { font-size:19px; margin-bottom:8px; }
+      .card { padding:12px; border-radius:10px; }
+      .card h3 { font-size:17px; }
+      .footer { flex-direction:column; align-items:flex-start; gap:6px; }
+      .media-grid { grid-template-columns:1fr; }
+      .media-grid img { max-height:58vh; }
+      .article-panel { width:96vw; max-height:90vh; }
+      .article-toolbar .title { font-size:13px; }
+    }
+
+    @media (max-width: 420px) {
+      .layout { padding:8px; }
+      .card h3 { font-size:16px; }
+      .hotbox li { font-size:14px; }
+      .lightbox { padding:10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <div class="sub">2026-03-09</div>
+        <div class="sub">源：26（有内容 4 / 无内容 22 / 失败 0）</div>
+        <div class="sub">去重后：9 条</div>
+        <div class="sub">公众号源：0 条</div>
+      </div>
+      <nav><a href="#cat-0"><span>🔥 重磅发布</span><span class="count">1</span></a><a href="#cat-1"><span>🛠 工具推荐</span><span class="count">1</span></a><a href="#cat-2"><span>📚 教程技巧</span><span class="count">1</span></a><a href="#cat-3"><span>📰 资讯动态</span><span class="count">6</span></a></nav>
+      <div class="hotbox">
+        <h3>今日重点</h3>
+        <ol><li><a href="#item-1-1">Claude Code 开多个 Session 并发干活很爽…</a><span>JitHub程序员</span></li><li><a href="#item-0-1">想把skills发布到clawhub，发现访问不了😅</a><span>宝玉</span></li><li><a href="#item-3-1">哥飞的朋友们2026年2月新词新站比赛结果出炉，第一名上站首…</a><span>JitHub程序员</span></li><li><a href="#item-3-2">貌似 X 把 Chrome CDP 禁了？ 没办法用 Chr…</a><span>宝玉</span></li><li><a href="#item-3-3">一句话，生成大师级设计！ 不会PS、不懂配色、不认识艺术家？…</a><span>宝玉</span></li><li><a href="#item-2-1">分享一个 OpenClaw 教程网站：openclaw101…</a><span>AI探索站</span></li><li><a href="#item-3-4">四方坪夜市摊位费一个月1.5万，这是想挣大家摊位费吗，成本算…</a><span>你不知道的行业内幕</span></li><li><a href="#item-3-5">A：你是谁？ B：我以前是 10X 工程师。 A：现在？ B…</a><span>宝玉</span></li><li><a href="#item-3-6">🦞OpenClaw控制iphone手机打电话，回微信，发小红…</a><span>AI探索站</span></li></ol>
+      </div>
+    </aside>
+
+    <main class="content">
+      
+            <section id="cat-0">
+              <h2>🔥 重磅发布 <span class="count">1 篇</span></h2>
+              
+                <article id="item-0-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>想把skills发布到clawhub，发现访问不了😅</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HC7af5wXYAAyyBD?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030800853146230922" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 00:20:28 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-1">
+              <h2>🛠 工具推荐 <span class="count">1 篇</span></h2>
+              
+                <article id="item-1-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">JitHub程序员</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：不孤独的二向箔 Username：8f244eda-1aea-45c9-b0af-e4fceee178ebClaude Code 开多个 Session 并发干活很爽，但有个问题：任务一多，根本不知道做到哪了。而且没建 worktree 的话，全堆在一个分支，review 和测试都没法细粒度做。</p><p>最近发现一个工具解决了这个问题，vibe-kanban。用了 2 个月了，推荐给大家：• 可视化看板管理多个并发任务• 每个任务自动建 worktree + 分支，互不干扰• 任务执行后，自动推进到 Review；</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-1')">点击查看全文</button>
+                <div id="fulltext-1-1" class="fulltext-source" data-title="Claude Code 开多个 Session 并发干活很爽，但有个问题：任务一多，根本不知道做到哪了。 而且没建 worktree 的话，全堆在一个分支，review 和测试都没法细粒度..." style="display:none;">
+                  <p>用户昵称：不孤独的二向箔</p><p>Username：8f244eda-1aea-45c9-b0af-e4fceee178eb</p><p>Claude Code 开多个 Session 并发干活很爽，但有个问题：任务一多，根本不知道做到哪了。</p><p>而且没建 worktree 的话，全堆在一个分支，review 和测试都没法细粒度做。</p><p>最近发现一个工具解决了这个问题，vibe-kanban。用了 2 个月了，推荐给大家：</p><p>• 可视化看板管理多个并发任务</p><p>• 每个任务自动建 worktree + 分支，互不干扰</p><p>• 任务执行后，自动推进到 Review；PR 合并后自动推进到 Done</p><p>有同样痛点的朋友可以试试，一键安装：npx vibe-kanban</p><p>🔗 <a href="https://github.com/BloopAI/vibe-kanban" target="_blank" rel="noopener">https://github.com/BloopAI/vibe-kanban</a></p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FpK6WQxZJAkZcTNDMa9Y5rSkgPafv3.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FkOnXteaRP7aJE_GkRhE5nQqtC_-v3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69ad3ee2f217ece289732a6a" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 08 Mar 2026 09:18:26 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-2">
+              <h2>📚 教程技巧 <span class="count">1 篇</span></h2>
+              
+                <article id="item-2-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">AI探索站</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：BigYe程普 Username：13EF1128-B51B-4D22-8B95-16BB406529F0分享一个 OpenClaw 教程网站：openclaw101.dev原本以为是个蹭热点的网站，但是阅读下来发现教程写得很认真，很适合刚开始折腾龙虾的兄弟。</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69ad47e3800201ac688e1fe7" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 08 Mar 2026 09:56:51 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-3">
+              <h2>📰 资讯动态 <span class="count">6 篇</span></h2>
+              
+                <article id="item-3-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">JitHub程序员</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：哥飞 Username：a2d6acc1-626f-4d15-a22a-849e88a4c9f0哥飞的朋友们2026年2月新词新站比赛结果出炉，第一名上站首月拿下510K 的 PV从2023年11月到现在，每个月，哥飞的朋友们社群都会有一次新词新站比赛。</p><p>哥飞拿出真金白银的现金奖励来鼓励群友们多多上站，多多练习，多多搞流量，多多赚美金。今天，2026年2月新词新站比赛结果公布了，总共26位所有提交了33个网站参赛。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-1')">点击查看全文</button>
+                <div id="fulltext-3-1" class="fulltext-source" data-title="哥飞的朋友们2026年2月新词新站比赛结果出炉，第一名上站首月拿下510K 的 PV 从2023年11月到现在，每个月，哥飞的朋友们社群都会有一次新词新站比赛。 哥飞拿出..." style="display:none;">
+                  <p>用户昵称：哥飞</p><p>Username：a2d6acc1-626f-4d15-a22a-849e88a4c9f0</p><p>哥飞的朋友们2026年2月新词新站比赛结果出炉，第一名上站首月拿下510K 的 PV</p><p>从2023年11月到现在，每个月，哥飞的朋友们社群都会有一次新词新站比赛。</p><p>哥飞拿出真金白银的现金奖励来鼓励群友们多多上站，多多练习，多多搞流量，多多赚美金。</p><p>今天，2026年2月新词新站比赛结果公布了，总共26位所有提交了33个网站参赛。</p><p>其中冠军网站在上站首月拿到了240K的UV，510K的PV，还是很牛的。</p><p>亚军也很不错，甚至可以说冠亚军不相上下，亚军网站在上站首月得到了220K的UV，550K的PV。</p><p>这次依然小游戏站拿到了更多的访问量，哥飞觉得主要原因是小游戏站的竞争依然还是属于不怎么激烈的，一般都只有个人去竞争，机会没有公司团队去竞争。</p><p>而AI工具站就不太一样了，做新词新站可以快速拿到访问量，但是如果你做的是老词的话，就需要几个月的时间积累，才会开始有流量。</p><p>所以，哥飞建议大家练手期可以从小游戏站开始做起，后面积累经验了，再来做AI工具站。</p><p>因为从变现的角度来说，假设都是1000个UV，小游戏站可能变现10美金就算多的了，但是同流量的AI工具站最低也有10美金，高的可能几十美金上百美金，甚至超过100美金都可能。具体多少，要看你做的关键词背后的需求是什么，以及你的流量是否来自于高价值人群。</p><p>如果你也对出海赚美元感兴趣，那么哥飞的朋友们社群就是你的最好选择，没有之一。</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FuDTgqCzXTQe79NXrByHqeDcKIbmv3.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FjV_ryViuz70Ug3NS1KSQmpXik6Yv3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FmIj8lIhBwaodekoFpTQqC77EbScv3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FpipdAGswm3ioKXCJFA0mGxnVg2Hv3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FkSXgUyjAeaNHqFWi9DZna-1zCCkv3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/Fge6TcwmnwxQ8J6L75ctALXL81SHv3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69ad95cf44c1e70d483f442e" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 08 Mar 2026 15:29:19 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>貌似 X 把 Chrome CDP 禁了？</p><p>没办法用 Chrome CDP 登录 X 了🥲</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HC6ZxcKXEAAHOuf?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030729747123085402" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 08 Mar 2026 19:37:55 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT 向阳乔木一句话，生成大师级设计！不会PS、不懂配色、不认识艺术家？</p><p>没关系，只需用一句话描述。AI自动选择最合适的艺术风格，为你生成专业级海报、封面和设计作品。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-2')">点击查看全文</button>
+                <div id="fulltext-3-2" class="fulltext-source" data-title="RT 向阳乔木: 一句话，生成大师级设计！ 不会PS、不懂配色、不认识艺术家？ 没关系，只需用一句话描述。 AI自动选择最合适的艺术风格，为你生成专业级海报、封面..." style="display:none;">
+                  <p>RT 向阳乔木</p><p>一句话，生成大师级设计！</p><p>不会PS、不懂配色、不认识艺术家？</p><p>没关系，只需用一句话描述。</p><p>AI自动选择最合适的艺术风格，为你生成专业级海报、封面和设计作品。</p><p>启发自Mondo，拓展书籍/公众号/唱片封面等设计场景</p><p>安装Skill</p><p>npx skills add joeseesun/qiaomu-mondo-poster-design</p><p>Github见评论区</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HC4XIqbbwAE-yqT?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HC4XfSsaQAAn8T6?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HC4XjhbbQAAe5PW?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HC4XqIDboAAnu9E?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030690281322934350" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 08 Mar 2026 10:08:44 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：舒克要去星际航行 Username：08BFBE41-515D-453B-8B86-00CBFE593038四方坪夜市摊位费一个月1.5万，这是想挣大家摊位费吗，成本算了吗</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FmQWdZoHD5WrJ_MVAN0AJZB1mGThv3.jpg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69ad405f9f3cd84f65efe493" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 08 Mar 2026 09:24:47 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-5" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT 马东锡 NLPA：你是谁？B：我以前是 10X 工程师。</p><p>A：现在？B：Taste…A：Taste 是啥？</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-3')">点击查看全文</button>
+                <div id="fulltext-3-3" class="fulltext-source" data-title="RT 马东锡 NLP: A：你是谁？ B：我以前是 10X 工程师。 A：现在？ B：Taste… A：Taste 是啥？ B：啥也不是…" style="display:none;">
+                  <p>RT 马东锡 NLP</p><p>A：你是谁？</p><p>B：我以前是 10X 工程师。</p><p>A：现在？</p><p>B：Taste…</p><p>A：Taste 是啥？</p><p>B：啥也不是…</p><p>Mo: I was a 10x engineer. Now I&#x27;m useless.</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2030766863672566126" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 08 Mar 2026 21:54:36 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-6" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">AI探索站</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：西琦AJ Username：3875005E-A45A-4719-A51B-0CD2D2590592🦞OpenClaw控制iphone手机打电话，回微信，发小红书</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69ad89d5800201ac68941644" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Sun, 08 Mar 2026 14:38:13 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">×</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = src;
+      box.classList.add('open');
+    }
+    function closeLightbox() {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = '';
+      box.classList.remove('open');
+    }
+
+    function openArticleModal(id) {
+      var src = document.getElementById(id);
+      if (!src) return;
+      var modal = document.getElementById('articleModal');
+      var title = document.getElementById('articleModalTitle');
+      var body = document.getElementById('articleModalBody');
+      title.textContent = src.getAttribute('data-title') || '全文';
+      body.innerHTML = src.innerHTML || '';
+      modal.classList.add('open');
+    }
+    function closeArticleModal() {
+      var modal = document.getElementById('articleModal');
+      var body = document.getElementById('articleModalBody');
+      body.innerHTML = '';
+      modal.classList.remove('open');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeArticleModal();
+      }
+    });
+  </script>
+</body>
+</html>
