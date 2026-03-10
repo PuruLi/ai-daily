@@ -1,0 +1,436 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSS 日报 - 2026-03-10</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --primary:#4f46e5; --shadow:0 8px 22px rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.72 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; -webkit-text-size-adjust:100%; }
+    .layout { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:280px 1fr; gap:16px; padding:16px; }
+    .content, .sidebar { min-width:0; }
+    .sidebar { position:sticky; top:14px; height:fit-content; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+    .brand h1 { margin:0; font-size:22px; }
+    .sub { color:var(--muted); margin:6px 0; font-size:13px; }
+    nav { margin-top:10px; }
+    nav a { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-radius:8px; color:var(--text); text-decoration:none; font-size:14px; gap:8px; }
+    nav a:hover { background:#eef2ff; }
+    .hotbox { margin-top:14px; border-top:1px dashed var(--line); padding-top:12px; }
+    .hotbox h3 { margin:0 0 8px; font-size:18px; color:#111827; }
+    .hotbox ol { margin:0; padding-left:20px; }
+    .hotbox li { margin:10px 0; font-size:14px; line-height:1.55; }
+    .hotbox li a { color:#111827; text-decoration:none; font-weight:600; }
+    .hotbox li a:hover { text-decoration:underline; color:var(--primary); }
+    .hotbox li span { display:block; color:var(--muted); margin-top:3px; font-size:12px; }
+
+    .content section { margin-bottom:24px; }
+    .content h2 { margin:0 0 10px; font-size:21px; }
+    .count { color:var(--muted); font-size:12px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,.03); }
+    .card h3 { margin:10px 0 6px; font-size:18px; line-height:1.42; overflow-wrap:anywhere; word-break:break-word; }
+    .orig-title { font-size:12px; color:var(--muted); margin-bottom:8px; }
+    .summary p { margin:0 0 12px; color:#1f2937; line-height:1.86; }
+    .orig-summary p { margin:8px 0 0; color:#6b7280; font-size:13px; line-height:1.7; }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill { font-size:12px; border-radius:999px; padding:2px 10px; }
+    .pill.importance { background:#eef2ff; color:#3730a3; font-weight:600; }
+    .pill.platform { background:#ecfeff; color:#155e75; }
+    .source { color:var(--muted); font-size:12px; }
+
+    .ai-summary { margin:8px 0 10px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:8px 10px; }
+    .ai-title { font-size:12px; font-weight:700; color:#1d4ed8; margin-bottom:4px; }
+    .ai-summary ul { margin:0; padding-left:18px; }
+    .ai-summary li { margin:4px 0; font-size:13px; color:#1e3a8a; }
+    .ai-insight { margin:8px 0 0; color:#1e40af; font-size:13px; line-height:1.7; border-top:1px dashed #bfdbfe; padding-top:7px; }
+
+    .btn-fulltext { margin-top:8px; border:1px solid #c7d2fe; background:#eef2ff; color:#3730a3; border-radius:8px; padding:5px 10px; font-size:13px; cursor:pointer; }
+    .btn-fulltext:hover { background:#e0e7ff; }
+    .fulltext-source { display:none; }
+
+    .media-grid { margin:10px 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; }
+    .media-grid img { width:100%; max-height:340px; object-fit:contain; border-radius:10px; border:1px solid var(--line); background:#fff; cursor:zoom-in; }
+
+    .topic-tip { margin-top:10px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:10px 12px; }
+    .tip-tag { font-size:12px; display:inline-block; margin-bottom:6px; color:#065f46; font-weight:700; }
+    .topic-tip p { margin:4px 0; font-size:13px; }
+
+    .footer { display:flex; justify-content:space-between; gap:8px; border-top:1px dashed var(--line); padding-top:10px; margin-top:10px; font-size:13px; }
+    a { color:var(--primary); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .muted,.date { color:var(--muted); }
+
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:9999; align-items:center; justify-content:center; padding:24px; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:8px; background:#111; }
+    .lightbox .close { position:fixed; right:20px; top:14px; color:#fff; font-size:28px; cursor:pointer; user-select:none; }
+
+    .article-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.62); z-index:10000; align-items:center; justify-content:center; padding:16px; }
+    .article-modal.open { display:flex; }
+    .article-panel { width:min(900px,95vw); max-height:88vh; background:#fff; border-radius:12px; border:1px solid var(--line); display:flex; flex-direction:column; overflow:hidden; }
+    .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--line); }
+    .article-toolbar .title { font-size:14px; font-weight:600; color:#111827; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; }
+    .article-toolbar button { border:none; background:#f3f4f6; border-radius:8px; width:28px; height:28px; cursor:pointer; font-size:18px; line-height:1; }
+    .article-body { overflow:auto; padding:12px 14px; }
+    .article-body p { margin:0 0 10px; color:#1f2937; line-height:1.75; }
+
+    @media (max-width: 980px) {
+      body { font-size:14px; }
+      .layout { grid-template-columns:1fr; padding:10px; gap:10px; }
+      .sidebar { order:1; position:static; padding:12px; border-radius:12px; }
+      .content { order:2; }
+      .brand h1 { font-size:20px; }
+      .sub { font-size:12px; }
+      .hotbox h3 { font-size:18px; }
+      .hotbox li { font-size:15px; }
+      nav { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; }
+      nav a { flex:0 0 auto; white-space:nowrap; border:1px solid var(--line); background:#fafbff; }
+      .content h2 { font-size:19px; margin-bottom:8px; }
+      .card { padding:12px; border-radius:10px; }
+      .card h3 { font-size:17px; }
+      .footer { flex-direction:column; align-items:flex-start; gap:6px; }
+      .media-grid { grid-template-columns:1fr; }
+      .media-grid img { max-height:58vh; }
+      .article-panel { width:96vw; max-height:90vh; }
+      .article-toolbar .title { font-size:13px; }
+    }
+
+    @media (max-width: 420px) {
+      .layout { padding:8px; }
+      .card h3 { font-size:16px; }
+      .hotbox li { font-size:14px; }
+      .lightbox { padding:10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <div class="sub">2026-03-10</div>
+        <div class="sub">源：26（有内容 6 / 无内容 20 / 失败 0）</div>
+        <div class="sub">去重后：10 条</div>
+        <div class="sub">公众号源：0 条</div>
+      </div>
+      <nav><a href="#cat-0"><span>🔥 重磅发布</span><span class="count">2</span></a><a href="#cat-1"><span>🛠 工具推荐</span><span class="count">1</span></a><a href="#cat-2"><span>📚 教程技巧</span><span class="count">3</span></a><a href="#cat-3"><span>📰 资讯动态</span><span class="count">4</span></a></nav>
+      <div class="hotbox">
+        <h3>今日重点</h3>
+        <ol><li><a href="#item-0-1">Anthropic 推出 Code Review：用一组 A…</a><span>宝玉</span></li><li><a href="#item-0-2">人啊，要想人前吹牛逼不被打脸，就得人后多花功夫好好练！ 前天…</a><span>宝玉</span></li><li><a href="#item-2-1">使用专业知识库构建多域 RAG 系统</a><span>n8n</span></li><li><a href="#item-2-2">生产人工智能手册：人类监督</a><span>n8n</span></li><li><a href="#item-3-1">看着很酷👍</a><span>宝玉</span></li><li><a href="#item-3-2">突然发现，claude-to-im-skill 对接到飞书后…</a><span>JitHub程序员</span></li><li><a href="#item-1-1">掌握中途：如何在没有复杂提示的情况下创建一致、美观的品牌形象</a><span>lenny</span></li><li><a href="#item-2-3">Openclaw的风也刮到美国退休人士圈了，今天听到一个目前…</a><span>宝玉</span></li><li><a href="#item-3-3">为什么世界是一个巨大的草台班子？ 你有没有发现，组织里坐在决…</a><span>你不知道的行业内幕</span></li><li><a href="#item-3-4">现在出门不谈龙虾都有点落伍了一样，很多人第一反应是怎么下载，…</a><span>苍何</span></li></ol>
+      </div>
+    </aside>
+
+    <main class="content">
+      
+            <section id="cat-0">
+              <h2>🔥 重磅发布 <span class="count">2 篇</span></h2>
+              
+                <article id="item-0-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Anthropic 推出 Code Review：用一组 AI Agent 帮你做代码审查 <a href="https://x.com/claudeai/status/2031088171262554195/video/1Anthropic" target="_blank" rel="noopener">https://x.com/claudeai/status/2031088171262554195/video/1Anthropic</a> 今天发布了 Claude Code 的新功能 Code Review，针对 GitHub 上的每个 Pull Request（代码合并请求）自动派出一组 AI Agent 进行深度审查，目前面向 Team 和 Enterprise 计划用户开放研究预览。</p><p>（注意个人用户还用不了）这个功能的背景：过去一年，Anthropic 内部工程师的代码产出增长了 200%，代码审查成了瓶颈。他们发现客户也面临同样的问题，开发者疲于应付，很多 PR 只是被快速扫一眼，而非认真审读。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-1')">点击查看全文</button>
+                <div id="fulltext-0-1" class="fulltext-source" data-title="Anthropic 推出 Code Review：用一组 AI Agent 帮你做代码审查 https://x.com/claudeai/status/2031088171262554195/video/1 Anthropic 今天发布了 Claude Code ..." style="display:none;">
+                  <p>Anthropic 推出 Code Review：用一组 AI Agent 帮你做代码审查 <a href="https://x.com/claudeai/status/2031088171262554195/video/1" target="_blank" rel="noopener">https://x.com/claudeai/status/2031088171262554195/video/1</a></p><p>Anthropic 今天发布了 Claude Code 的新功能 Code Review，针对 GitHub 上的每个 Pull Request（代码合并请求）自动派出一组 AI Agent 进行深度审查，目前面向 Team 和 Enterprise 计划用户开放研究预览。</p><p>（注意个人用户还用不了）</p><p>这个功能的背景：过去一年，Anthropic 内部工程师的代码产出增长了 200%，代码审查成了瓶颈。他们发现客户也面临同样的问题，开发者疲于应付，很多 PR 只是被快速扫一眼，而非认真审读。</p><p>Code Review 的工作方式是：当 PR 提交后，系统自动派出多个 Agent 并行查找 bug，交叉验证以过滤误报，再按严重程度排序。</p><p>最终在 PR 上生成一条汇总评论，外加逐行的具体标注。大型复杂的 PR 会分配更多 Agent 做更深的审查，小改动则轻量处理，平均审查时间约 20 分钟。</p><p>Anthropic 自己已经内部使用了几个月。使用前，只有 16% 的 PR 能收到实质性审查意见；使用后，这个比例升到了 54%。</p><p>在超过 1000 行改动的大 PR 中，84% 会被发现问题，平均每个 PR 找出 7.5 个问题。工程师对结果的认可度很高，不到 1% 的发现被标记为误报。</p><p>他们举了个例子：一个看起来很常规的单行改动，实际上会导致生产环境的身份认证功能失效。Code Review 把它标记为严重问题，提交代码的工程师事后承认自己不会注意到这个问题。</p><p>不过这个功能不便宜。它按 token 用量计费，每次审查平均花费 15 到 25 美元，随 PR 规模浮动。管理员可以设置月度预算上限、选择启用的仓库，也有分析看板追踪使用情况。</p><p>值得注意的是，Code Review 不会自动批准 PR，最终是否合并仍由人决定。它的定位是补上人工审查的盲区，而非取代人类审查者。</p><p>Anthropic 此前已有开源的 Claude Code GitHub Action 做轻量审查，这次的 Code Review 是更重量级、也更贵的选项。</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2031117757459100030" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 21:19:44 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-0-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT 李不凯正在研究人啊，要想人前吹牛逼不被打脸，就得人后多花功夫好好练！前天小小吐槽了一下 @dotey 宝玉老师，说他做的 push-to-x skill 不够精致，连原生的代码样式都无法还原，还夸下海口要解决这个问题。</p><p>这不苦熬了 2 个晚上，终于把流程优化到位，把成功率给提升到接近 100% 了。下面的这个视频，就是在 Obsidian 中让 Claude Code 执行 obsidian-to-x skill，把一篇嵌入了十多张图片，以及三个代码块的 Markdown 文档发布到 X Article 的全过程录屏。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-2')">点击查看全文</button>
+                <div id="fulltext-0-2" class="fulltext-source" data-title="RT 李不凯正在研究: 人啊，要想人前吹牛逼不被打脸，就得人后多花功夫好好练！ 前天小小吐槽了一下 @dotey 宝玉老师，说他做的 push-to-x skill 不够精致，连原..." style="display:none;">
+                  <p>RT 李不凯正在研究</p><p>人啊，要想人前吹牛逼不被打脸，就得人后多花功夫好好练！</p><p>前天小小吐槽了一下 @dotey 宝玉老师，说他做的 push-to-x skill 不够精致，连原生的代码样式都无法还原，还夸下海口要解决这个问题。</p><p>这不苦熬了 2 个晚上，终于把流程优化到位，把成功率给提升到接近 100% 了。</p><p>下面的这个视频，就是在 Obsidian 中让 Claude Code 执行 obsidian-to-x skill，把一篇嵌入了十多张图片，以及三个代码块的 Markdown 文档发布到 X Article 的全过程录屏。</p><p>总计耗时是3 分 48 秒，主要是图片的上传耗时太长，如果以文本为主，一分钟之内肯定可以解决问题。</p><p>这个帖子转发的那篇文章，就是视频中完全依靠自动化流程完成的发布，你们看看代码块的效果是不是还挺漂亮的？</p><p>优化这个 skill 的过程中，最大的挑战还是如何在 AI 的自由度和代码的稳定性之间找到最佳平衡点，既要能快速稳定完成主体流程，又要能灵活处理各种边缘情况，真是说起来容易做起来难啊。</p><p>最后，感谢宝玉老师打下的良好基础，一切荣耀归功于它。由于我在这个 skill 中针对 Obsidian 的情况做了大幅的调整，就不去提交 PR 了。</p><p>有兴趣的朋友，可以到评论中的 awesome-agent-skills repo 中的 skills 目录下翻翻看。我个人建议是，让 AI 阅读一下 skill 的内容，然后根据你的实际情况进行微调，那样的话能够达到最好的效果。</p><p>李不凯正在研究: <a href="http://x.com/i/article/2031050555389558784" target="_blank" rel="noopener">http://x.com/i/article/2031050555389558784</a></p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2031092414488694965" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 17:26:12 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-1">
+              <h2>🛠 工具推荐 <span class="count">1 篇</span></h2>
+              
+                <article id="item-1-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">📝 博客</span>
+                    <span class="source">lenny</span>
+                  </div>
+                  <h3>掌握中途：如何在没有复杂提示的情况下创建一致、美观的品牌形象</h3>
+                  <div class="orig-title">EN: Mastering Midjourney: How to create consistent, beautiful brand imagery without complex prompts</div>
+                  
+                  <div class="summary"><p>Jamey Gannon is an AI creative director who specializes in creating consistent, beautiful brand imagery using AI tools.In this episode, Jamey demonstrates her streamlined workflow for generating cohesive brand assets using Midjourney, Nano Banana, and other AI image tools.</p><p>She walks through her process of creating mood boards, using style references, developing personalization codes, and strategically iterating to ac…</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-1')">点击查看全文</button>
+                <div id="fulltext-1-1" class="fulltext-source" data-title="掌握中途：如何在没有复杂提示的情况下创建一致、美观的品牌形象" style="display:none;">
+                  <p>Jamey Gannon is an AI creative director who specializes in creating consistent, beautiful brand imagery using AI tools. In this episode, Jamey demonstrates her streamlined workflow for generating cohesive brand assets using Midjourney, Nano Banana, and other AI image tools. She walks through her process of creating mood boards, using style references, developing personalization codes, and strategically iterating to achieve a consistent aesthetic. Rather than relying on complex prompts, Jamey shows how visual references and strategic shortcuts can produce better results with less effort.</p><p>What you’ll learn:</p><p>1. How to create effective mood boards that communicate your desired aesthetic to AI image generation tools</p><p>2. Why style references (SREFs) often produce more consistent results than general mood boards in Midjourney</p><p>3. A systematic approach to testing and refining your visual style</p><p>4. How to use personalization codes in Midjourney to develop your own unique aesthetic preferences</p><p>5. Techniques for combining image references, style references, and minimal prompting to achieve consistent brand imagery</p><p>6. A workflow for using Nano Banana to fix specific elements in Midjourney-generated images without extensive editing</p><p>7. How to package and deliver your brand imagery system to clients so they can continue generating consistent assets</p><p>—</p><p>Brought to you by:</p><p>Vanta—Automate compliance and simplify security</p><p>Lovable—Build apps by simply chatting with AI</p><p>—</p><p>In this episode, we cover:</p><p>(00:00) Introduction to Jamey Gannon</p><p>(02:31) Creating mood boards as the foundation for AI image generation</p><p>(08:45) Using SREFs for better consistency</p><p>(11:15) Test prompts for evaluating style consistency</p><p>(12:33) The iterative process of creating and refining images</p><p>(24:28) Combining techniques for consistent brand imagery</p><p>(28:25) Scaling out your aesthetic across different subjects</p><p>(35:48) Using Nano Banana for targeted image refinements</p><p>(38:23) Creating realistic AI self-portraits for content</p><p>(43:04) Building a visual reference library for inspiration</p><p>(46:50) Troubleshooting techniques when AI isn’t cooperating</p><p>—</p><p>Tools referenced:</p><p>• Midjourney: <a href="https://www.midjourney.com/" target="_blank" rel="noopener">https://www.midjourney.com/</a></p><p>• Nano Banana: <a href="https://gemini.google/overview/image-generation/" target="_blank" rel="noopener">https://gemini.google/overview/image-generation/</a></p><p>• Flora: <a href="https://flora.ai/" target="_blank" rel="noopener">https://flora.ai/</a></p><p>• Pinterest: <a href="https://www.pinterest.com/" target="_blank" rel="noopener">https://www.pinterest.com/</a></p><p>• Cosmos: <a href="https://www.cosmos.so/" target="_blank" rel="noopener">https://www.cosmos.so/</a></p><p>—</p><p>Other reference:</p><p>• Style references (SREFs) in Midjourney: <a href="https://docs.midjourney.com/hc/en-us/articles/32180011136653-Style-Reference" target="_blank" rel="noopener">https://docs.midjourney.com/hc/en-us/articles/32180011136653-Style-Reference</a></p><p>—</p><p>Where to find Jamey Gannon:</p><p>Website: <a href="https://www.brand-sprints.com/links" target="_blank" rel="noopener">https://www.brand-sprints.com/links</a></p><p>LinkedIn: <a href="https://www.linkedin.com/in/jameygannon/" target="_blank" rel="noopener">https://www.linkedin.com/in/jameygannon/</a></p><p>X: <a href="https://x.com/jameygannon" target="_blank" rel="noopener">https://x.com/jameygannon</a></p><p>Instagram: <a href="https://www.instagram.com/jameygannon" target="_blank" rel="noopener">https://www.instagram.com/jameygannon</a></p><p>Maven Course (get 10% off with this link): <a href="https://bit.ly/4b18RfM" target="_blank" rel="noopener">https://bit.ly/4b18RfM</a></p><p>—</p><p>Where to find Claire Vo:</p><p>ChatPRD: <a href="https://www.chatprd.ai/" target="_blank" rel="noopener">https://www.chatprd.ai/</a></p><p>Website: <a href="https://clairevo.com/" target="_blank" rel="noopener">https://clairevo.com/</a></p><p>LinkedIn: <a href="https://www.linkedin.com/in/clairevo/" target="_blank" rel="noopener">https://www.linkedin.com/in/clairevo/</a></p><p>X: <a href="https://x.com/clairevo" target="_blank" rel="noopener">https://x.com/clairevo</a></p><p>—</p><p>Production and marketing by <a href="https://penname.co/" target="_blank" rel="noopener">https://penname.co/</a>. For inquiries about sponsoring the podcast, email jordan@penname.co.</p><p>This is a public episode. If you&#x27;d like to discuss this with other subscribers or get access to bonus episodes, visit www.lennysnewsletter.com/subscribe</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://www.lennysnewsletter.com/p/mastering-midjourney-how-to-create" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 12:01:00 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-2">
+              <h2>📚 教程技巧 <span class="count">3 篇</span></h2>
+              
+                <article id="item-2-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">📝 博客</span>
+                    <span class="source">n8n</span>
+                  </div>
+                  <h3>使用专业知识库构建多域 RAG 系统</h3>
+                  <div class="orig-title">EN: Build Multi-Domain RAG Systems with Specialized Knowledge Bases</div>
+                  
+                  <div class="summary"><p>在本分步教程中，您将学习如何使用 AI 代理、语义搜索和 Pinecone Assistant 节点根据上下文路由用户问题。</p></div>
+                  <div class="orig-summary">原文：<p>In this step-by-step tutorial you&#x27;ll learn how to route user questions based on context using AI agents, semantic search, and the Pinecone Assistant node.</p></div>
+                  
+                  <div class="media-grid"><img src="https://blog.n8n.io/content/images/2026/03/image--89-.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/data-src-image-5ec9974c-f9f6-4c1b-ab32-8564d4e590bb.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/data-src-image-d666084e-b035-4695-915e-03b716de6447.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/data-src-image-9f1f1151-0be8-4518-a7b6-74b6e103a4d8.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/data-src-image-f899a70c-9e89-4889-9d76-0ffbacc00275.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/data-src-image-cc4d6648-e365-4e21-b710-94b921ac5b74.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                <div class="topic-tip">
+                  <div class="tip-tag">✅ 可做选题</div>
+                  <p><strong>选题角度：</strong>围绕「使用专业知识库构建多域 RAG 系统」补齐你的真实实操过程与结果对比。</p>
+                  <p><strong>内容形式：</strong>实操教程</p>
+                  <p><strong>参考标题：</strong>《使用专业知识库构建多域 RAG 系统：实测后我会怎么用》</p>
+                  <p><strong>为什么值得做：</strong>可复现、可量化、可对比。</p>
+                </div>
+                
+                  <div class="footer">
+                    <a href="https://blog.n8n.io/build-multi-domain-rag-systems-with-specialized-knowledge-bases/" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 16:00:57 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">📝 博客</span>
+                    <span class="source">n8n</span>
+                  </div>
+                  <h3>生产人工智能手册：人类监督</h3>
+                  <div class="orig-title">EN: Production AI Playbook: Human Oversight</div>
+                  
+                  <div class="summary"><p>Deploying AI without oversight can be a liability.This post covers how to keep humans in control of the decisions that matter, including three practical patterns, a framework for when to apply them, and hands-on templates for deeper exploration.</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://blog.n8n.io/content/images/2026/03/Blog-Header_Human-in-the-loop-1.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/Exercise-1-zoomed-1.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/excersize-1-again.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/human-review.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/exercise-2-.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://blog.n8n.io/content/images/2026/03/35.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://blog.n8n.io/production-ai-playbook-human-oversight/" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 09:00:53 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-2-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT pippinggOpenclaw的风也刮到美国退休人士圈了，今天听到一个目前可能是最好的龙虾🦞使用案例：有个朋友说他用openclaw替他念经，已经念了36665遍了，功德都积在他身上。我问他为啥不用念佛机呀？</p><p>他说那个东西还得买，这个白嫖openai的订阅就行。🙃🙃</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2031019674721251608" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 11:31:34 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-3">
+              <h2>📰 资讯动态 <span class="count">4 篇</span></h2>
+              
+                <article id="item-3-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>2XLabs: 我们的AI作品集出炉啦！这是我们 2xLabs 近半年的心血总结 汇集了已上线及未公开的视觉方案，其中涵盖：影视、剧集、2D动画、CG动画，以及各种特效领域。</p><p>所有画面 100% 纯AI生成！原创音乐：束丹年🤖 感谢大家长期以来的关注与支持❤️🔥 Our AI showreel is finally out!</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-1')">点击查看全文</button>
+                <div id="fulltext-3-1" class="fulltext-source" data-title="看着很酷👍" style="display:none;">
+                  <p>看着很酷👍</p><p>2XLabs: 我们的AI作品集出炉啦！</p><p>这是我们 2xLabs 近半年的心血总结</p><p>汇集了已上线及未公开的视觉方案，</p><p>其中涵盖：影视、剧集、2D动画、CG动画，</p><p>以及各种特效领域。 所有画面 100% 纯AI生成！</p><p>原创音乐：束丹年</p><p>🤖 感谢大家长期以来的关注与支持❤️</p><p>🔥 Our AI showreel is finally out!</p><p>A culmination of our</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2031141408921280866" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 22:53:43 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">JitHub程序员</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：funny-happy Username：04A9CCEC-6AD8-4714-A84A-922D707994B9突然发现，claude-to-im-skill 对接到飞书后，能帮我操作浏览器，帮我汇报热点，回复邮件好像不需要mac mini ？</p><p>😂成本就是海鲜市场10块钱的codex team套餐，敞着用token</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69aecb5e9f3cd84f65142c75" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 13:30:06 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">你不知道的行业内幕</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：莫唯书Mark Username：2B192256-18E6-4D36-97B1-54759C615C85为什么世界是一个巨大的草台班子？你有没有发现，组织里坐在决策位置上的人，往往不是一线出身。</p><p>他们可能是财务、投资或管理背景，对具体业务逻辑知之甚少。那些对外官宣的战略规划、投入方向，实则是基层团队写好稿子，高层照念。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-2')">点击查看全文</button>
+                <div id="fulltext-3-2" class="fulltext-source" data-title="为什么世界是一个巨大的草台班子？ 你有没有发现，组织里坐在决策位置上的人，往往不是一线出身。他们可能是财务、投资或管理背景，对具体业务逻辑知之甚少。 那..." style="display:none;">
+                  <p>用户昵称：莫唯书Mark</p><p>Username：2B192256-18E6-4D36-97B1-54759C615C85</p><p>为什么世界是一个巨大的草台班子？</p><p>你有没有发现，组织里坐在决策位置上的人，往往不是一线出身。他们可能是财务、投资或管理背景，对具体业务逻辑知之甚少。</p><p>那些对外官宣的战略规划、投入方向，实则是基层团队写好稿子，高层照念。</p><p>即便一线出身的负责人，在管辖范围扩大后，也难以对所有领域保持精通。所以他们对外看似懂行的表达，同样离不开专业团队支撑。</p><p>于是便形成一个看似矛盾却极为普遍的现象：外行指导内行。</p><p>一线从业者，深耕专业领域，精通技术、产品、运营落地，往往是组织创新的执行力量。</p><p>顶层管理者，核心能力聚焦资源层面，深谙投资者关系、商业逻辑拆解、组织治理。他们无需精通一线业务，只要掌握资源整合的核心，便能调动专业力量为己所用。</p><p>这两种角色能力本应互补，但在现实中常常相互错位。</p><p>之前OpenAI的宫斗戏就是一个经典案例。</p><p>奥特曼是投资人出身，他的核心能力在于整合资源：向马斯克等投资方争取资金，聚拢伊利亚等核心技术人才，推动团队完成ChatGPT研发。而ChatGPT的核心技术突破，实则由伊利亚带领的研发团队实现。</p><p>ChatGPT成功后，奥特曼推动OpenAI商业化转型，却与坚持非营利初衷的伊利亚产生矛盾，最终被董事会罢免。</p><p>奥特曼的困惑，反映出资源思维与专业思维的差异：资源视角下，商业化是组织持续发展的必要条件。而专业视角下，坚守初心有时候比商业利益更重要。</p><p>专业能力是根基，资源运作是翅膀，二者缺一不可。问题在于，当根基和翅膀朝不同方向使劲时，谁来平衡？</p><p>这个问题没有标准答案，我们只知道最终结果是伊利亚走了，奥特曼回来了。</p><p>组织的通行做法是让资源思维坐在驾驶位，专业思维坐在副驾驶。因为最终金主信任的往往是资源决策者，不是专业负责人。哪怕这个人对专业一窍不通、恣意妄为，这就是“草台班子”的真相。</p><p>然而真正的问题不在谁握方向盘，而是两种价值尺度能否被组织同时容纳。资源尺度看重投入产出，专业尺度看重突破本身。一个组织如果只有前者，会失去未来。如果只有后者，会活不过今天。</p><p>这需要资源负责人有判断专业价值的眼光，也需要专业负责人有用资源语言翻译专业价值的能力。能同时做到的组织，才能让做成事的人留下来。</p><p>类似的草台戏码未来必然还会反复上演，直到有人想明白：让两种价值尺度共存不是一道选择题，是一道必答题。</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69ae920a800201ac68ac7890" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 09:25:30 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">苍何</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>现在出门不谈龙虾都有点落伍了一样，很多人第一反应是怎么下载，在哪下载，然后手机 去搜这个 APP。😂</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/canghe/status/2031154251850989942" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Mon, 09 Mar 2026 23:44:45 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">×</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = src;
+      box.classList.add('open');
+    }
+    function closeLightbox() {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = '';
+      box.classList.remove('open');
+    }
+
+    function openArticleModal(id) {
+      var src = document.getElementById(id);
+      if (!src) return;
+      var modal = document.getElementById('articleModal');
+      var title = document.getElementById('articleModalTitle');
+      var body = document.getElementById('articleModalBody');
+      title.textContent = src.getAttribute('data-title') || '全文';
+      body.innerHTML = src.innerHTML || '';
+      modal.classList.add('open');
+    }
+    function closeArticleModal() {
+      var modal = document.getElementById('articleModal');
+      var body = document.getElementById('articleModalBody');
+      body.innerHTML = '';
+      modal.classList.remove('open');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeArticleModal();
+      }
+    });
+  </script>
+</body>
+</html>
