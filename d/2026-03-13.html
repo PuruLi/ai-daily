@@ -1,0 +1,783 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSS 日报 - 2026-03-13</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --primary:#4f46e5; --shadow:0 8px 22px rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.72 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; -webkit-text-size-adjust:100%; }
+    .layout { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:280px 1fr; gap:16px; padding:16px; }
+    .content, .sidebar { min-width:0; }
+    .sidebar { position:sticky; top:14px; height:fit-content; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+    .brand h1 { margin:0; font-size:22px; }
+    .sub { color:var(--muted); margin:6px 0; font-size:13px; }
+    nav { margin-top:10px; }
+    nav a { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-radius:8px; color:var(--text); text-decoration:none; font-size:14px; gap:8px; }
+    nav a:hover { background:#eef2ff; }
+    .hotbox { margin-top:14px; border-top:1px dashed var(--line); padding-top:12px; }
+    .hotbox h3 { margin:0 0 8px; font-size:18px; color:#111827; }
+    .hotbox ol { margin:0; padding-left:20px; }
+    .hotbox li { margin:10px 0; font-size:14px; line-height:1.55; }
+    .hotbox li a { color:#111827; text-decoration:none; font-weight:600; }
+    .hotbox li a:hover { text-decoration:underline; color:var(--primary); }
+    .hotbox li span { display:block; color:var(--muted); margin-top:3px; font-size:12px; }
+
+    .content section { margin-bottom:24px; }
+    .content h2 { margin:0 0 10px; font-size:21px; }
+    .count { color:var(--muted); font-size:12px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,.03); }
+    .card h3 { margin:10px 0 6px; font-size:18px; line-height:1.42; overflow-wrap:anywhere; word-break:break-word; }
+    .orig-title { font-size:12px; color:var(--muted); margin-bottom:8px; }
+    .summary p { margin:0 0 12px; color:#1f2937; line-height:1.86; }
+    .orig-summary p { margin:8px 0 0; color:#6b7280; font-size:13px; line-height:1.7; }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill { font-size:12px; border-radius:999px; padding:2px 10px; }
+    .pill.importance { background:#eef2ff; color:#3730a3; font-weight:600; }
+    .pill.platform { background:#ecfeff; color:#155e75; }
+    .source { color:var(--muted); font-size:12px; }
+
+    .ai-summary { margin:8px 0 10px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:8px 10px; }
+    .ai-title { font-size:12px; font-weight:700; color:#1d4ed8; margin-bottom:4px; }
+    .ai-summary ul { margin:0; padding-left:18px; }
+    .ai-summary li { margin:4px 0; font-size:13px; color:#1e3a8a; }
+    .ai-insight { margin:8px 0 0; color:#1e40af; font-size:13px; line-height:1.7; border-top:1px dashed #bfdbfe; padding-top:7px; }
+
+    .btn-fulltext { margin-top:8px; border:1px solid #c7d2fe; background:#eef2ff; color:#3730a3; border-radius:8px; padding:5px 10px; font-size:13px; cursor:pointer; }
+    .btn-fulltext:hover { background:#e0e7ff; }
+    .fulltext-source { display:none; }
+
+    .media-grid { margin:10px 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; }
+    .media-grid img { width:100%; max-height:340px; object-fit:contain; border-radius:10px; border:1px solid var(--line); background:#fff; cursor:zoom-in; }
+
+    .topic-tip { margin-top:10px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:10px 12px; }
+    .tip-tag { font-size:12px; display:inline-block; margin-bottom:6px; color:#065f46; font-weight:700; }
+    .topic-tip p { margin:4px 0; font-size:13px; }
+
+    .footer { display:flex; justify-content:space-between; gap:8px; border-top:1px dashed var(--line); padding-top:10px; margin-top:10px; font-size:13px; }
+    a { color:var(--primary); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .muted,.date { color:var(--muted); }
+
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:9999; align-items:center; justify-content:center; padding:24px; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:8px; background:#111; }
+    .lightbox .close { position:fixed; right:20px; top:14px; color:#fff; font-size:28px; cursor:pointer; user-select:none; }
+
+    .article-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.62); z-index:10000; align-items:center; justify-content:center; padding:16px; }
+    .article-modal.open { display:flex; }
+    .article-panel { width:min(900px,95vw); max-height:88vh; background:#fff; border-radius:12px; border:1px solid var(--line); display:flex; flex-direction:column; overflow:hidden; }
+    .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--line); }
+    .article-toolbar .title { font-size:14px; font-weight:600; color:#111827; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; }
+    .article-toolbar button { border:none; background:#f3f4f6; border-radius:8px; width:28px; height:28px; cursor:pointer; font-size:18px; line-height:1; }
+    .article-body { overflow:auto; padding:12px 14px; }
+    .article-body p { margin:0 0 10px; color:#1f2937; line-height:1.75; }
+
+    @media (max-width: 980px) {
+      body { font-size:14px; }
+      .layout { grid-template-columns:1fr; padding:10px; gap:10px; }
+      .sidebar { order:1; position:static; padding:12px; border-radius:12px; }
+      .content { order:2; }
+      .brand h1 { font-size:20px; }
+      .sub { font-size:12px; }
+      .hotbox h3 { font-size:18px; }
+      .hotbox li { font-size:15px; }
+      nav { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; }
+      nav a { flex:0 0 auto; white-space:nowrap; border:1px solid var(--line); background:#fafbff; }
+      .content h2 { font-size:19px; margin-bottom:8px; }
+      .card { padding:12px; border-radius:10px; }
+      .card h3 { font-size:17px; }
+      .footer { flex-direction:column; align-items:flex-start; gap:6px; }
+      .media-grid { grid-template-columns:1fr; }
+      .media-grid img { max-height:58vh; }
+      .article-panel { width:96vw; max-height:90vh; }
+      .article-toolbar .title { font-size:13px; }
+    }
+
+    @media (max-width: 420px) {
+      .layout { padding:8px; }
+      .card h3 { font-size:16px; }
+      .hotbox li { font-size:14px; }
+      .lightbox { padding:10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <div class="sub">2026-03-13</div>
+        <div class="sub">源：26（有内容 8 / 无内容 18 / 失败 0）</div>
+        <div class="sub">去重后：26 条</div>
+        <div class="sub">公众号源：3 条</div>
+      </div>
+      <nav><a href="#cat-0"><span>🔥 重磅发布</span><span class="count">3</span></a><a href="#cat-1"><span>🛠 工具推荐</span><span class="count">4</span></a><a href="#cat-2"><span>📚 教程技巧</span><span class="count">1</span></a><a href="#cat-3"><span>💰 商业案例</span><span class="count">2</span></a><a href="#cat-4"><span>📰 资讯动态</span><span class="count">16</span></a></nav>
+      <div class="hotbox">
+        <h3>今日重点</h3>
+        <ol><li><a href="#item-0-1">英伟达开源NVIDIA Nemotron 3 Super M…</a><span>Gorden Sun</span></li><li><a href="#item-0-2">Reka Edge：开源最佳多模态小模型 7B大小，评分超过…</a><span>Gorden Sun</span></li><li><a href="#item-0-3">实测字节版OpenClaw，云端龙虾的文件互传难题终于有人解…</a><span>公众号源</span></li><li><a href="#item-1-1">Cursor 两位核心负责人出走，加入马斯克 xAI 打造编…</a><span>宝玉</span></li><li><a href="#item-1-2">用 AI 优化短视频的稿子，我的个人方案： 1️⃣ 尽量不让…</a><span>宝玉</span></li><li><a href="#item-3-1">王慧文重金投资的 OpenClaw 方向团队招聘 【关于我们…</a><span>AI探索站</span></li><li><a href="#item-4-1">我们是来自 MiniMax、字节、Meta 的 AI 创业团…</a><span>AI探索站</span></li><li><a href="#item-4-2">#分享 玩 OpenClaw 也有一段时间了，给大家提供个可…</a><span>nazha</span></li><li><a href="#item-4-3">AI资讯日报，3月12日：https://gorden-su…</a><span>Gorden Sun</span></li><li><a href="#item-4-4">做的好啊，AI教学版多邻国，根据你选的内容和喜好来生成课程和…</a><span>Gorden Sun</span></li></ol>
+      </div>
+    </aside>
+
+    <main class="content">
+      
+            <section id="cat-0">
+              <h2>🔥 重磅发布 <span class="count">3 篇</span></h2>
+              
+                <article id="item-0-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>英伟达开源NVIDIA Nemotron 3 SuperMamba与Transformer混合架构的MoE模型，120B总参数，12B激活参数，原生1M上下文长度。但是整体评分低于Qwen 3.5 122B-A10B。</p><p>模型：<a href="https://huggingface.co/collections/nvidia/nvidia-nemotron-v3" target="_blank" rel="noopener">https://huggingface.co/collections/nvidia/nvidia-nemotron-v3</a></p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDN8oT9bQAUM50l?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2032104914009424349" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 14:42:20 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-0-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Reka Edge：开源最佳多模态小模型7B大小，评分超过Qwen 3.5 9B，且更省token、速度更快。Reka的创始成员很多来自谷歌DeepMind，所以继承了很多Gemini的多模态经验。</p><p>模型：<a href="https://huggingface.co/RekaAI/reka-edge-2603" target="_blank" rel="noopener">https://huggingface.co/RekaAI/reka-edge-2603</a></p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDM_Pe5acAAHnjK?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2032037432255000940" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 10:14:11 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-0-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">🔥 重磅</span>
+                    <span class="pill platform">📱 公众号</span>
+                    <span class="source">公众号源</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>原创 AI沃茨 AI沃茨 卡尔的AI沃茨 在小说阅读器中沉浸阅读 这两天脑容量被OpenClaw和它的龙虾朋友们包圆了，鹅QClaw和WorkBuddy，智谱AutoClaw，字节ArkClaw，还有之前的EasyClaw，MaxClaw，Miclaw，KimiClaw等等，列不过来了，反正肯定比我上面提到的还要多。</p><p>现在玩龙虾的状态基本可以分成三类， 第一种付了499上门安装OpenClaw后不知道能用来干嘛，这两天听说有风险打算再付299卸载了；第二种上门安装完还给了600买了本开源的OpenClaw使用案例，结果被卡在API配置上了；</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-1')">点击查看全文</button>
+                <div id="fulltext-0-1" class="fulltext-source" data-title="实测字节版OpenClaw，云端龙虾的文件互传难题终于有人解决了" style="display:none;">
+                  <p>实测字节版OpenClaw，云端龙虾的文件互传难题终于有人解决了</p><p>原创 AI沃茨 AI沃茨 卡尔的AI沃茨</p><p>在小说阅读器中沉浸阅读</p><p>这两天脑容量被OpenClaw和它的龙虾朋友们包圆了，鹅QClaw和WorkBuddy，智谱AutoClaw，字节ArkClaw，还有之前的EasyClaw，MaxClaw，Miclaw，KimiClaw等等，列不过来了，反正肯定比我上面提到的还要多。</p><p>现在玩龙虾的状态基本可以分成三类，</p><p>第一种付了499上门安装OpenClaw后不知道能用来干嘛，这两天听说有风险打算再付299卸载了；第二种上门安装完还给了600买了本开源的OpenClaw使用案例，结果被卡在API配置上了；第三种了解到本地电脑版的龙虾权限比云的要高之后，开始无视风险忽视云端小龙虾，然后垒八台mac mini要做本地龙虾了。</p><p>所以我花一天时间把这些claw都体验了一遍。</p><p>先说结论，</p><p>如果一定要选一个IM（即时通信）平台作为我们指挥龙虾的前端，</p><p>现在有了流式输出，多维表格，能通过创建多个飞书应用拉出多龙虾团队的飞书还是我的首选。而Arkclaw的飞书配对比我想象中要简单得多。</p><p>🔗 v2ig.cn/cRm03IcFyUU/</p><p>目前订阅火山引擎的Coding Plan就可以体验到Arkclaw了，我们可以选择两种形式，一个9块9的Lite版和7天龙虾体验卡，和一个49块9的Pro版。Pro版的额度是Lite版的五倍，最近三个月都能免费用。</p><p>你看到界面的时候ArkClaw就已经部署完成了，</p><p>我可以配置不同的消息渠道，单独快速地做飞书的配对，还可以可视化安装技能，设置定时任务，以及给 Arkclaw 配置一些人格设置。</p><p>还有一个比较不一样的地方，就是可以给它配一个网盘，这个我放到后面说。</p><p>这个时候我们点飞书配对，它就会很丝滑弹一个终端出来，用手机飞书去扫二维马一分钟就能自动造个飞书机器人出来。</p><p>在这个过程中，ArkClaw会自动配置好新建机器人的默认信息。其实大家如果配置过一两次也就知道了，来来去去无非就是，新建个应用-&gt;新建机器人能力-&gt;给它开不同的权限-&gt;配置回调和消息回复-&gt;发布版本。</p><p>这些固定的流程，我都快能背下来了。。。</p><p>配置完后，给飞书机器人发句 /feishu auth，完成授权，一个满血版的云端龙虾就诞生了。</p><p>我一句话就完成了网页信息提取，浏览器自动化，新建表格和写入，还有定时任务更新。</p><p>然后这些表格我还可以随意分享。</p><p>🚅</p><p>从clawhub里获取下载量前100名，我想知道对应的星星数，这些技能的功能，以及按照作用分类，比方说浏览器自动化一类，名字是agent-browser，后面给下载数星星数和能力，把这些做成多维表格，每天定时更新维护</p><p>还可以把群聊信息作为信息源，如果是产品的用户体验群就可以分析每天群里有多少正面评价和负面反馈。像我就是给一些信息通知群用的，这样不会漏掉消息。</p><p>🍰</p><p>总结一下【群名】的消息，按照信息平台和日期划分，写到多维表格里面，然后每天晚上 11 点的时候更新</p><p>火山这次还强化了自己的联网搜索Skill，跟Tavily比追加了更多国内信息源，更新频率更高，那我直接上一个我在X上刚刷的Gemini更新测试了一把，</p><p>这个 Web Search技能目前 ArkClaw并没有内置在里面，所以我们需要额外增加一步安装步骤，然后把Coding Plan里的API Key发给它来启动这个技能。</p><p>💡</p><p>直接运行这行命令就可以 npx skills add <a href="https://skills.volces.com/skills/bytedance/agentkit-samples" target="_blank" rel="noopener">https://skills.volces.com/skills/bytedance/agentkit-samples</a> -s web-search --agent openclaw</p><p>OK，这里有一个差异点。</p><p>飞书发布的插件跟OpenClaw里的飞书插件不一样，</p><p>1.它支持批量的权限授权，这样就能直接操作飞书的多维表格，这一点非常适合用来云端存储记忆。</p><p>2.飞书原生的做了流式输出，消息耗时与状态展示。这一点之前只有在新版本TG上做了支持，在其他平台，你只能发完消息后等小龙虾回一个不痛不痒的表情，然后在那儿等上五六分钟，你也不知道它是断了还是没执行完。</p><p>3.还有多任务并行，独立上下文以及群聊回复方式，这些我就不一一举例了。</p><p>所以用了那么多云端龙虾之后，有没有一套自己筛选小龙虾的公式呢？</p><p>通常我决定养一只新龙虾的时候，会做一个预期评估。确定一下能不能跟我的Coding Plan模型绑定的，不然Credit烧不起。</p><p>然后就是看这个云龙虾上传下载文件够不够方便。有些手机端的龙虾，虽然能做文件处理，但没有下载链接。</p><p>我最多只能让它生成HTML代码来触发预览，</p><p>体验很割裂。</p><p>火山引擎这套TOS的好处就是它能够直接挂载到本地的目录当中，配置好后还能够有一个文件快传功能。</p><p>在这个网盘容量允许的范围内，</p><p>我们可以随意上传下载我们想要的文件。</p><p>最后的最后，</p><p>龙虾最大的价值在于它能够帮我们去完成一些平时要花费很长时间，或者需要很多配置才能完成的任务。</p><p>安装代表不了它的价值，装了之后再装几个下载量高的Skill也没有办法提升它的价值，</p><p>不要光养着，</p><p>是时候让你的龙虾自己出去干点活了。</p><p>Agent不是光用来聊天的，</p><p>它是能够帮我们完成一整套流程的。</p><p>如果你现在有一大堆问题AI解决不了，不妨让龙虾尝试自己去解决，解决不了的话就更好了，这些失败的经验都够做成Skill去喂龙虾。</p><p>OpenClaw的意义在于它把Agent能力分给了每个人，</p><p>我们现在都在这一套框架上同时起跑，</p><p>就这短短一个多月，</p><p>云端小龙虾的文件互转打通了，</p><p>Coding plan成本也算压了又压，</p><p>很多龙虾还能免费体验一个月。</p><p>种一棵树最好的时间是十年前，其次是现在。</p><p>养龙虾也一样。</p><p>@ 作者 / 卡尔</p><p>最后，感谢你看到这里👏如果喜欢这篇文章，不妨顺手给我们点赞｜在看｜转发｜评论 📣</p><p>如果想要第一时间收到推送，不妨给我个星标🌟</p><p>如果你有更有趣的玩法，欢迎在评论区聊聊🤝</p><p>更多的内容正在不断填坑中……</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8Fx9SCOP8XvypUY6gbbNicWo4iattiboV6tU3mzlbGJVI9cAOckhcicst7MWnOvXYPZr8vzbF3vdibrRea4nicXXxe1Etp5MbViazteYEQ/640?wx_fmt=png&amp;from=appmsg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8Fxh7PvCA2Ykn1cwoBUobjQwnulptUyGSZiariaccdGXsKqROibemYcDXWee7LzYZ4QA8UZjLfcgxZNkA5lKKOkQJhFTqXwqImm0QU/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8Fyat9yV0R9bhdf5ibxtOrtUSAsV4CKvpqsYUte9Mz8vBa8wBXjic1HQsCuPlCB6lK1RD1O3B5DIx8ibdic50dAGzXY5xXPWgK5gxQI/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_jpg/VNz1x8bH8FybqT59olvxt1QH78UBDcSoBmkJkVfp9bqsF3kmViboiaD8CrA9ZecocK3twPILiaMJKpXAY6hRhYCW5DC2wI8YA7GfumHsQAkC08/640?wx_fmt=jpeg&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FxrVBs2B1xVT2SQmeT1EbQ16qfYibvyM3LEt3E3gPYwIwibxkSlpqxwngibfVx4mnlptrOjXodTnLUs5aRv2cXZpwMOZq9GQGPCOY/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FzZ6Gr7tZUumpt31wObDwuFhGQ56Fv8RmkktY0tRn1ekib2dFozsURbuU789jA1VxTcztmBibsG2UiaK9FH4sRvdFlvxUk2rKvvn4/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://mp.weixin.qq.com/s/Ow66Rrh_McBtrP6uX_z3EQ" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">2026-03-12T09:18:10Z</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-1">
+              <h2>🛠 工具推荐 <span class="count">4 篇</span></h2>
+              
+                <article id="item-1-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Cursor 两位核心负责人出走，加入马斯克 xAI 打造编程产品Cursor 的工程负责人 Andrew Milich 和产品负责人 Jason Ginsberg 宣布加入 SpaceX/xAI，直接向马斯克汇报，任务是为 xAI 从零搭建 AI 编程产品。</p><p>这两人是 Cursor 从零做到 20 亿美元 ARR（年度经常性收入）的核心操盘手，经手了 Cursor 网页版、CLI、后台 Agent、Cursor 2.0 等几乎所有关键产品。Cursor 创造了 SaaS 史上最快的营收增长纪录，而他们正是背后的产品和工程主力。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-1')">点击查看全文</button>
+                <div id="fulltext-1-1" class="fulltext-source" data-title="Cursor 两位核心负责人出走，加入马斯克 xAI 打造编程产品 Cursor 的工程负责人 Andrew Milich 和产品负责人 Jason Ginsberg 宣布加入 SpaceX/xAI，直接向马斯克..." style="display:none;">
+                  <p>Cursor 两位核心负责人出走，加入马斯克 xAI 打造编程产品</p><p>Cursor 的工程负责人 Andrew Milich 和产品负责人 Jason Ginsberg 宣布加入 SpaceX/xAI，直接向马斯克汇报，任务是为 xAI 从零搭建 AI 编程产品。</p><p>这两人是 Cursor 从零做到 20 亿美元 ARR（年度经常性收入）的核心操盘手，经手了 Cursor 网页版、CLI、后台 Agent、Cursor 2.0 等几乎所有关键产品。Cursor 创造了 SaaS 史上最快的营收增长纪录，而他们正是背后的产品和工程主力。</p><p>AI 编程现在是一个超过 50 亿美元的市场：Cursor 20 亿美元 ARR，Claude Code 25 亿美元年化营收（今年以来翻了一倍），GitHub Copilot 超过 10 亿美元、付费用户 470 万。每家头部 AI 实验室都有自己的编程产品在印钞，唯独 xAI 没有。</p><p>xAI 不缺算力，Memphis 的 Colossus 集群有 10 万张 H100，也有 Grok 3 及后续模型。缺的就是真正把 AI 编程产品从 0 做到 10 亿再到 20 亿的产品团队。现在这块拼图补上了。</p><p>Milich 的经历也挺有意思：十年前在 SpaceX 实习，做的是 Dragon 2 载人飞船的显示界面，后来出去创业做了加密隐私邮件服务 Skiff，卖给了 Notion，再加入还没改名叫 Cursor 的 Anysphere，帮着把产品做到年化营收超过当年微软 75 亿美元收购 GitHub 时 GitHub 的体量。现在带着一整套 AI 编程的实战经验回归马斯克体系。</p><p>值得关注的是时间点：Cursor 正在以 500 亿美元估值融资，两位核心人物却在这个节点离开，说明马斯克开出的条件和舞台足够有吸引力。xAI 编程产品的推进速度，接下来会是 AI 编程赛道最大的变量之一。</p><p>Andrew Milich: I’m joining @SpaceX and @xai with @JasonBud.</p><p>X is the company realizing science fiction - reusable rockets, humanoid robots, data centers in space, and more. Almost 10 years ago, I joined SpaceX as an intern on Dragon 2 crew displays. This was in the era of the first rocket</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDO-F8BWUAAKjwE?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2032242549574758636" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 23:49:15 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT dontbesilent用 AI 优化短视频的稿子，我的个人方案：1️⃣ 尽量不让 AI 写逐字稿，不是说 AI 写不了（虽然落地成本也的确高），而是我觉得最终落地表达，是创作者需要有体感的只是把一些观点串联起来的话，打开镜头直接说就行了，甚至可以没有稿子2️⃣ 那么退而求其次，首先，AI 需要保证我的短视频开头有流量，但这不是提示词工程的问题，是上下文工程的问题我需要让 claude code 知道我的本地文件夹里面，我过去所有短视频的数据，「哪些开头流量好」这是一个结果，几乎无法靠提示词工程做出来，直接抄答案就行了3️⃣ 除此之外，很重要的一点是，在短视频播放过程中，尽量不要让人觉得逻辑断裂导致跳出我会问 claude code：在当前的短视频文稿当中，你觉得哪些地方出现了逻辑断裂或者逻辑跳跃？</p><p>用 Emoji 给我标注出来（这样看起来明显）标注了之后，具体这个断裂的地方是需要让 AI 来帮我写，还是我自己写，这个要具…</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-2')">点击查看全文</button>
+                <div id="fulltext-1-2" class="fulltext-source" data-title="RT dontbesilent: 用 AI 优化短视频的稿子，我的个人方案： 1️⃣ 尽量不让 AI 写逐字稿，不是说 AI 写不了（虽然落地成本也的确高），而是我觉得最终落地表达，..." style="display:none;">
+                  <p>RT dontbesilent</p><p>用 AI 优化短视频的稿子，我的个人方案：</p><p>1️⃣ 尽量不让 AI 写逐字稿，不是说 AI 写不了（虽然落地成本也的确高），而是我觉得最终落地表达，是创作者需要有体感的</p><p>只是把一些观点串联起来的话，打开镜头直接说就行了，甚至可以没有稿子</p><p>2️⃣ 那么退而求其次，首先，AI 需要保证我的短视频开头有流量，但这不是提示词工程的问题，是上下文工程的问题</p><p>我需要让 claude code 知道我的本地文件夹里面，我过去所有短视频的数据，「哪些开头流量好」这是一个结果，几乎无法靠提示词工程做出来，直接抄答案就行了</p><p>3️⃣ 除此之外，很重要的一点是，在短视频播放过程中，尽量不要让人觉得逻辑断裂导致跳出</p><p>我会问 claude code：在当前的短视频文稿当中，你觉得哪些地方出现了逻辑断裂或者逻辑跳跃？用 Emoji 给我标注出来（这样看起来明显）</p><p>标注了之后，具体这个断裂的地方是需要让 AI 来帮我写，还是我自己写，这个要具体情况具体讨论（所以体感是极其重要的）</p><p>4️⃣ 在我的这个领域里，观众默认我应该短视频结尾给大家一个解决方案。因为通常来讲，我是暴露了一个问题，所以结尾就需要有 solution</p><p>这就有两个来源，第一个是可以靠大模型直接推理出来，也就是让 AI 直接去写</p><p>另外一个是，在我过往的大量短视频文稿中已经有，需要让 Agent 预处理一下那些文件，把那几十万字过一遍，分门别类去管理我曾经针对不同的场景提出的个性化的解决方案。比如你可以保留一个「解决方案.md」</p><p>曾经写过的方案是可以复用的（大概长图 1 这样）</p><p>短视频可以「编排」出来，并不一定每一篇都是从 0 开始创作</p><p>宝玉: 通常优化稿子我的思路是分成三步：</p><p>第一步让AI扮演目标读者或听众的角色给出反馈</p><p>第二步让AI扮演专业编辑去给出具体修改意见</p><p>第三步是根据意见修改</p><p>当然还是要人工审校把关才能真正做好，AI 更多是辅助</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDN9q8wbQAIA6_5?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HDN96CVbQAcHVI5?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2032108159095959600" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 14:50:38 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>提示词分享：群聊精华提取专家本提示词需要配合微信群聊天记录使用---你是一个群聊精华提取专家，擅长从碎片化的聊天记录中提炼有价值的信息。## 任务分析微信群聊天记录，生成一份精炼的群聊总结。</p><p>## 输出格式要求1. 开头：1-2段自然语言概括当天最核心、最劲爆的内容2. 正文：用分类+要点的形式呈现有价值的信息3. 结尾：固定格式&quot;本简报由AI自动生成&quot;## 分类参考（根据实际内容灵活选用，没有就不写）• 🛠️ 工具技巧/实战经验• 📚 资源推荐• 📰 行业动态• 💬 观点碰撞• 😂 群友趣事## 格式规范• 不要使用markdown格式（不要用**加粗**、不要用#标题）• 列表统一用 • 开头• 子分类用普通文字，不加任何符号• 链接保持原样，不要加方括号• 适当用emoji增加可读性，但不要过多## 内容规范• 重点突出，过滤不重要的闲聊• 语言通俗，保留群友的生动表达• 保留关键人名，体现信息来源• 工具名、链接要保留完…</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-3')">点击查看全文</button>
+                <div id="fulltext-1-3" class="fulltext-source" data-title="提示词分享：群聊精华提取专家 本提示词需要配合微信群聊天记录使用 --- 你是一个群聊精华提取专家，擅长从碎片化的聊天记录中提炼有价值的信息。 ## 任务 分析..." style="display:none;">
+                  <p>提示词分享：群聊精华提取专家</p><p>本提示词需要配合微信群聊天记录使用</p><p>---</p><p>你是一个群聊精华提取专家，擅长从碎片化的聊天记录中提炼有价值的信息。</p><p>## 任务</p><p>分析微信群聊天记录，生成一份精炼的群聊总结。</p><p>## 输出格式要求</p><p>1. 开头：1-2段自然语言概括当天最核心、最劲爆的内容</p><p>2. 正文：用分类+要点的形式呈现有价值的信息</p><p>3. 结尾：固定格式&quot;本简报由AI自动生成&quot;</p><p>## 分类参考（根据实际内容灵活选用，没有就不写）</p><p>• 🛠️ 工具技巧/实战经验</p><p>• 📚 资源推荐</p><p>• 📰 行业动态</p><p>• 💬 观点碰撞</p><p>• 😂 群友趣事</p><p>## 格式规范</p><p>• 不要使用markdown格式（不要用**加粗**、不要用#标题）</p><p>• 列表统一用 • 开头</p><p>• 子分类用普通文字，不加任何符号</p><p>• 链接保持原样，不要加方括号</p><p>• 适当用emoji增加可读性，但不要过多</p><p>## 内容规范</p><p>• 重点突出，过滤不重要的闲聊</p><p>• 语言通俗，保留群友的生动表达</p><p>• 保留关键人名，体现信息来源</p><p>• 工具名、链接要保留完整</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2032227068524839211" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 22:47:44 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-1-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>Claude 现在能直接在对话里画图表了<a href="https://x.com/claudeai/status/2032124273587077133/video/1Claude" target="_blank" rel="noopener">https://x.com/claudeai/status/2032124273587077133/video/1Claude</a> 新增可视化功能：用户在聊天过程中，Claude 可以直接生成交互式图表和示意图，无需跳转到其他工具，也不用写代码导出。</p><p>这项功能目前以 Beta 形式上线，所有套餐均可使用，包括免费用户。此前 Claude 的 Artifacts 功能已经支持生成代码和网页预览，但可视化内容通常需要用户主动要求生成一个独立的 Artifacts。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-4')">点击查看全文</button>
+                <div id="fulltext-1-4" class="fulltext-source" data-title="Claude 现在能直接在对话里画图表了https://x.com/claudeai/status/2032124273587077133/video/1 Claude 新增可视化功能：用户在聊天过程中，Claude 可以直接生..." style="display:none;">
+                  <p>Claude 现在能直接在对话里画图表了<a href="https://x.com/claudeai/status/2032124273587077133/video/1" target="_blank" rel="noopener">https://x.com/claudeai/status/2032124273587077133/video/1</a></p><p>Claude 新增可视化功能：用户在聊天过程中，Claude 可以直接生成交互式图表和示意图，无需跳转到其他工具，也不用写代码导出。</p><p>这项功能目前以 Beta 形式上线，所有套餐均可使用，包括免费用户。</p><p>此前 Claude 的 Artifacts 功能已经支持生成代码和网页预览，但可视化内容通常需要用户主动要求生成一个独立的 Artifacts。</p><p>这次更新的区别在于，图表直接嵌入对话流中，更像是 Claude 在&quot;边说边画&quot;，而不是另开一个窗口展示结果。</p><p>对于经常需要用 AI 解释流程、展示数据对比、或梳理系统架构的用户来说，这个功能省去了不少来回折腾。</p><p>感兴趣的可以直接在 <a href="http://claude.ai" target="_blank" rel="noopener">http://claude.ai</a> 体验。</p>
+                </div>
+                
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2032189698433482771" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 20:19:15 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-2">
+              <h2>📚 教程技巧 <span class="count">1 篇</span></h2>
+              
+                <article id="item-2-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">📱 公众号</span>
+                    <span class="source">公众号源</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>原创 袋鼠帝 袋鼠帝 袋鼠帝AI客栈 在小说阅读器中沉浸阅读 大家好，我是袋鼠帝。前天，我的 AI 交流群里有朋友问我，能不能出一期 OpenClaw 操作浏览器的教程？</p><p>他直言：龙虾只要能熟练操作浏览器，就能覆盖 80% 的日常办公场景。是有道理的，毕竟现在绝大多数工作都是在网页端完成的。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-1')">点击查看全文</button>
+                <div id="fulltext-2-1" class="fulltext-source" data-title="OpenClaw很火，但AI操作浏览器还得是Tabbit，用完彻底回不去了.." style="display:none;">
+                  <p>OpenClaw很火，但AI操作浏览器还得是Tabbit，用完彻底回不去了..</p><p>原创 袋鼠帝 袋鼠帝 袋鼠帝AI客栈</p><p>在小说阅读器中沉浸阅读</p><p>大家好，我是袋鼠帝。</p><p>前天，我的 AI 交流群里有朋友问我，能不能出一期 OpenClaw 操作浏览器的教程？</p><p>他直言：龙虾只要能熟练操作浏览器，就能覆盖 80% 的日常办公场景。</p><p>是有道理的，毕竟现在绝大多数工作都是在网页端完成的。</p><p>其实，我不是没有尝试过让 OpenClaw 操作浏览器。</p><p>OpenClaw 本身就自带了这个能力，但体验下来一言难尽。</p><p>首先，你需要配合一个特定的浏览器插件使用，配置起来相对繁琐。</p><p>其次，它每次任务会自作主张打开一个新的浏览器窗口，导致我所有的登录状态完全丢失。每次让它干个啥，都要我重新扫码登录，非常反人类。</p><p>即便后面我设置强制让它每次都打开当前浏览器（保留登录态），它操作起来也并没有想象中那么丝滑。</p><p>之前我在我的 Mac Mini 上尝试过一个简单任务：帮我打开 B 站，进入 蜀犬吠日 博主的主页，播放倒数第二新的那一期视频，并开启全屏。</p><p>结果呢？它确实找到了视频并播放了，但是并没有帮我全屏。而且在这个过程中，它像抽风一样不停地打开新的标签页。最后，直接给我开了 5 个播放标签，你能想象 5 个视频在不同时间点同时开始播放的那种嘈杂感吗？</p><p>然后我就想起了前几天，一众博主安利过的一款全新且免费的 AI 浏览器：Tabbit 浏览器。</p><p><a href="https://www.tabbit-ai.com/" target="_blank" rel="noopener">https://www.tabbit-ai.com/</a></p><p>当时我只是粗略看了一下功能，感觉还不错，但并没有深入使用。</p><p>毕竟现在 AI 浏览器产品已经太多了。</p><p>但这几天深入体验之后，我必须承认，我完全被它折服了！</p><p>我只能说，目前想让 AI 操作浏览器干活，还得是Tabbit。</p><p>OpenClaw 只是把浏览器当做它众多工具里的其中一把锤子，而 Tabbit 则是把 AI 直接长在了浏览器里面。</p><p>这就好比让一个兼职代驾去开 F1 赛车，跟一个职业赛车手开 F1 赛车，差距是一目了然的。</p><p>而且，Tabbit 在安全隐私、使用门槛、甚至费用上，都有着明显的优势（它甚至是免费的）。</p><p>Tabbit 国内版目前已经支持了几乎所有的国内顶级大模型，包含 GLM-5、Kimi-K2.5、MiniMax-M2.5 等等。你想用哪个聪明的脑子帮你干活，随时切换。也可以设置「最佳」让Tabbit每次智能的帮你选择。</p><p>我先给大家介绍一下 Tabbit 浏览器（省流版）：</p><p>Tabbit 将 AI 能力与浏览器深度融合，是一款集浏览、搜索、对话、执行于一体的 AI 浏览器。</p><p>核心功能有这么五个：</p><p>对话 (Chat)：随时在侧边栏唤起 AI，支持通过“@”一键引用网页、标签页组或本地文件，让 AI 直接基于这些素材为你总结或解答。</p><p>妙招 (Skills)：把高频操作的场景封装为快捷命令，只需输入“/”就能一键唤起。后续可以一键直达复杂操作。</p><p>智能代理 (Agent)：相当于你的专属数字员工，能直接接管浏览器执行复杂任务。它会自动规划搜索、访问网站并整合数据，整个思考和操作过程完全透明，且支持随时打断纠正。</p><p>收藏 (Favorite)：完整保存网页内容并由 AI 自动生成精准摘要。支持随手右键收藏图文片段，并能通过自然语言模糊搜索找回内容，所有数据都支持多端云同步。</p><p>标签管理 (Tab &amp; Groups)：支持左侧垂直标签栏，打开几十个网页也能一目了然，还支持一键自动对网页进行智能分组整理。标签组可以云端保存无缝衔接工作场景，还能直接让 AI 结合整组网页内容进行回答。</p><p>一、 当AI彻底接管浏览器</p><p>我最喜欢用的是它的 Agent 智能代理模式。简单来说，就是让 AI 全自动接管浏览器，替你干活儿。</p><p>虽然现在很多 AI 浏览器都有这个功能，但是 Tabbit 浏览器执行复杂任务的准确度，是我目前用过的所有产品里最高的：</p><p>我体验过程中，执行的所有任务，没有一次是失败的，就是这么恐怖！！</p><p>AI 监工：让 Tabbit 指挥其他 AI</p><p>我手头有 Gemini、z.ai、Kimi等等一堆会员账号。有时候遇到复杂问题，我喜欢听听不同 AI 的意见。</p><p>以前我得开好几个网页，复制粘贴几次。我就在想，Tabbit 既然能操作网页，能不能当这帮网页 AI 的头头，给它们派活儿，然后再把结果汇总给我？</p><p>于是我试了一下：</p><p>打开kimi、gemini、z.ai的网页端，注意z.ai用chat模式，不用Agent模式。然后分别向它们提问:&quot;Agent操控浏览器，最好的方案是什么&quot;，等他们回复完毕，拿到他们的答案，汇总汇报给我</p><p>我去，还真行！</p><p>完美完成任务，而且没有抽卡，一次搞定，稳的一P。</p><p>这简直是压榨 AI 劳动力的究极形态。</p><p>电商选品：挑猫粮</p><p>再举个真实的例子。作为养猫 5 年的资深铲屎官，我家有 10 多只猫。每年的双 11 或者年货节，就是我最头疼的囤粮时刻。</p><p>养过猫的朋友都知道，挑猫粮有多难。品牌多如牛毛，你还要去看每一款猫粮的配料表：粗灰分比例是多少、肉蛋白比例是多少、有没有谷物。然后还得算每公斤的单价。</p><p>以前我都是一边拿着计算器，一边在各种猫粮详情页之间来回切，看一天下来头昏眼花。即便是有了普通的 AI 对话助手，我也得手动把一个个链接复制给它，让它帮我总结。</p><p>作为一个 AI 博主，这种纯体力活，必须交给 AI 自动化完成。</p><p>我先用了最近很火的 OpenClaw 来试试。用到的是 OpenClaw 配合 它官方的Browser Relay 插件。</p><p>我给龙虾的提示词是：</p><p>我家有很多只猫咪，其中有几只是玻璃胃，对含鱼肉的猫粮敏感。我现在需要在淘宝对比猫粮，请帮我列出几款热门猫粮的粗蛋白比例、粗灰分比例、前三位主要肉源、是否含有易致敏谷物（或鱼类），以及每公斤的价格。最后告诉我哪款性价比最高。</p><p>以下是龙虾的执行结果：</p><p>目的是达到了，但结果很不尽如人意。</p><p>它直接在淘宝搜索框里用关键词硬搜，搜出来的一些牌子我听都没听过。我的本意是让它对比成分，结果它偷懒了，也没把每公斤的单价算给我。</p><p>可以说，事情只做了一半。在这个场景下，龙虾貌似并不适合。</p><p>然后，我换上了 Tabbit 浏览器，先使用搜索功能。</p><p>这是Tabbit给我的猫粮列表</p><p>然后针对我常买的几款没在它初始列表里的猫粮，我直接使用 @ 功能加上 Agent 模式，让 Tabbit 自己去这几款猫粮的详情页找信息。</p><p>开启 Agent 模式后，你会看到一个舒心的画面：</p><p>Tabbit 会自动打开商品详情页，然后自己滚动鼠标页面，直到找到成分配料表的信息为止，最后把它提取出来。</p><p>最后生成的对比表格，我随便抽查了几个数据：</p><p>诚实一口p32（69元/1.5公斤=46/公斤）</p><p>蓝氏猎鸟乳鸽（99/1.5=66）</p><p>纯粹（89/5=17.8）</p><p>价格、成分完全准确！</p><p>以后换粮真的一目了然，再也不用手动去计算各种规格猫粮的性价比了～</p><p>自动化工作流与 Skills（妙招）</p><p>我还有一个痛点：每次公众号文章发布之后，我需要同步分发到其他多个平台。</p><p>虽然市面上已经有了一键同步的插件，但我还是觉得麻烦，经常发完主阵地就懒得动了。</p><p>我决定把这个任务交给 Tabbit 帮我处理。</p><p>当然，为了节省整个任务的时间，这里面我还是配合了那个文章同步插件，相当于让 Tabbit 帮我操作插件去完成分发。</p><p>PS：这里我是直接给的文章同步插件的路径，否则它貌似找不到</p><p>Tibbit的任务圆满完成，我没有给它讲清楚这个文章同步插件到底要怎么用，完全是靠它自己摸索，一步一步慢慢完成的。</p><p>虽然最后掘金的文章同步失败，但不是Tabbit的问题，而是这个文章同步器有bug，服了..</p><p>然后我感觉浏览器插件其实也相当于Tabbit的Skills了，这点还挺有用的。</p><p>让我觉得很方便的是，Tabbit 浏览器有一个 Skills（妙招） 功能。</p><p>它可以把我们验证成功的长篇 Prompt，沉淀成一个快捷指令。</p><p>以后我再发完文章，只需要在对话框里输入一个 /分发 ，调出这个 Skill 即可，只需要把新文章链接丢给它，它就会自动开始干活，极其方便。</p><p>二、 收藏与标签管理</p><p>除了帮我干活，Tabbit 浏览器还有两个功能，深深击中了我的痛点：收藏和标签管理。</p><p>我以前甚至专门开发过浏览器插件想解决这两个问题，但效果都不理想。</p><p>先说收藏。</p><p>我自己用的谷歌浏览器，这几年攒下来，收藏夹里已经有 45 个文件夹了。就算一个文件夹里只有 10 个网站，那也是至少 450 个书签。</p><p>很多时候，我只模糊的记得网站的功能，但死活想不起叫什么，也会忘记到底放到哪个收藏夹了，想用的时候找起来就像大海捞针...</p><p>Tabbit 完美的解决了这个问题。它不只保存链接，而是把整个网页内容都索引了。AI 会自动为你收藏的页面生成摘要。</p><p>更牛的是，你可以直接用自然语言搜索。</p><p>比如我@了我的收藏夹，让它帮我找一下，可以无水印导出抖音视频的网站，它能通过语义理解精准找出了三个网站，其中第二个就是我想要的～</p><p>再说标签管理。</p><p>我这个人有个习惯，电脑很少关机。工作的时候，不知不觉就会打开几十个网页。最后浏览器顶部的标签页挤得只剩下一个小小的图标，根本分不清哪个是哪个，甚至会用了超出顶部栏的显示之外...</p><p>Tabbit 的设计很人性化，支持垂直标签栏。</p><p>所有网页在左侧纵向排列，就算开很多个，标题都清晰可见。</p><p>而且它有个 智能分组 功能。</p><p>点一下，AI 就会自动根据网页的内容，把它们分类。比如查资料的归为一组，摸鱼看视频的归为一组。工作区瞬间清爽～</p><p>用了几天，我已经彻底把 Tabbit 设置为我的默认浏览器了。</p><p>为什么？因为它做到了真正的切换无感。</p><p>它的底层架构和 Chrome 是一脉相承的。除了多了一些强大的 AI 功能，其他操作习惯跟我在用 Chrome 时一模一样。</p><p>甚至我在第一次打开它的时候，它直接一键把我之前 Chrome 里的所有收藏夹、浏览记录、甚至安装的所有浏览器插件，统统无缝迁移了过来。</p><p>你完全不需要重新适应一个新工具。</p><p>其实Tabbit还有很多令人惊喜的小功能点，真就是我最近用过的宝藏工具～</p><p>然后我看了一下它的隐私政策，不会泄露用户数据给其他第三方，所有的 AI功能调用的数据传输都经过加密处理，对于个人数据来说，还算是安全的。</p><p>「最后」</p><p>深度体验下来，我觉得 Tabbit 绝对不是那种趁着 AI 热度匆忙赶出来圈钱的半成品。</p><p>你能很明显地感受到，它是在很多真实的使用场景里被细心打磨过的。</p><p>它没有那些花里胡哨但用不上的噱头，每一个功能，不管是智能分组还是收藏，都是奔着解决实际痛点去的。</p><p>而且，它是国内顶尖的AI团队「光年之外」开发的，完全契合咱们国内用户的使用习惯。</p><p>回到最初那个群友的问题。</p><p>我现在可以很确定的回答：目前想让 AI 帮你高效、稳定地上网干活，还是得交给专业的 AI 浏览器。</p><p>像 OpenClaw 这种通用型的 Agent，更适合去做那些跨软件、跨系统的系统级任务。而在浏览器这个信息密度极高的封闭场景里，Tabbit 才是那个真正懂行的专家。</p><p>Tabbit目前完全免费，感兴趣的朋友可以去体验一下这个宝藏工具</p><p><a href="https://www.tabbit-ai.com" target="_blank" rel="noopener">https://www.tabbit-ai.com</a></p><p>我是袋鼠帝，一个致力于帮你把AI变成生产力的博主。我们下期见～</p><p>能看到这里的都是凤毛麟角的存在！</p><p>如果觉得不错，随手点个赞、在看、转发三连吧~</p><p>如果想第一时间收到推送，也可以给我个星标⭐</p><p>谢谢你耐心看完我的文章~</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/PF8icWqEe2PT6zuAlBHZNdzQMFZfxK2qbn0BmdbMyyXE2lQxjibANIIibllK0UtiaSrVQ5WaBc3BGwNVLHGSDDWSRtLtxS9qq3V9GBkAiaLOjSmI/640?wx_fmt=png&amp;from=appmsg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/PF8icWqEe2PQPZcSmcb2ABbkbdS6gpibchu2ZoQicon8K95jFnibgiaDFkb9VBKbNzfSRiaKtyb5YLFjXGWER70TGLebUy1ICzxVtgCRxbkf90Dz4/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/PF8icWqEe2PSfZicOzwxVjT1bKJUR2c6HlycA5fFW6OdxnU8LFCZfE02d8yibKtMUOIdaKZdtBcf8icdpOEmc11M0c18v5Reecakdr6xysAzlQg/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/PF8icWqEe2PTrQln67xGwTczXHYp63AuRIbAHMBSuyUPX60iaarib85DWYw4Tpju1tB3nVnc2H9NOGgOASGyDP5IExChuco6GUkOoVXEqOcVF8/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/PF8icWqEe2PSn7Uen2dhr5EM7YibOEJK62erwVGMFOEmIhejwAoV2DjybVJbaK3LGbUEDDnojWF00ajHjCSiaPqptfcnIEDFic8ics0rZ3qkmWpQ/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/PF8icWqEe2PTf6Tz7dVbUicfZ3W5Y1B9icOGj0o8yo17DNt6YCicY3HSxLU4Eic5qxVlED0IIlZcJ7D8ibhUnWLj5khbIgWuQyXTKHtYcZ3WicK0U0/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://mp.weixin.qq.com/s/nc54LfE5hMiUWHwEHR6piA" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">2026-03-12T02:05:37Z</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-3">
+              <h2>💰 商业案例 <span class="count">2 篇</span></h2>
+              
+                <article id="item-3-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">AI探索站</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：Maxgent Username：23711B26-C43F-4B95-B1F0-49F55D4AD0C1王慧文重金投资的 OpenClaw 方向团队招聘【关于我们】我们是一家面向海外市场、专注于 openclaw方向的初创公司，由美团联合创始人-王慧文重金投资。</p><p>团队成员包括：前字节seed 4-1高级算法科学家 ，chatbox创始人，全明星工程师和独立开发者。💌简历投递邮箱： join@maxgent.ai，格式：应聘的岗位名称【XXX】+姓名+电话【正式员工岗位】💠研发◇高级 Windows 客户端开发工程师◇高级Web前端开发工程师◇Agent系统高级研发⼯程师◇Agent Sandbox高级研发工程师◇Agent安全研究工程师◇Agent 评估工程师💠产品◇Agent 产品经理💠运营◇Agent 海外智能增长运营：○KOL/KOC 方向○社媒内容方向○投放/SEO 方向【实习生岗位】◇Agent研究工程师实…</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-1')">点击查看全文</button>
+                <div id="fulltext-3-1" class="fulltext-source" data-title="王慧文重金投资的 OpenClaw 方向团队招聘 【关于我们】 我们是一家面向海外市场、专注于 openclaw方向的初创公司，由美团联合创始人-王慧文重金投资。 团队成员..." style="display:none;">
+                  <p>用户昵称：Maxgent</p><p>Username：23711B26-C43F-4B95-B1F0-49F55D4AD0C1</p><p>王慧文重金投资的 OpenClaw 方向团队招聘</p><p>【关于我们】</p><p>我们是一家面向海外市场、专注于 openclaw方向的初创公司，由美团联合创始人-王慧文重金投资。</p><p>团队成员包括：前字节seed 4-1高级算法科学家 ，chatbox创始人，全明星工程师和独立开发者。</p><p>💌简历投递邮箱： join@maxgent.ai，格式：应聘的岗位名称【XXX】+姓名+电话</p><p>【正式员工岗位】</p><p>💠研发</p><p>◇高级 Windows 客户端开发工程师</p><p>◇高级Web前端开发工程师</p><p>◇Agent系统高级研发⼯程师</p><p>◇Agent Sandbox高级研发工程师</p><p>◇Agent安全研究工程师</p><p>◇Agent 评估工程师</p><p>💠产品</p><p>◇Agent 产品经理</p><p>💠运营</p><p>◇Agent 海外智能增长运营：</p><p>○KOL/KOC 方向</p><p>○社媒内容方向</p><p>○投放/SEO 方向</p><p>【实习生岗位】</p><p>◇Agent研究工程师实习生</p><p>【我们能提供的】</p><p>💰极具竞争力的回报：高于市场水平的现金薪酬 + 原始股权激励，与公司长期价值深度绑定。</p><p>📍真正的从 0 到 1 机会：与顶尖工程师和独立开发者并肩作战，深度参与产品从原型到规模化的全过程。</p><p>🔺自由平等的团队文化：扁平化组织，开放沟通，充分信任，每个人都可以直接影响产品与决策。</p><p>💻AI 使用自由：所有 AI 产品体验费用公司报销，鼓励疯狂尝试和深度使用-能消耗 token 本身就是能力。</p><p>🛳️高标准办公环境与福利：高级写字楼阳光景观办公室，全新 M5 芯片 Mac（可按需求定制），1.6m 宽升降桌 + 人体工学座椅，每日三餐（中晚餐 10+ 菜自助），每日 4+ 种水果拼盘，现磨咖啡机 / 鲜牛奶 / 豆浆 / 品牌酸奶，坚果、精选零食与饮料（可按照你的喜好采买）无限量供应。</p><p>#AIHackathon</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/Fj3gi6NVZkYFU_9FUCfX2jJ7WYbOv3.jpg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69b2c5965c8ab7c8ab7199e1" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 13:54:30 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-3-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>兔妹_兔子: 兔子招人，名额 1 人，坐标深圳宝安岗位职责：技术支持工作内容：对兔友提供技术支持服务（小白用户太多了，需要抢救😂）薪资待遇：面议学历要求：大专工作时长：双休办公硬件：mac办公软件： claudecode/codex/openclaw团队成员：多位腾讯老登带队财务状况：正向现金流增长</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2032206937677295895" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 21:27:45 GMT</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+            <section id="cat-4">
+              <h2>📰 资讯动态 <span class="count">16 篇</span></h2>
+              
+                <article id="item-4-1" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">AI探索站</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：蒋凌安 Username：E03A35C7-CC0D-4B79-B2EC-9DFE8A1D6F51我们是来自 MiniMax、字节、Meta 的 AI 创业团队，我们为你的小龙虾（openclaw🦞）造了一个可以与全球 Agent 通信的广播网络，今天公测上线！</p><p>Every agent is an island.Until now！</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-1')">点击查看全文</button>
+                <div id="fulltext-4-1" class="fulltext-source" data-title="我们是来自 MiniMax、字节、Meta 的 AI 创业团队，我们为你的小龙虾（openclaw🦞）造了一个可以与全球 Agent 通信的广播网络，今天公测上线！ Every agent is ..." style="display:none;">
+                  <p>用户昵称：蒋凌安</p><p>Username：E03A35C7-CC0D-4B79-B2EC-9DFE8A1D6F51</p><p>我们是来自 MiniMax、字节、Meta 的 AI 创业团队，我们为你的小龙虾（openclaw🦞）造了一个可以与全球 Agent 通信的广播网络，今天公测上线！</p><p>Every agent is an island. Until now！</p><p>简单来说，你的 Agent 可以用 EigenFlux 向全世界发射任何广播，也可以接收你感兴趣的广播。在所有 Agent之间，是我们构建的 AI 引擎，它负责为每个 Agent个性化的匹配信息。</p><p>当所有Agent连成网络，能做的事没有边界。</p><p>你可以让🦞通过EigenFlux找人、找项目、接收你关心的任何信息，甚至是收到机票降价信号后自动抢票……</p><p>下面是一些有趣的场景：</p><p>🏠你要搬家。发射广播&quot;找一居室，上海徐家汇地铁站附近，8000 元以内&quot;。几分钟后，一些房东的 Agent 响应，各自发来房源信息。你的 Agent 筛完后，直接和房东 Agent 约看房时间，不需要你再反复沟通。</p><p>💰你是vc投资人。订阅广播&quot;AI+医疗 北美创业项目&quot;。每周都会收到几个匹配的项目，不是搜的，是创始人们的 Agent 主动广播出来的。</p><p>📈你是美股投资者。3月10日凌晨，霍尔木兹海峡断航。你的 Agent 事先在EigenFlux订阅了&quot;地缘冲突&quot;相关广播，消息发生后不到10分钟，一条结构化信号被主动推送过来。这是真金白银的时间差。</p><p>作为冷启动，我们自建了超过1000个高质量广播节点，覆盖 AI、科技、股票、学术、加密货币、地缘政治等12个领域，接入即可得到以上全部一手信息。实时推送，完全免费。</p><p>而且甚至更省钱：实测同样一条信息，广播比搜索节省94%的 token 消耗。</p><p>最后，我们还做了一场社会实验。因为这是历史上第一次，智能体拥有了属于自己的公共通信网络。它们之间会涌现出什么？我们都很好奇。欢迎一起去eigenflux.ai官网围观直播，看世界版图被agent的广播信号渐次点亮 👀🌏</p><p>前往官网复制提示词，发给你的🦞让它自己加入：eigenflux.ai</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FpYVMlyV6xdooljKp2BDNOV0bz1Rv3.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FuEZSqQ_vT7MYf-xfjlCPac3EG5Iv3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FqP41m3wh0z8JSZw-IK7PGzCmtnGv3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FgUDi_LlCeY6YOJKQIvJB_Yf3SMVv3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FmrOjUbfvkpQNAlB4J81PkkPGvE3v3.png" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/Fo_y-AYTrRXIZutAL1_6sgG6hwIuv3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69b2a4079f3cd84f656dd75c" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 11:31:19 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-2" class="card">
+                  <div class="meta">
+                    <span class="pill importance">⭐ 推荐</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">nazha</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>#分享 玩 OpenClaw 也有一段时间了，给大家提供个可玩的三个循序渐进的上手顺序：1. 先玩 Openclaw 的路由系统（先了解渠道，机器人和Agents 有哪些玩法）2. 再玩 Skills （能不能搞一些工作流来替代平时重复的工作）3. 再玩 Agents (搭一个一人公司)</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/xiaokedada/status/2032112729172165052" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 15:13:24 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-3" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>AI资讯日报，3月12日：<a href="https://gorden-sun.notion.site/3-12-AI-321594247325805f9762d181168f3d58?source=copy_link" target="_blank" rel="noopener">https://gorden-sun.notion.site/3-12-AI-321594247325805f9762d181168f3d58?source=copy_link</a></p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDOA4YNaAAAK137?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2032109589337117144" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 15:00:55 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-4" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>做的好啊，AI教学版多邻国，根据你选的内容和喜好来生成课程和练习题，有AI助教可以随时问问题。我觉得比可汗学院的AI做的好。</p><p>Cheng-Wei Hu: I left NotebookLM a few months ago to solve a bigger problem in learning.Today, as the first step, we are launching @WonderingApp for early access.It&#x27;s Duolingo for anything — turning any topic into a guided path with bite-size visual lessons that can fit into your busy</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDN57TqbQAQqg9B?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HDN57TrbsAAB48Q?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HDN57TqbQAI-WCK?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HDN57TpbIAEP_VV?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2032101940231094584" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 14:30:31 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-5" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">一泽</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>搞了套新玩具，全天录音，给 AI 攒更多个人上下文想做这个测试，其实很久了之前朋友都向我推荐买个麦克风，说有好几个好处：1）更爽的 vibe coding2）全天内录，回家归档自己的一天上下文3）当然，还能顺便做视频内容从直觉上来讲，人的一天上下文其实是脉冲式的，感觉提升不会太大比如独处的时候没有干活，你可能一句话也不会说，然后可能也会跟一些人进行很琐碎的对话。</p><p>也可能会一口气好几个小时跟 AI 进行 vibe coding。但自己想买点东西，消费欲上头，找了一个好像跟自己职业有关的正当理由，排解自己“想买点东西”的心情万一有用呢？</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-2')">点击查看全文</button>
+                <div id="fulltext-4-2" class="fulltext-source" data-title="搞了套新玩具，全天录音，给 AI 攒更多个人上下文 想做这个测试，其实很久了 之前朋友都向我推荐买个麦克风，说有好几个好处： 1）更爽的 vibe coding 2）全天内..." style="display:none;">
+                  <p>搞了套新玩具，全天录音，给 AI 攒更多个人上下文</p><p>想做这个测试，其实很久了</p><p>之前朋友都向我推荐买个麦克风，说有好几个好处：</p><p>1）更爽的 vibe coding</p><p>2）全天内录，回家归档自己的一天上下文</p><p>3）当然，还能顺便做视频内容</p><p>从直觉上来讲，人的一天上下文其实是脉冲式的，感觉提升不会太大</p><p>比如独处的时候没有干活，你可能一句话也不会说，然后可能也会跟一些人进行很琐碎的对话。也可能会一口气好几个小时跟 AI 进行 vibe coding。</p><p>但自己想买点东西，消费欲上头，找了一个好像跟自己职业有关的正当理由，排解自己“想买点东西”的心情</p><p>万一有用呢？（我得保留我购置新品的正当理由，再怎么说，我也有个博主身份，还能让视频声音录的清晰点（大概）</p><p>当然，在实验开始前也跟大家分享一下我对它的初始期待：</p><p>1）在 vibe coding 时，拾音转写更准，减少删删改改</p><p>2）关于记忆上下文（回到 Chat Memo 老本行）</p><p>- 激进的部分：测一下 agent 自动处理全天录音，能不能挖出更多有用的、人自己注意不到的规律信息</p><p>- 保守的部分：就算没全天录音，临时想记条备忘、闪念，也能有更快的启动速度。夹在领子上总比找手机方便。</p><p>就是这样，先去折腾录音转写 skill 了👋</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDNRUOUbIAIab_A?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/eze_is_1/status/2032057273758241086" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 11:33:02 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-6" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>比较靠谱的猜测，hunter是蚂蚁的Ling-2.6-1T。healer是小米的模型。</p><p>向阳乔木: 求证：OpenRouter新上的两个隐身模型是DeepSeek V4吗？发现自 @geekbb 一个叫Healer Alpha（治疗者Alpha）具有视觉、听觉、推理和行动能力的前沿全模态模型。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-3')">点击查看全文</button>
+                <div id="fulltext-4-3" class="fulltext-source" data-title="比较靠谱的猜测，hunter是蚂蚁的Ling-2.6-1T。 healer是小米的模型。" style="display:none;">
+                  <p>比较靠谱的猜测，hunter是蚂蚁的Ling-2.6-1T。</p><p>healer是小米的模型。</p><p>向阳乔木: 求证：OpenRouter新上的两个隐身模型是DeepSeek V4吗？</p><p>发现自 @geekbb</p><p>一个叫Healer Alpha（治疗者Alpha）</p><p>具有视觉、听觉、推理和行动能力的前沿全模态模型。</p><p>原生感知视觉和音频输入、跨模态推理以及精确可靠地执行复杂的多步骤任务。</p><p>一个叫Hunter Alpha（狩猎者Alpha）</p><p>Hunter</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDKxrDcbcAAqUDn?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HDKx1hEbQAER63A?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2032030117678235723" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 09:45:08 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-7" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>有多少人工就有多少智能。</p><p>接入人工识图打码服务，一次0.001美元，好像不算贵啊</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDN_RAfbYAAWw_n?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2032107946382147897" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 14:54:23 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-8" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>数字生命卡兹克: 只要想念，必会相见。我时常觉得自己是个骗子。</p><p>他们说，这个叫做冒名顶替综合征。所以我的成就感来源，很多时候是希望见到那些曾经只是在屏幕对面的才能见到的大佬和前辈们，能得到他们的认可，跟他们有一些交流和学习交流的机会</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2032054070874382706" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 11:20:18 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-9" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>冷知识学习：“御三家”的来源。</p><p>经常有人把国产的claude平替模型喊为“御三家”。</p></div>
+                  
+                  
+                <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-4')">点击查看全文</button>
+                <div id="fulltext-4-4" class="fulltext-source" data-title="冷知识学习：“御三家”的来源。 经常有人把国产的claude平替模型喊为“御三家”。 看来还不能这么说，哈哈。" style="display:none;">
+                  <p>冷知识学习：“御三家”的来源。</p><p>经常有人把国产的claude平替模型喊为“御三家”。</p><p>看来还不能这么说，哈哈。</p>
+                </div>
+                
+                  <div class="media-grid"><img src="https://pbs.twimg.com/media/HDNNXcXbQAM601_?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HDNNXcVbIAAVNg2?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2032052932271890867" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 11:15:47 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-10" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">☕ 即刻</span>
+                    <span class="source">AI探索站</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>用户昵称：阑夕ོ Username：FBAA4408-2343-45AD-9B4F-4ABD52FB84CA语言的艺术⋯⋯太牛逼了，太牛逼了。</p></div>
+                  
+                  
+                  <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FiyOHQZJBayxUDAhw3TJPORYk5xXv3.jpg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+                  
+                  <div class="footer">
+                    <a href="https://m.okjike.com/originalPosts/69b28a739f3cd84f656b612d" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 09:42:11 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-11" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">Gorden Sun</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p><a href="http://x.com/i/article/2032138322391547908" target="_blank" rel="noopener">http://x.com/i/article/2032138322391547908</a></p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/Gorden_Sun/status/2032141698562998332" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 17:08:30 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-12" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT Tw93 <a href="http://x.com/i/article/2032079318256664586" target="_blank" rel="noopener">http://x.com/i/article/2032079318256664586</a></p></div>
+                  <div class="orig-summary">原文：<p>RT Tw93<a href="http://x.com/i/article/2032079318256664586" target="_blank" rel="noopener">http://x.com/i/article/2032079318256664586</a></p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2032124881656242377" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 13:48:02 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-13" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT Tw93 <a href="http://x.com/i/article/2032079318256664586" target="_blank" rel="noopener">http://x.com/i/article/2032079318256664586</a></p></div>
+                  <div class="orig-summary">原文：<p>RT Tw93<a href="http://x.com/i/article/2032079318256664586" target="_blank" rel="noopener">http://x.com/i/article/2032079318256664586</a></p></div>
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2032152823790489810" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 13:48:02 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-14" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">向阳乔木</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>RT 苍何<a href="http://x.com/i/article/2032043736197378048" target="_blank" rel="noopener">http://x.com/i/article/2032043736197378048</a></p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/vista8/status/2032122685313229042" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Thu, 12 Mar 2026 10:41:58 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-15" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">𝕏 推特</span>
+                    <span class="source">宝玉</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>云风: @jefflijun 您有没有想过，有产品经验的用户拿起 AI 直接搓产品，跳过产品经理这个“中间商”</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://x.com/dotey/status/2032260011309584737" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">Fri, 13 Mar 2026 00:58:38 GMT</span>
+                  </div>
+                </article>
+                
+                <article id="item-4-16" class="card">
+                  <div class="meta">
+                    <span class="pill importance">📌 一般</span>
+                    <span class="pill platform">📱 公众号</span>
+                    <span class="source">公众号源</span>
+                  </div>
+                  
+                  
+                  
+                  <div class="summary"><p>&lt;div style=&quot;max-width:600px;width:100%;</p><p>margin:0 auto;&quot;只要想念，必会相见。</p></div>
+                  
+                  
+                  
+                  
+                  <div class="footer">
+                    <a href="https://mp.weixin.qq.com/s/hsXSZ9VOTVFirhb69eoq1g" target="_blank" rel="noopener">🔗 阅读原文</a>
+                    <span class="date">2026-03-12T02:15:45Z</span>
+                  </div>
+                </article>
+                
+            </section>
+            
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">×</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = src;
+      box.classList.add('open');
+    }
+    function closeLightbox() {
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      img.src = '';
+      box.classList.remove('open');
+    }
+
+    function openArticleModal(id) {
+      var src = document.getElementById(id);
+      if (!src) return;
+      var modal = document.getElementById('articleModal');
+      var title = document.getElementById('articleModalTitle');
+      var body = document.getElementById('articleModalBody');
+      title.textContent = src.getAttribute('data-title') || '全文';
+      body.innerHTML = src.innerHTML || '';
+      modal.classList.add('open');
+    }
+    function closeArticleModal() {
+      var modal = document.getElementById('articleModal');
+      var body = document.getElementById('articleModalBody');
+      body.innerHTML = '';
+      modal.classList.remove('open');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeArticleModal();
+      }
+    });
+  </script>
+</body>
+</html>
