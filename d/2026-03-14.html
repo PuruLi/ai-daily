@@ -1,0 +1,1387 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI 日报 - 2026-03-14</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --bg: #f7f6f3;
+    --card: #ffffff;
+    --text: #2c2c2c;
+    --text-secondary: #9b9b9b;
+    --text-body: #4a4a4a;
+    --border: #ebe8e4;
+    --border-light: #f0eeeb;
+    --primary: #3d7c6b;
+    --primary-hover: #2e6355;
+    --primary-bg: #eef6f3;
+    --accent: #c97b3a;
+    --accent-bg: #fef7f0;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md: 0 4px 20px rgba(0,0,0,.06);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,.08);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 16px/1.8 'Inter','Noto Sans SC',system-ui,-apple-system,sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  /* ---- 布局 ---- */
+  .layout { max-width: 1360px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: 28px; padding: 28px; min-height: 100vh; }
+
+  /* ---- 侧边栏 ---- */
+  .sidebar { position: sticky; top: 20px; height: calc(100vh - 40px); overflow-y: auto; background: var(--card); border-radius: var(--radius); padding: 24px 20px; box-shadow: var(--shadow-md); scrollbar-width: thin; scrollbar-color: #d4d0cc transparent; }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: #d4d0cc; border-radius: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+
+  .brand { padding-bottom: 20px; border-bottom: 1px solid var(--border-light); margin-bottom: 4px; }
+  .brand h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -.3px; }
+  .brand-date { color: var(--text-secondary); font-size: 14px; margin-top: 4px; font-weight: 500; }
+  .stats-bar { display: flex; align-items: center; gap: 6px; color: var(--text-secondary); font-size: 13px; margin-top: 8px; }
+  .stats-bar .dot { opacity: .3; font-size: 8px; }
+  .stats-bar strong { color: var(--text); font-weight: 600; }
+
+  .nav-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); margin: 20px 0 10px; padding-left: 2px; }
+  .nav-link { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: var(--radius-sm); color: var(--text); text-decoration: none; font-size: 14.5px; font-weight: 500; transition: all .15s ease; }
+  .nav-link:hover { background: var(--primary-bg); color: var(--primary); text-decoration: none; }
+  .nav-count { font-size: 12px; color: var(--text-secondary); background: var(--bg); border-radius: 10px; padding: 1px 8px; font-weight: 600; min-width: 24px; text-align: center; }
+
+  .hotbox { margin-top: 4px; }
+  .hotbox ol { padding-left: 0; list-style: none; counter-reset: hotlist; }
+  .hotbox li { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--border-light); counter-increment: hotlist; }
+  .hotbox li:last-child { border-bottom: none; }
+  .hotbox li a { color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500; line-height: 1.45; display: block; }
+  .hotbox li a::before { content: counter(hotlist); display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; background: var(--bg); color: var(--text-secondary); font-size: 10px; font-weight: 700; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+  .hotbox li:nth-child(-n+3) a::before { background: var(--primary); color: #fff; }
+  .hotbox li a:hover { color: var(--primary); }
+  .hot-source { display: block; color: var(--text-secondary); font-size: 12px; margin-top: 3px; padding-left: 26px; }
+
+  .health-box { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-light); }
+  .health-box summary { cursor: pointer; font-size: 13px; color: var(--text-secondary); user-select: none; font-weight: 600; }
+  .health-list { margin: 10px 0 0; padding-left: 0; list-style: none; font-size: 12px; }
+  .health-list li { margin: 5px 0; color: var(--text-secondary); }
+  .health-link { color: var(--text-secondary); text-decoration: none; }
+  .health-link:hover { color: var(--primary); }
+  .health-err { color: #c0392b; font-size: 11px; }
+
+  /* ---- 主内容 ---- */
+  .content { min-width: 0; }
+  section { margin-bottom: 40px; }
+  .section-title { font-size: 18px; font-weight: 700; margin: 0 0 18px; padding: 10px 16px; background: var(--card); border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); letter-spacing: -.2px; display: flex; align-items: center; justify-content: space-between; }
+  .section-count { color: var(--text-secondary); font-size: 13px; font-weight: 600; background: var(--bg); padding: 2px 10px; border-radius: 10px; }
+
+  /* ---- 卡片 ---- */
+  .card { background: var(--card); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 14px; box-shadow: var(--shadow-sm); transition: box-shadow .2s ease, transform .2s ease; position: relative; }
+  .card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .card-meta { display: flex; gap: 6px; align-items: center; }
+  .card-date { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+  .card-author { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 8px; letter-spacing: -.1px; }
+
+  .pill { font-size: 11.5px; border-radius: 5px; padding: 2px 8px; font-weight: 700; letter-spacing: .2px; }
+  .pill.importance { background: var(--accent-bg); color: var(--accent); }
+  .pill.platform { background: var(--primary-bg); color: var(--primary); }
+
+  .card-title { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 12px; overflow-wrap: anywhere; color: var(--text); letter-spacing: -.2px; }
+  .orig-title { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; font-style: italic; }
+
+  .summary p { margin: 0 0 12px; color: var(--text-body); line-height: 1.85; font-size: 15px; }
+  .orig-summary { margin-top: 14px; padding: 12px 14px; background: #faf9f7; border-radius: var(--radius-sm); }
+  .orig-summary p { color: var(--text-secondary); font-size: 13.5px; line-height: 1.7; margin: 0 0 8px; }
+  .orig-summary p:last-child { margin-bottom: 0; }
+
+  /* ---- AI 总结 ---- */
+  .ai-box { margin: 14px 0; background: #f5f9f8; border-left: 3px solid var(--primary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 16px; }
+  .ai-title { font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .8px; }
+  .ai-box ul { margin: 0; padding-left: 16px; }
+  .ai-box li { margin: 4px 0; font-size: 14px; color: var(--text-body); line-height: 1.65; }
+  .ai-box li::marker { color: var(--primary); }
+  .ai-insight { margin: 10px 0 0; color: var(--primary-hover); font-size: 14px; line-height: 1.7; border-top: 1px solid #e0ebe8; padding-top: 10px; font-style: italic; }
+
+  /* ---- 全文按钮 ---- */
+  .btn-fulltext { margin-top: 12px; border: none; background: var(--primary-bg); color: var(--primary); border-radius: var(--radius-sm); padding: 8px 18px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s ease; }
+  .btn-fulltext:hover { background: var(--primary); color: #fff; }
+  .fulltext-source { display: none; }
+
+  /* ---- 图片 ---- */
+  .media-grid { margin: 20px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .media-grid img { width: 100%; max-height: 360px; object-fit: contain; border-radius: var(--radius-sm); background: var(--bg); cursor: zoom-in; transition: opacity .2s; }
+  .media-grid img:hover { opacity: .9; }
+
+  /* ---- 视频/iframe 约束 ---- */
+  .card video, .card iframe, .article-body video, .article-body iframe { max-width: 100%; height: auto; border-radius: var(--radius-sm); margin: 16px 0; }
+
+  /* ---- 摘要内嵌内容约束 ---- */
+  .summary img { max-width: 100%; height: auto; border-radius: var(--radius-sm); margin: 14px 0; }
+  .summary video, .summary iframe { max-width: 100%; height: auto; margin: 14px 0; }
+  .summary { color: var(--text-body); font-size: 15px; line-height: 1.85; }
+
+  /* ---- 引用推文 / blockquote ---- */
+  .card blockquote, .article-body blockquote, .summary blockquote { margin: 12px 0; padding: 10px 16px; border-left: 3px solid var(--border); background: var(--bg); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; color: var(--text-body); font-size: 14px; }
+  /* RSSHub 引用推文样式 */
+  .rsshub-quote { margin: 16px 0; padding: 12px 16px; border-left: 3px solid #c4b5a0; background: #faf8f5; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 14px; color: var(--text-body); line-height: 1.75; }
+  .rsshub-quote > br:first-child, .rsshub-quote > br:first-child + br { display: none; }
+  .rsshub-quote img { max-width: 100%; height: auto; border-radius: var(--radius-sm); margin: 8px 0; }
+  .rt-quote { margin: 12px 0; padding: 12px 16px; border-left: 3px solid #c4b5a0; background: #faf8f5; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .rt-quote .rt-author { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+  .rt-quote .rt-body { font-size: 14.5px; color: var(--text-body); line-height: 1.75; }
+
+  /* ---- 选题 ---- */
+  .topic-tip { margin-top: 14px; background: var(--accent-bg); border-left: 3px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 16px; }
+  .tip-tag { font-size: 12px; display: inline-block; margin-bottom: 8px; color: #fff; font-weight: 700; background: var(--accent); padding: 2px 10px; border-radius: 5px; }
+  .topic-tip p { margin: 4px 0; font-size: 14px; color: #6b4c2e; line-height: 1.65; }
+  .topic-tip strong { font-weight: 600; }
+  .ai-status-tag { margin-top: 12px; font-size: 12px; color: var(--text-secondary); font-weight: 500; padding: 6px 12px; background: var(--bg); border-radius: var(--radius-sm); display: inline-block; }
+  .ai-status-tag.ai-status-none { color: #b45309; background: #fffbeb; }
+
+  /* ---- 卡片底部 ---- */
+  .card-footer { padding-top: 14px; margin-top: 16px; border-top: 1px solid var(--border-light); }
+  .read-link { color: var(--primary); font-size: 14px; font-weight: 600; text-decoration: none; transition: color .15s; }
+  .read-link:hover { color: var(--primary-hover); }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .muted { color: var(--text-secondary); font-size: 14px; }
+
+  /* ---- 灯箱 ---- */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(20,20,18,.88); z-index:9999; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(4px); }
+  .lightbox.open { display:flex; }
+  .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:var(--radius-sm); }
+  .lightbox .close { position:fixed; right:24px; top:18px; color:#fff; font-size:28px; cursor:pointer; user-select:none; opacity:.7; transition:opacity .15s; }
+  .lightbox .close:hover { opacity:1; }
+
+  /* ---- 全文弹窗 ---- */
+  .article-modal { display:none; position:fixed; inset:0; background:rgba(20,20,18,.5); z-index:10000; align-items:center; justify-content:center; padding:16px; backdrop-filter:blur(4px); }
+  .article-modal.open { display:flex; }
+  .article-panel { width:min(1000px,96vw); max-height:90vh; background:#fff; border-radius:var(--radius); display:flex; flex-direction:column; overflow:hidden; box-shadow: var(--shadow-lg); }
+  .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:16px 24px; border-bottom:1px solid var(--border-light); }
+  .article-toolbar .title { font-size:16px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; color:var(--text); }
+  .article-toolbar button { border:none; background:var(--bg); border-radius:var(--radius-sm); width:34px; height:34px; cursor:pointer; font-size:16px; color:var(--text-secondary); transition:all .15s; display:flex; align-items:center; justify-content:center; }
+  .article-toolbar button:hover { background: var(--border); color: var(--text); }
+  .article-body { overflow:auto; padding:28px 32px; font-size:16px; line-height:1.85; color:var(--text-body); }
+  .article-body p { margin:0 0 16px; }
+  .article-body img { max-width:100%; height:auto; border-radius:var(--radius-sm); margin:12px 0; }
+  .article-body video, .article-body iframe { max-width:100%; height:auto; border-radius:var(--radius-sm); margin:12px 0; }
+  .article-body blockquote { margin:14px 0; padding:12px 16px; border-left:3px solid var(--border); background:var(--bg); border-radius:0 var(--radius-sm) var(--radius-sm) 0; }
+  .article-body a { word-break: break-all; }
+  .article-ai-box { background:#f5f9f8; border-left:3px solid var(--primary); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:14px 16px; margin-bottom:20px; }
+  .article-ai-box .ai-title { font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .8px; }
+  .article-ai-box ul { margin: 0; padding-left: 16px; }
+  .article-ai-box li { margin: 4px 0; font-size: 14px; color: var(--text-body); line-height: 1.65; }
+  .article-ai-box li::marker { color: var(--primary); }
+  .article-ai-box .ai-insight { margin: 10px 0 0; color: var(--primary-hover); font-size: 14px; line-height: 1.7; border-top: 1px solid #e0ebe8; padding-top: 10px; font-style: italic; }
+  .article-modal-meta { padding: 0 0 16px; margin-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+  .article-modal-meta .meta-author { font-size: 14px; font-weight: 600; color: var(--primary); }
+  .article-modal-meta .meta-date { font-size: 13px; color: var(--text-secondary); margin-left: 12px; }
+
+  /* ---- 响应式 ---- */
+  @media (max-width:1024px) {
+    .layout { grid-template-columns:1fr; padding:14px; gap:16px; }
+    .sidebar { order:1; position:static; height:auto; max-height:none; overflow-y:visible; padding:18px 16px; }
+    .content { order:2; }
+    .sidebar-nav { display:flex; gap:6px; overflow-x:auto; flex-wrap:nowrap; padding-bottom: 4px; }
+    .nav-link { flex:0 0 auto; white-space:nowrap; background:var(--bg); font-size:14px; border: 1px solid var(--border-light); }
+    .nav-label { display:none; }
+    .hotbox { display: none; }
+    .media-grid { grid-template-columns:1fr; }
+    .card { padding:20px; margin-bottom:12px; }
+    .section-title { font-size: 16px; padding: 8px 14px; }
+  }
+  @media (max-width:640px) {
+    .card-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .card-title { font-size: 16.5px; }
+    .summary p { font-size: 14.5px; }
+  }
+</style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <p class="brand-date">2026-03-14</p>
+        <div class="stats-bar">
+          <span>源 26</span>
+          <span class="dot">·</span>
+          <span>成功 11</span>
+          <span class="dot">·</span>
+          <span>失败 0</span>
+        </div>
+        <div class="stats-bar">
+          <span>去重后 <strong>34</strong> 条</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-label">分类</div>
+        <a href="#cat-0" class="nav-link"><span>🔥 重磅发布</span><span class="nav-count">5</span></a><a href="#cat-1" class="nav-link"><span>🛠 工具推荐</span><span class="nav-count">5</span></a><a href="#cat-2" class="nav-link"><span>💡 行业观点</span><span class="nav-count">9</span></a><a href="#cat-3" class="nav-link"><span>📚 教程技巧</span><span class="nav-count">6</span></a><a href="#cat-4" class="nav-link"><span>💰 商业案例</span><span class="nav-count">1</span></a><a href="#cat-5" class="nav-link"><span>📰 资讯动态</span><span class="nav-count">8</span></a>
+      </nav>
+      <div class="hotbox">
+        <div class="nav-label">今日重点</div>
+        <ol><li><a href="#item-3-1">12 节课学懂 Claude Code</a><span class="hot-source">宝玉</span></li><li><a href="#item-0-1">Claude 百万上下文正式开放</a><span class="hot-source">宝玉</span></li><li><a href="#item-1-1">Tabbit 成了新搭档</a><span class="hot-source">公众号源</span></li><li><a href="#item-4-1">8万粉做出100万广告收入</a><span class="hot-source">你不知道的行业内幕</span></li><li><a href="#item-2-1">Memory 是 Agent 分水岭</a><span class="hot-source">elvis</span></li><li><a href="#item-1-2">免费中文 ASR 比 Whisper 更稳</a><span class="hot-source">向阳乔木</span></li><li><a href="#item-3-2">定时任务别卡整点</a><span class="hot-source">吕立青_JimmyLv</span></li><li><a href="#item-3-3">Learn Claude Code 入门资源</a><span class="hot-source">Tw93</span></li><li><a href="#item-0-2">Google Maps 上新 AI 导航</a><span class="hot-source">Gorden Sun</span></li><li><a href="#item-1-3">Claude Code 多端开发真顺</a><span class="hot-source">JitHub程序员</span></li></ol>
+      </div>
+      
+    <div class="health-box">
+      <details>
+        <summary>源状态 🟢11 🟡15 🔴0</summary>
+        <ul class="health-list"><li>🟡 <a href="https://api.substack.com/feed/podcast/10845/s/198869/private/4477642e-4891-4b0e-931e-52d3917ce6b8.rss" target="_blank" rel="noopener" class="health-link">https://api.substack.com/feed/podcast/10845/s…</a></li><li>🟡 <a href="https://blog.n8n.io/rss/" target="_blank" rel="noopener" class="health-link">https://blog.n8n.io/rss/</a></li><li>🟡 <a href="https://rsshub.hyrule.top/jike/user/35224A78-8B11-469E-B307-16B58688FBEC" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/user/35224A78-…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/aigclink" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/aigcli…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/home" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/home</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/sama" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/sama</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/tuturetom" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/tuture…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/yangyi" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/yangyi</a></li><li>🟡 <a href="https://s.baoyu.io/feed.xml" target="_blank" rel="noopener" class="health-link">https://s.baoyu.io/feed.xml</a></li><li>🟡 <a href="https://rsshub.hyrule.top/jike/topic/63579abb6724cc583b9bba9a/1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/topic/63579abb…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/Gorden_Sun" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/Gorden…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/aiwarts" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/aiwart…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/canghe" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/canghe</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/eze_is_1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/eze_is…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/nicekate8888" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/niceka…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/xiaokedada" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/xiaoke…</a></li><li>🟢 <a href="https://gzh.hyrule.top/mpClassificationAtom/1" target="_blank" rel="noopener" class="health-link">https://gzh.hyrule.top/mpClassificationAtom/1</a></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/topic/55e02198dcef9f0e00d7b3c3/1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/topic/55e02198…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/topic/5699f451d3e8351200bffdc8/1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/topic/5699f451…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/HiTw93" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/HiTw93</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/Jimmy_JingLv" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/Jimmy_…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/dotey" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/dotey</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/gefei55" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/gefei5…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/levelsio" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/levels…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/omarsar0" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/omarsa…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/vista8" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/vista8</a></li></ul>
+      </details>
+    </div>
+    
+    </aside>
+    <main class="content">
+      
+        <section id="cat-0">
+          <h2 class="section-title">🔥 重磅发布 <span class="section-count">5 篇</span></h2>
+          
+    <article id="item-0-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 21:25</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">Claude Opus 4.6 和 Sonnet 4.6 的 100 万 token 上下文窗口今天正式全面开放（GA），且不加价，按标准价格计费，无论请求长度是 9K 还是 900K token，单价完全一样。<br><br>Opus 4.6 的定价是输入 $5、输出 $25（每百万 token），Sonnet 4.6 是 $3/$15。此前超过 20 万 token 的请求需要加 beta 标头，现在直接生效，已有代码无需改动。<br><br>除了价格统一，这次更新还有几个实际变化：单次请求可处理的图片和 PDF 页数从 100 提升到 600；所有上下文长度享受相同的速率限制，不会因为请求变长而被限流。Claude Code 的 Max、Team 和 Enterprise 用户在使用 Opus 4.6 时将默认启用 100 万上下文，意味着对话压缩（compaction）频率大幅降低，更多对话历史得以完整保留。<br><br>在准…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-1')">📖 查看全文</button>
+        <div id="fulltext-0-1" class="fulltext-source" data-title="Claude Opus 4.6 和 Sonnet 4.6 的 100 万 token 上下文窗口今天正式全面开放（GA），且不加价，按标准价格计费，无论请求长度是 9K 还是 900K token，单价完全..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Opus 4.6 与 Sonnet 4.6 百万上下文 GA&lt;/li&gt;&lt;li&gt;不加价且不再需要 beta 标头&lt;/li&gt;&lt;li&gt;图片/PDF 容量和长任务稳定性同步提升&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;百万上下文真正改变的不是参数表，而是很多长任务终于不用频繁压缩和丢细节&lt;/p&gt;" data-author="宝玉" data-date="3月13日 21:25" style="display:none;">
+          Claude Opus 4.6 和 Sonnet 4.6 的 100 万 token 上下文窗口今天正式全面开放（GA），且不加价，按标准价格计费，无论请求长度是 9K 还是 900K token，单价完全一样。<br><br>Opus 4.6 的定价是输入 $5、输出 $25（每百万 token），Sonnet 4.6 是 $3/$15。此前超过 20 万 token 的请求需要加 beta 标头，现在直接生效，已有代码无需改动。<br><br>除了价格统一，这次更新还有几个实际变化：单次请求可处理的图片和 PDF 页数从 100 提升到 600；所有上下文长度享受相同的速率限制，不会因为请求变长而被限流。Claude Code 的 Max、Team 和 Enterprise 用户在使用 Opus 4.6 时将默认启用 100 万上下文，意味着对话压缩（compaction）频率大幅降低，更多对话历史得以完整保留。<br><br>在准确率方面，Opus 4.6 在 MRCR v2 基准上得分 78.3%，Sonnet 4.6 在 GraphWalks BFS 上得分 68.4%，均为同类前沿模型在百万 token 长度下的最高分。简单说就是：窗口虽大，信息检索能力没有打折。<br>Anthropic 引用了多家客户的反馈来说明实际效果。<br><br>Cognition（Devin 背后的公司）表示，此前大型代码差异塞不进 20 万上下文窗口，需要分批处理，容易丢失跨文件依赖；现在整个差异一次送入，代码审查质量更高，流程也更简单。Ramp 的工程师提到，Claude Code 在调试时经常消耗超过 10 万 token 检索各类数据源，一旦触发压缩就会丢失细节、陷入重复调试循环，百万上下文直接消除了这个问题。<br><br>该功能今天起通过 Claude Platform 原生支持，也可通过 Amazon Bedrock、Google Cloud Vertex AI 和 Microsoft Foundry 使用。<div class="rsshub-quote"><br><br>Claude: 1 million context window: Now generally available for Claude Opus 4.6 and Claude Sonnet 4.6.<br><br><img width="1920" height="1080" style="" src="https://pbs.twimg.com/media/HDTovvJaMAI8jWP?format=png&amp;name=orig" referrerpolicy="no-referrer"></div>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDTovvJaMAI8jWP?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2032568646149747198" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 14:54</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">Google地图大幅更新<br>新增2个核心功能：Ask Maps（对话式地图问答）和Immersive Navigation（沉浸式导航）<br><br>Ask Maps：能处理多条件、个性化的复杂查询，例如“手机快没电了，哪里能充电又不用排长队买咖啡？”。实现这一功能靠的是底层整合了超过3亿个地点信息和5亿+贡献者的评论数据，回答中包含预计到达时间和真人实用建议<br><br>Immersive Navigation：全新3D视图实时反映周围建筑、立交桥和地形，关键路段会标注车道线、人行横道、红绿灯和停车标志；智能缩放和透明建筑效果帮助提前预判复杂转弯和变道；<br><br>官方介绍：<a href="https://blog.google/products-and-platforms/products/maps/ask-maps-immersive-navigation/" target="_blank" rel="noopener">https://blog.google/products-and-platforms/products/maps/ask-maps-immersive-navigation/</a><br><video width="1080" height="1080" src="https://video.twimg.com/amplify_video/2032470091330412544/vid/avc1/1080x1080/gIIQyaQ71uXOOhjg.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2032470091330412544/img/owXVR01HGBCyRErY.jpg"></video></div>
+      
+      
+      
+      
+        <div class="topic-tip">
+          <div class="tip-tag">🔥 热点借势</div>
+          <p><strong>选题角度：</strong>把 Google Maps 新功能翻译成普通人能直接感知的价值：一句话问路 + 少走冤枉路</p>
+          <p><strong>内容形式：</strong>快评+实测</p>
+          <p><strong>参考标题：</strong>Google 地图悄悄变成 AI 导航助手，找店和开车都更省脑子</p>
+          <p><strong>为什么值得做：</strong>地图是高频工具，读者能立刻理解并愿意收藏。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2032470333580792293" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 10:47</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">Claude支持生成可交互的图表<br>免费用户也能用，直接在聊天对话框里展示。<br><video width="1920" height="1080" src="https://video.twimg.com/amplify_video/2032408010015076352/vid/avc1/1920x1080/tmthA7aeb57RvjC1.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2032408010015076352/img/rgNFITVM-yuWR6sh.jpg"></video></div>
+      
+      
+      
+      
+        <div class="topic-tip">
+          <div class="tip-tag">✅ 可做选题</div>
+          <p><strong>选题角度：</strong>告诉读者不用 Excel 和 BI，也能让 Claude 直接把数据变成交互图</p>
+          <p><strong>内容形式：</strong>工具安利</p>
+          <p><strong>参考标题：</strong>Claude 现在能直接做交互图表了，免费也能用</p>
+          <p><strong>为什么值得做：</strong>功能直观、门槛低，适合办公室人群和内容创作者。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2032408187568275683" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 10:24</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">Wholembed v3：超高性能的多模态检索模型<br><br>能同时检索文本、图片、音频、视频，在LIMIT和BrowseComp-Plus两大评测上均达到最佳水平，既能像数据库检索一样精准，也能像向量检索一样按相似性查询。使用晚交互（Late Interaction）的方式平衡精度和效率。<br><br>LIMIT是专门用来测试语义检索的评测，传统的词法匹配方法BM25大幅碾轧1B参数的大模型，Wholembed是首个超越BM25的大模型。<br>BrowseComp-Plus是用来评测检索模型能否帮助Agent回答复杂的问题，得分越高对Agent的帮助越大。<br>官方介绍：<a href="http://mixedbread.com/blog/wholembed-v3" target="_blank" rel="noopener">http://mixedbread.com/blog/wholembed-v3</a><br><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDSLK46awAAoLxW?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HDSLMNraMAAexWO?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2032402385566634302" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 10:56</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">谷歌收购的Producer AI我通过了Waitlist，是个一站式AI MV平台。<br>可以生成带歌词的音乐（Lyria 2我记得不行）、支持中文，水平比Suno V5稍差，生成的音乐可以一键生成MV视频（视频里的XXX是因为字幕不支持中文）<br><video width="1280" height="720" src="https://video.twimg.com/amplify_video/2032409324753207296/vid/avc1/1280x720/-JphMQaDs3pnSpOH.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2032409324753207296/img/oMiTUo3gNb2ziVsk.jpg"></video></div>
+      
+      
+      
+      
+        <div class="topic-tip">
+          <div class="tip-tag">✅ 可做选题</div>
+          <p><strong>选题角度：</strong>从“写首歌就能一键出 MV”切入，展示普通人怎么低门槛做作品</p>
+          <p><strong>内容形式：</strong>实操教程</p>
+          <p><strong>参考标题：</strong>会写歌词就能做 MV？这个 AI 工具把作曲到出片打包了</p>
+          <p><strong>为什么值得做：</strong>音乐 + 视频天然有展示效果，适合短内容传播。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2032410450630205598" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-1">
+          <h2 class="section-title">🛠 工具推荐 <span class="section-count">5 篇</span></h2>
+          
+    <article id="item-1-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">📱 公众号</span>
+        </div>
+        <span class="card-date">3月13日 08:56</span>
+      </div>
+      <div class="card-author">公众号源 · AI沃茨</div>
+      <h3 class="card-title">实测AI浏览器Tabbit一周后，这就是我OpenClaw的新最佳拍档！</h3>
+      
+      <div class="summary"><p>养了两周的龙虾了，是时候换换口味了。我发现有很多养龙虾的case，特别是云端的，也是做资料收集，数据分析和跑自动化的脚本。</p><p>龙虾是香，但还是要配点模型coding plan，本地部署的不能24小时在线，云端部署的权限不够多。所以日常我需要一个Agent来做龙虾的互补，虾在后台跑任务，新Agent来辅助我完成一些轻量级的工作。</p></div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-1')">📖 查看全文</button>
+        <div id="fulltext-1-1" class="fulltext-source" data-title="实测AI浏览器Tabbit一周后，这就是我OpenClaw的新最佳拍档！" data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Tabbit 被当作 OpenClaw 轻量搭档&lt;/li&gt;&lt;li&gt;智能标签、分屏与 Agent 能力是亮点&lt;/li&gt;&lt;li&gt;更像浏览器里的可用工作流层&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;AI 浏览器想真正替代旧浏览器，关键不是聊天框，而是把整理、执行、复用做成日常动作&lt;/p&gt;" data-author="公众号源 · AI沃茨" data-date="3月13日 08:56" style="display:none;">
+           
+ <section data-author="dui!" style="font-weight: 400;font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;margin: 0px 8px;padding: 0px;background-color: rgb(255, 255, 255);border-radius: 12px;line-height: 2em;" data-pm-slice="0 0 []"> 
+  <section data-author="dui!" style="color: rgb(143, 149, 158);letter-spacing: 0px;font-weight: 400;font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;margin-top: 0px;margin-bottom: 0px;padding: 0px;background-color: rgb(255, 255, 255);border-radius: 12px;" data-pm-slice="0 0 []"> 
+   <section data-author="dui!" style="color: #8f959e;letter-spacing: 0px;font-weight: 400;font-family: PingFang SC,system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif;margin: 0 0px;margin-bottom: 0px;padding: 0px 0px;border: 1px solid rgba(NaN, 10, NaN, 1);background-color: rgba(255, 255, 255, 1);border-radius: 12px;" data-pm-slice="0 0 []"> 
+    <h2 style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 1em;margin: 0px 0px 16px;"><span leaf="" style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;">养了两周的龙虾了，是时候换换口味了。</span></h2> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">我发现有很多养龙虾的case，特别是云端的，也是做资料收集，数据分析和跑自动化的脚本。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">龙虾是香，但还是要配点模型coding plan，本地部署的不能24小时在线，云端部署的权限不够多。所以日常我需要一个Agent来做龙虾的互补，虾在后台跑任务，新Agent来辅助我完成一些轻量级的工作。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img alt="Image" class="rich_pages wxw-img" data-aistatus="1" data-imgfileid="100021839" data-ratio="0.6277777777777778" data-src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FzM1tfHJWF6sFUN2nia2eK9U3sLp4PZdITejtfrncIQ2esXPYTCEFIMFLicSCpVaH9K7Sibe6I2ImyMwHvxOcgEXicyBL7hIq0HXBo/640?wx_fmt=png&amp;from=appmsg" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FzM1tfHJWF6sFUN2nia2eK9U3sLp4PZdITejtfrncIQ2esXPYTCEFIMFLicSCpVaH9K7Sibe6I2ImyMwHvxOcgEXicyBL7hIq0HXBo/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;color: rgb(143, 149, 158) !important;"><span leaf="">一手龙虾一手浏览器成了我的标配桌面设置</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">我横向测试了Gemini版Chrome，Comet，Dia，OpenAI Altas和美团新发的Tabbit，已经决定把Tabbit设置成默认高强度用一个月了。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img alt="Image" class="rich_pages wxw-img" data-aistatus="1" data-imgfileid="100021837" data-ratio="0.5462962962962963" data-src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8Fyy8RiaRjN0bt1QbgJPPAicYrhZDoPTCAcmL0hX0tPknLBq0d8ryz1qQl6pq7GYWNfUg0dDaMqwpT0nJYjNLWvDkzQMicRbmibEXuM/640?wx_fmt=png&amp;from=appmsg" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8Fyy8RiaRjN0bt1QbgJPPAicYrhZDoPTCAcmL0hX0tPknLBq0d8ryz1qQl6pq7GYWNfUg0dDaMqwpT0nJYjNLWvDkzQMicRbmibEXuM/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf=""><span textstyle="" style="font-size: 14px;color: rgb(136, 136, 136);">🔗&amp;nbsp;</span></span></span><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf=""><span textstyle="" style="font-size: 14px;color: rgb(136, 136, 136);">tabbit-ai.com</span></span></span></p> 
+    <p style="display: flex;place-items: flex-start;background-color: rgb(103, 84, 140);padding: 4px 14px;border: 1px solid transparent;border-radius: 8px;width: 100%;margin: 0px;letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(255, 255, 255);font-size: 16px;line-height: 2em;text-align: left !important;"><span leaf="" style="letter-spacing: 0px;color: rgb(255, 255, 255);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;">使用案例和提示语都打包好了放到文档里了，公众号回复 袋鼠 就可以了。</span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">用小龙虾还需要提前规划任务，准备数据和措辞，用Tabbit就想到啥@啥了，目前里面的模型都是免费用的。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">像我日常工作会打开非常多非常多的页面，手动去分组整理有点小烦就会高频用Tabbit的智能标签整理。</span></span></p> 
+    <section nodeleaf=""> <iframe class="video_iframe rich_pages" data-src="https://mp.weixin.qq.com/mp/readtemplate?t=pages/video_player_tmpl&amp;action=mpvideo&amp;auto=0&amp;vid=wxv_4424873831207550977" data-mpvid="wxv_4424873831207550977" data-vidtype="2" data-cover="http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FVNz1x8bH8FwdKYXcicWIkHEdj2Vr6Wia0KjquY3AibfALLLFI0RHBQW20XSyC1SUQQYCub5rsaiaJD0Bib3ibaeId2yjXgBJxD9bofpX6XAmbTWcU%2F0%3Fwx_fmt%3Djpeg" data-ratio="1.8092592592592593" data-w="1954"></iframe> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">然后用@引用整个标签组，作为上下文提问。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FzqPCcv7sxeXZFkibjeS51QOQ1gbhqnllNiaics3V1t86TIcett69rFOy9c1OJ0oLf3YGRDAe2VbYYawcHOxBRHLzELHNDYM13icvU/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.6037037037037037" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021841" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FzqPCcv7sxeXZFkibjeS51QOQ1gbhqnllNiaics3V1t86TIcett69rFOy9c1OJ0oLf3YGRDAe2VbYYawcHOxBRHLzELHNDYM13icvU/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">另外，常规浏览器我比较不喜欢的一个点就是，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">打开新页面会打断当前浏览，尤其是出门在外只有单屏时真的很无助。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">Tabbit的分屏协作就上大分了，没记错的话，Dia和Altas都还没支持，Chrome新版本终于是有分屏了，这个一度是我长时间把浏览器设置成为Arc的重要功能。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">刷X看到有意思的项目，一边看X评价一边看github，还能整个中英对照版，</span></span></p> 
+    <section nodeleaf=""> <iframe class="video_iframe rich_pages" data-src="https://mp.weixin.qq.com/mp/readtemplate?t=pages/video_player_tmpl&amp;action=mpvideo&amp;auto=0&amp;vid=wxv_4424882737006788609" data-mpvid="wxv_4424882737006788609" data-vidtype="2" data-cover="http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FVNz1x8bH8FwNj2LVVOH6q0zQYNAJbecUfRy4Ctd7wciccaCO8QI8YibnsUwDiaT0icxfKPy2cntk2xbTvxhlA3npMpAicK1g2nHIRFPBR58scGfA%2F0%3Fwx_fmt%3Djpeg" data-ratio="1.5611111111111111" data-w="1686"></iframe> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">还有还有，我经常会随手收藏一些页面，收藏夹很乱不说，久了还忘记看，这时候就会用Tabbit做分类。</span></span></p> 
+    <section nodeleaf=""> <iframe class="video_iframe rich_pages" data-src="https://mp.weixin.qq.com/mp/readtemplate?t=pages/video_player_tmpl&amp;action=mpvideo&amp;auto=0&amp;vid=wxv_4424870742253469701" data-mpvid="wxv_4424870742253469701" data-vidtype="2" data-cover="http%3A%2F%2Fmmbiz.qpic.cn%2Fsz_mmbiz_jpg%2FVNz1x8bH8FyxJwud2lVhBfJju4dkU5o7IzWH4KNTjBKZMtvJHV1Q5q8ODianH5n5jzbgHeMDeTLE92unYgiajFn8zlQ9UouZMjLt2C5obSq6w%2F0%3Fwx_fmt%3Djpeg" data-ratio="1.5833333333333333" data-w="1710"></iframe> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">上面这些还只是Tabbit作为AI浏览器的基操。能让我从chrome到arc到comet到altas到dia到最后入坑的主要原因，还是Tabbit的Agent能力。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">最近，我想用第三方视角客观分析下我的小某书内容。一直拖着没做，因为得先准备好数据文档+提示词，可能还要介绍下我的账号背景，最好喂历史内容给它。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">换到Tabbit上，我只需要打开小红书主页，</span></span></p> 
+    <section style="display: flex;place-items: flex-start;background-color: #67548c;color: #FFFFFF;padding: 4px 14px;border: 1px solid transparent;border-radius: 8px;text-align: left!important;margin-top: 16px;margin-bottom: 16px;"> 
+     <section style="width: 100%;"> 
+      <p style="width: 100%;margin: 0px;letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(255, 255, 255);font-size: 16px;line-height: 2em;"><span style="letter-spacing: 0px;color: rgb(255, 255, 255);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">分析一下我的小红书内容和点赞，给一些建议</span></span></p> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">它准确识别了我的账号基本信息和内容特点，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">并用SWOT法分析账号的优势和改进建议，还给出了具体行动计划，数据建议。</span></span></p> 
+    <section nodeleaf=""> <iframe class="video_iframe rich_pages" data-src="https://mp.weixin.qq.com/mp/readtemplate?t=pages/video_player_tmpl&amp;action=mpvideo&amp;auto=0&amp;vid=wxv_4424877936860758016" data-mpvid="wxv_4424877936860758016" data-vidtype="2" data-cover="http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FVNz1x8bH8FygI3J5obLU6iagcPOjeban7DCXlMxDBWWqhKSrQQiaO4Y9CvONVu8FugkraIs6jUArGFJHia51G6AlgN9lluv2LlOx6YH4ShD4Vc%2F0%3Fwx_fmt%3Djpeg" data-ratio="1.6796296296296296" data-w="1814"></iframe> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">小tips，比较建议用国际模型跑，放个结果对比，我反正是更喜欢右边。</span></span></p> 
+    <section style="text-align: center;" nodeleaf=""> 
+     <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FytpKEicqvZCnTuaTXic69ibO4c0rQASq13YIB0z1YicvuicbN8GJPuRDCmfJiatKt8rdvNayIo3e3HTgltmtvbkVdPALxtdwXUmbLuA/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.7722222222222223" data-s="300,640" data-type="png" data-w="1080" type="block" data-imgfileid="100021858" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FytpKEicqvZCnTuaTXic69ibO4c0rQASq13YIB0z1YicvuicbN8GJPuRDCmfJiatKt8rdvNayIo3e3HTgltmtvbkVdPALxtdwXUmbLuA/640?wx_fmt=png&amp;from=appmsg"> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">甚至，需要一些学习成本的skills封装，在Tabbit上你也能光速学会。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">这个能力在它这里叫，妙招。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FyibicaFoKEJxfgIe5NmaTkNZdnJa9xW5lnS1lHH3bWazaIsXCJFtWHT4avIRD3zmicVHVibibsAy9HeYHyelGZty9FCibLa0HXnXXvc/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.5555555555555556" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021840" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FyibicaFoKEJxfgIe5NmaTkNZdnJa9xW5lnS1lHH3bWazaIsXCJFtWHT4avIRD3zmicVHVibibsAy9HeYHyelGZty9FCibLa0HXnXXvc/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">官方有预设几个妙招，你也可以自己创建。把高频使用的提示词，脚本，智能代理保存为妙招，下次只需输入「/」即可快速调用。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/VNz1x8bH8FwWSiaJWEuBgudsgEwlR4NTqicD4xj7jVcA0GWsiaqZ6icJ2Je7PnWMBcZgEicXNNqwQ3P5VTM9TKWib6xbmrd6MZDYhLWQ1PTEtkZxE/640?wx_fmt=jpeg" alt="Image" class="rich_pages wxw-img" data-ratio="1.003669724770642" data-type="png" data-w="545" style="display:inline-block;max-width:100%;border-radius:5px;box-sizing:border-box;margin:0px;border:0px solid rgba(255, 255, 255, 0);padding:0px;box-shadow:none;width:100%;" data-croporisrc="https://mmbiz.qlogo.cn/mmbiz_png/VNz1x8bH8FxVXN4BicaYLCK7gK0BvO9Sfd6CDIdmyCPjO3fia6VAs5Q9ASTqP4LibKYTwzD5Of1d1XlpF49dtOB6jeia1YkeWibzm9iarUbicywdGc/0?wx_fmt=png&amp;from=appmsg" data-cropx2="545" data-cropy1="8" data-cropy2="556" data-backw="545" data-backh="547" data-imgfileid="100021845" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/VNz1x8bH8FwWSiaJWEuBgudsgEwlR4NTqicD4xj7jVcA0GWsiaqZ6icJ2Je7PnWMBcZgEicXNNqwQ3P5VTM9TKWib6xbmrd6MZDYhLWQ1PTEtkZxE/640?wx_fmt=jpeg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">举个栗子，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">做自媒体少不了要看很多测评，看看别人是怎么做的。Tabbit帮我大大简化了这个流程。点击chat打开侧边栏，输入提示词，</span></span></p> 
+    <section style="display: flex;place-items: flex-start;background-color: #67548c;color: #FFFFFF;padding: 4px 14px;border: 1px solid transparent;border-radius: 8px;text-align: left!important;margin-top: 16px;margin-bottom: 16px;"> 
+     <section style="width: 100%;"> 
+      <p style="width: 100%;margin: 0px;letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(255, 255, 255);font-size: 16px;line-height: 2em;"><span style="letter-spacing: 0px;color: rgb(255, 255, 255);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">总结这篇文章测试了几个case，每个case对应什么功能，用的提示词是什么</span></span></p> 
+     </section> 
+    </section> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FyLian5dMms0yjpOjy5LZibwKSBFyUpGOWYcURicpriadiavnib7xt1RNNtcHKXC4sgicc3ibkahkbRwSt1pqPBdDDGk67EnmGKPt3fnSs/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.47685185185185186" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021849" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FyLian5dMms0yjpOjy5LZibwKSBFyUpGOWYcURicpriadiavnib7xt1RNNtcHKXC4sgicc3ibkahkbRwSt1pqPBdDDGk67EnmGKPt3fnSs/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">如果得到的结果满意，就点击这个小灯泡，保存为提示词妙招。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FyNJV03a7BRmMkSkeUTibWp79EakYCnhaNhSLmIwUP3NndRqcuP5lsGQ7wvyIzrhFjWpyUVLgD4n1ILKoqqebQQDgAG5Tiay9ibAI/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.4723127035830619" data-type="png" data-w="614" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021846" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FyNJV03a7BRmMkSkeUTibWp79EakYCnhaNhSLmIwUP3NndRqcuP5lsGQ7wvyIzrhFjWpyUVLgD4n1ILKoqqebQQDgAG5Tiay9ibAI/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">我把它命名为测试case提取，点击创建。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8Fyicjl3BfrXjI4rvgTxsyHAFfhjhibmgdEzCdoPhzzianK0vbda82D1HMo6KyWxRaInFmtnHorXKnKB0SeOsMqakzEKLENuOgkico8/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.7796296296296297" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021848" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8Fyicjl3BfrXjI4rvgTxsyHAFfhjhibmgdEzCdoPhzzianK0vbda82D1HMo6KyWxRaInFmtnHorXKnKB0SeOsMqakzEKLENuOgkico8/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">下一次你想重复这个操作，就不需要再输入提示词，在输入框用 / 调用已有的妙招就行了。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8Fzb1Xj9HVAoWFb8IAdegrf7w3tg8AdDISedl2Bd8FzBEtAV1V9ibT99r5mUmTDZwdNrn0rEia2d90S5OibgsKTwb9HPVLSK6HEvJo/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.5185185185185185" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021847" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8Fzb1Xj9HVAoWFb8IAdegrf7w3tg8AdDISedl2Bd8FzBEtAV1V9ibT99r5mUmTDZwdNrn0rEia2d90S5OibgsKTwb9HPVLSK6HEvJo/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">视频同样可用，这样一个视频还没播完，你已经集齐要素，整理归档了。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FxaXnbq1qggS36Ap8HvSZNcJI4qpTpFgo8jA3t6GXFia8A9FNf7pXDc69RnOO8eFbR6vNkL51l6bjicP00fvo43eAd5icpxibs0yxA/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.5472222222222223" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021854" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FxaXnbq1qggS36Ap8HvSZNcJI4qpTpFgo8jA3t6GXFia8A9FNf7pXDc69RnOO8eFbR6vNkL51l6bjicP00fvo43eAd5icpxibs0yxA/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">这套流程真的很丝滑，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">不只是提示词，Tabbit的妙招还有两种进阶形式，自动化脚本和智能代理。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">操作和提示词一样简单，实现的效果却超级加倍。比如，我有时会刷刷微博，但信息流里总给我塞一些广告，推荐，我可能感兴趣，但我并不感兴趣的帖子。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">Tabbit的自动化脚本就派上用场了。用/调取脚本，输入提示词，</span></span></p> 
+    <section style="display: flex;place-items: flex-start;background-color: #67548c;color: #FFFFFF;padding: 4px 14px;border: 1px solid transparent;border-radius: 8px;text-align: left!important;margin-top: 16px;margin-bottom: 16px;"> 
+     <section style="width: 100%;"> 
+      <p style="width: 100%;margin: 0px;letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(255, 255, 255);font-size: 16px;line-height: 2em;"><span style="letter-spacing: 0px;color: rgb(255, 255, 255);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">&amp;nbsp;屏蔽带有广告标识的帖子</span></span></p> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">很快就写出了脚本，还把隐藏的广告识别出来了。</span></span></p> 
+    <section style="margin-bottom: 18px;display: flex;justify-content: space-between;flex-shrink: 0;"> 
+     <section key="35" style="display: inline-block;flex: 1;color: #646a73;font-size: 16px;font-family: SF Pro SC,SF Pro Text,SF Pro Icons,PingFangSC-Light,PingFang SC,Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 2em;margin: 0;minHeight: 20px;letterSpacing: auto;padding: 0 4px;"> 
+      <section> 
+       <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+        <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+         <section style="line-height: 2em;"> <span leaf=""><br></span> 
+         </section> 
+        </section> 
+        <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+         <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FywgOw4BcUYjEEwE2icuVExsEnFHVGFq0cLa6MazkQOJTTI6pl7Md9sE1s0hf6NuMV2JanpicMHyEHUorNb6FoylRAIqlicVvPThw/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="1.4359400998336107" data-type="png" data-w="601" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021850" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FywgOw4BcUYjEEwE2icuVExsEnFHVGFq0cLa6MazkQOJTTI6pl7Md9sE1s0hf6NuMV2JanpicMHyEHUorNb6FoylRAIqlicVvPThw/640?wx_fmt=png&amp;from=appmsg"> 
+        </section> 
+       </section> 
+       <p style="width: 100%;margin: 0px;letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;"><span leaf=""><br></span></p> 
+      </section> 
+     </section> 
+     <section key="37" style="display: inline-block;flex: 1;color: #646a73;font-size: 16px;font-family: SF Pro SC,SF Pro Text,SF Pro Icons,PingFangSC-Light,PingFang SC,Helvetica Neue,Helvetica,Arial,sans-serif;line-height: 2em;margin: 0;minHeight: 20px;letterSpacing: auto;padding: 0 4px;"> 
+      <section> 
+       <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+        <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+         <section style="line-height: 2em;"> <span leaf=""><br></span> 
+         </section> 
+        </section> 
+        <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+         <img data-src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FzfRvVicHoWcAqas68vxEW1XrfY4oxwYombW1VsR3suAA4tGNV0Lt7k7cM4dlKDmHunjpT3nrYaOcM4g2O7T2orZWrtFCZ79Bu8/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="1.0901639344262295" data-type="png" data-w="610" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021851" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FzfRvVicHoWcAqas68vxEW1XrfY4oxwYombW1VsR3suAA4tGNV0Lt7k7cM4dlKDmHunjpT3nrYaOcM4g2O7T2orZWrtFCZ79Bu8/640?wx_fmt=png&amp;from=appmsg"> 
+        </section> 
+       </section> 
+       <p style="width: 100%;margin: 0px;letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;"><span leaf=""><br></span></p> 
+      </section> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">点击执行，成功后当前页面的广告贴会全部变灰。我测试用的是专门给AI开的小号，关注内容较少，就出现了大片灰色。</span></span></p> 
+    <section nodeleaf=""> <iframe class="video_iframe rich_pages" data-src="https://mp.weixin.qq.com/mp/readtemplate?t=pages/video_player_tmpl&amp;action=mpvideo&amp;auto=0&amp;vid=wxv_4424880426380951554" data-mpvid="wxv_4424880426380951554" data-vidtype="2" data-cover="http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FVNz1x8bH8FxTvuxuk542PrPxFiaokfWIAhvW4o3kFUNLamHHWUaAdemJb2A1LBzZesa87qLlr4txiasaLjGribI4o7Ae55t0cL3XZQiaLxAwG4A%2F0%3Fwx_fmt%3Djpeg" data-ratio="1.6962962962962962" data-w="1832"></iframe> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">同样的思路，也可以把这个脚本保存为妙招，下次 / 调用就很方便了。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FzibU08qXuCNwAfPGdXGuukmfMkwlp5RQ1ku1oxiaiaTW1Uj4vRbGowmw6fQFzGUtZiaHNhDuKq4hYKJsClkiasiaEBBSf4tdcQx7QYI/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.8064516129032258" data-type="png" data-w="620" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021853" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FzibU08qXuCNwAfPGdXGuukmfMkwlp5RQ1ku1oxiaiaTW1Uj4vRbGowmw6fQFzGUtZiaHNhDuKq4hYKJsClkiasiaEBBSf4tdcQx7QYI/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">再来再来，智能代理妙招就更狠了。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">打开智能代理，Agent会直接操作页面来完成任务。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FxUN4jiaHpHAaj2ia0DiadzHVQeGHSoPMhJKRWzgjqJWmPXVDadDZQgFeNuCgGWm2iarK6V4mMXkSXL2ibpIkQNXbtf6HD5HerQe5xY/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.46944444444444444" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021852" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FxUN4jiaHpHAaj2ia0DiadzHVQeGHSoPMhJKRWzgjqJWmPXVDadDZQgFeNuCgGWm2iarK6V4mMXkSXL2ibpIkQNXbtf6HD5HerQe5xY/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">我试了一个场景，在飞书文档码完字，让Tabbit帮我发布到微博和X上。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FzmXSAytGmgXN8d7yN39f2S4qh2U3muBVrsjRnLxd0bc6mkicAAAwRTsKWG8zVRiazQlGQlgH8Orz8ibzdemsNpttuvl80oI74TJc/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.6722222222222223" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021855" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FzmXSAytGmgXN8d7yN39f2S4qh2U3muBVrsjRnLxd0bc6mkicAAAwRTsKWG8zVRiazQlGQlgH8Orz8ibzdemsNpttuvl80oI74TJc/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">微博毫无难度地成功了，</span></span></p> 
+    <section nodeleaf=""> <iframe class="video_iframe rich_pages" data-src="https://mp.weixin.qq.com/mp/readtemplate?t=pages/video_player_tmpl&amp;action=mpvideo&amp;auto=0&amp;vid=wxv_4424882573395279874" data-mpvid="wxv_4424882573395279874" data-vidtype="2" data-cover="http%3A%2F%2Fmmbiz.qpic.cn%2Fsz_mmbiz_jpg%2FVNz1x8bH8FwjOgRkLDicqtZib58rH6vf5Tt5ibMxpcgscBgC5X8V7iapUZoTLUJKwicSiagIA3jJ1kPr1KgLAv7NdHLpHWVjOSP7Al7UNeUbxiaicKQ%2F0%3Fwx_fmt%3Djpeg" data-ratio="1.5537037037037038" data-w="1678"></iframe> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">X就很有意思了。由于X的字数限制，文字录入后没法点post我在电脑屏幕前面看着甚至感觉Tabbit慌张了一下。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FwrcI2lrUyGiaqV7vKICUZo4pfx5VQYia6KVkPaJEyxB1P9cInqpOfSTPxCw7ol1Xqn3f0LVzz5icUbrAgb6ZJFzCVVhoMYDulw4s/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.9651282051282051" data-type="png" data-w="975" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021856" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FwrcI2lrUyGiaqV7vKICUZo4pfx5VQYia6KVkPaJEyxB1P9cInqpOfSTPxCw7ol1Xqn3f0LVzz5icUbrAgb6ZJFzCVVhoMYDulw4s/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">没一会又开始想招了，搞了个精简版出来，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">甚至学会了用快捷键全选文本框。</span></span></p> 
+    <section style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 0px;text-align: center !important;"> 
+     <section style="display: none;border-radius: 5px;line-height: 0px;"> 
+      <section style="line-height: 2em;"> <span leaf=""><br></span> 
+      </section> 
+     </section> 
+     <section style="display: block;margin: 0px;border-radius: 0px;line-height: 2em;" nodeleaf=""> 
+      <img data-src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8Fw400nKEMWFwjibwX4D5lYQia8APc5zZsLbaniaLbzv5SNv6VjEaa3ibcQSFPaN0RqcLe7iafoYnjyjOPTyco6GmaRFhWrvPnLcSKYE/640?wx_fmt=png&amp;from=appmsg" alt="Image" class="rich_pages wxw-img" data-ratio="0.6601851851851852" data-type="png" data-w="1080" style="display: inline-block;max-width: 100%;height: auto;border-radius: 5px;box-sizing: border-box;margin: 0px;border: 0px solid rgba(255, 255, 255, 0);padding: 0px;box-shadow: none;" data-imgfileid="100021857" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8Fw400nKEMWFwjibwX4D5lYQia8APc5zZsLbaniaLbzv5SNv6VjEaa3ibcQSFPaN0RqcLe7iafoYnjyjOPTyco6GmaRFhWrvPnLcSKYE/640?wx_fmt=png&amp;from=appmsg"> 
+     </section> 
+    </section> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">这也是我说Tabbit更适合普通人的原因。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">比部署openclaw的安全性高多了，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">不用烧token，简单处理工作生活中的自动化需求非常非常够用。</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">最重要的是上手难度低，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">让我们跳过代码，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">跳过终端界面，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">跳过配置，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">跳过499，</span></span></p> 
+    <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 16px 0px;"><span style="letter-spacing: 0px;font-size: 16px;color: rgb(0, 0, 0);font-family: &quot;PingFang SC&quot;, system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;white-space: pre-wrap;"><span leaf="">享受Agent带来纯爽吧！</span></span></p> 
+   </section> 
+   <p style="letter-spacing: 0px;font-weight: 400;font-family: inherit;word-break: break-all;min-height: 20px;color: rgb(0, 0, 0);font-size: 16px;line-height: 2em;margin: 0px 8px;"><span leaf=""><span textstyle="" style="font-size: 14px;letter-spacing: 1px;color: rgb(178, 178, 178);font-weight: normal;">@ 作者 / 卡尔</span></span></p> 
+  </section> 
+  <hr style="margin-top: 10px;margin-bottom: 10px;padding: 0px;border-style: dotted none none;border-width: 1px 3px 3px;border-color: rgb(217, 210, 210) rgba(0, 0, 0, 0.4) rgba(0, 0, 0, 0.4);border-radius: 0px;background: no-repeat rgba(0, 0, 0, 0);width: auto;height: 1px;"> 
+  <section data-author="dui!" style="font-weight: 400;font-family: PingFang SC,system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif;margin: 0px 0px;padding: 0px 0px;border: 1px solid rgba(NaN, 10, NaN, 1);background-color: rgba(255, 255, 255, 1);border-radius: 12px;" data-pm-slice="4 3 []"> 
+   <p data-tool="mdnice编辑器" style="color: rgb(0, 0, 0);font-size: 16px;line-height: 1.75em;letter-spacing: 0.06em;text-align: left;text-indent: 0em;margin: 0px;padding: 8px 0px;"><span style="display: block;text-align: center;color: gray;font-size: 14px;"><span leaf=""><span textstyle="" style="font-size: 15px;letter-spacing: 1px;">最后，感谢你看到这里👏</span></span></span><span style="display: block;text-align: center;color: gray;font-size: 14px;"><span leaf=""><span textstyle="" style="font-size: 15px;letter-spacing: 1px;">如果喜欢这篇文章，不妨顺手给我们</span></span></span><span style="display: block;text-align: center;color: gray;font-size: 14px;"><em style="color: rgb(162, 140, 180);font-style: italic;background: no-repeat rgba(0, 0, 0, 0);width: auto;height: auto;margin: 0px;padding: 0px;border-style: none;border-width: 3px;border-color: rgba(0, 0, 0, 0.4);border-radius: 0px;"><span leaf=""><span textstyle="" style="font-size: 15px;letter-spacing: 1px;">点赞｜在看｜转发｜评论 📣</span></span></em></span></p> 
+   <p data-tool="mdnice编辑器" style="color: rgb(0, 0, 0);font-size: 16px;line-height: 1em;letter-spacing: 0.06em;text-align: left;text-indent: 0em;margin: 0px;padding: 8px 0px;"><span leaf="" style="display: block;text-align: center;color: gray;font-size: 14px;"><span textstyle="" style="font-size: 14px;letter-spacing: 1px;">如果想要第一时间收到推送，不妨给我个星标🌟</span></span></p> 
+   <p data-pm-slice="0 0 []" style="color: rgb(0, 0, 0);font-size: 16px;line-height: 1em;letter-spacing: 0.06em;text-align: left;text-indent: 0em;margin: 0px;padding: 8px 0px;"><span leaf="" style="display: block;text-align: center;color: gray;font-size: 14px;"><span textstyle="" style="font-size: 14px;letter-spacing: 1px;">如果你有更有趣的玩法，欢迎在评论区聊聊🤝</span></span></p> 
+   <p data-tool="mdnice编辑器" style="color: rgb(0, 0, 0);font-size: 16px;line-height: 1em;letter-spacing: 0.06em;text-align: left;text-indent: 0em;margin: 0px;padding: 8px 0px;"><span leaf="" style="display: block;text-align: center;color: gray;font-size: 14px;" data-pm-slice="1 1 [&quot;para&quot;,{&quot;tagName&quot;:&quot;section&quot;,&quot;attributes&quot;:{&quot;data-author&quot;:&quot;dui!&quot;,&quot;style&quot;:&quot;font-weight: 400;font-family: PingFang SC,system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif;margin: 0px 0px;padding: 0px 0px;border: 1px solid rgba(NaN, 10, NaN, 1);background-color: rgba(255, 255, 255, 1);border-radius: 12px;&quot;,&quot;data-pm-slice&quot;:&quot;0 0 []&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;data-tool&quot;:&quot;mdnice编辑器&quot;,&quot;style&quot;:&quot;color: rgb(0, 0, 0);font-size: 16px;line-height: 1em;letter-spacing: 0.06em;text-align: left;text-indent: 0em;margin: 0px;padding: 8px 0px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;}]"><span textstyle="" style="font-size: 14px;letter-spacing: 1px;">更多的内容正在不断填坑中……</span></span></p> 
+  </section> 
+  <figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;padding: 0px;display: flex;flex-direction: column;justify-content: center;align-items: center;"> <span leaf=""><img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/YEhakvKZjXmCDLEEW1wClZOVGFURjmibJmciaYLNhp0N55Y6mPiaCj01eV8yzACqDvWDhicbPm07Wu7bboATuKgAbA/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.1237721021611002" data-type="png" data-w="1018" style="display: block;margin-top: 0px;margin-bottom: 0px;max-width: 100%;border-style: none;border-width: 3px;border-color: rgba(0, 0, 0, 0.4);border-radius: 0px;object-fit: fill;box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;width: 578px;height: 72px;" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/YEhakvKZjXnEPjp5qg7Y5RcxLmyhfzVUFuWBRaeaiaDVnjGRApkaicGaiaqmpZO0iabnibj8maCSl8licJwgjS7NaPnA/640?wx_fmt=png&amp;from=appmsg" data-cropx1="32.903225806451616" data-cropx2="1050.967741935484" data-cropy1="77.41935483870967" data-cropy2="203.22580645161287" data-backw="526" data-backh="65" data-imgfileid="100012810" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_jpg/YEhakvKZjXmCDLEEW1wClZOVGFURjmibJmciaYLNhp0N55Y6mPiaCj01eV8yzACqDvWDhicbPm07Wu7bboATuKgAbA/640?wx_fmt=jpeg"></span> 
+  </figure> 
+ </section> 
+ <p style="display: none;"> <mp-style-type data-value="3"></mp-style-type></p>
+        </div>
+        
+      <div class="media-grid"><img src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8FzM1tfHJWF6sFUN2nia2eK9U3sLp4PZdITejtfrncIQ2esXPYTCEFIMFLicSCpVaH9K7Sibe6I2ImyMwHvxOcgEXicyBL7hIq0HXBo/640?wx_fmt=png&amp;from=appmsg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/VNz1x8bH8Fyy8RiaRjN0bt1QbgJPPAicYrhZDoPTCAcmL0hX0tPknLBq0d8ryz1qQl6pq7GYWNfUg0dDaMqwpT0nJYjNLWvDkzQMicRbmibEXuM/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FzqPCcv7sxeXZFkibjeS51QOQ1gbhqnllNiaics3V1t86TIcett69rFOy9c1OJ0oLf3YGRDAe2VbYYawcHOxBRHLzELHNDYM13icvU/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/VNz1x8bH8FytpKEicqvZCnTuaTXic69ibO4c0rQASq13YIB0z1YicvuicbN8GJPuRDCmfJiatKt8rdvNayIo3e3HTgltmtvbkVdPALxtdwXUmbLuA/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      
+        <div class="topic-tip">
+          <div class="tip-tag">✅ 可做选题</div>
+          <p><strong>选题角度：</strong>从“AI 浏览器不是聊天壳，而是能帮你整理标签、复用提示词、顺手跑代理”切入</p>
+          <p><strong>内容形式：</strong>工具安利</p>
+          <p><strong>参考标题：</strong>我试了 1 周，这个 AI 浏览器真能当日常副驾驶</p>
+          <p><strong>为什么值得做：</strong>AI 浏览器是强感知工具，读者容易被具体效率场景打动。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://mp.weixin.qq.com/s/_8e6mjOMDfXft-zFHihyRw" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 09:48</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">无限量免费用的ASR，支持中文比Whisper好。<br><br>来自 @oran_ge 团队出品。<br><br>只需要跟CC 说：<br><br>“帮我安装 <a href="https://listenhub.ai/docs/zh/skills/asr" target="_blank" rel="noopener">https://listenhub.ai/docs/zh/skills/asr</a> 并告诉如何用。”<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDSC8ZibYAA7Hh3?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      
+        <div class="topic-tip">
+          <div class="tip-tag">✅ 可做选题</div>
+          <p><strong>选题角度：</strong>围绕“免费、中文更准、装上就能用”做工具推荐</p>
+          <p><strong>内容形式：</strong>工具安利</p>
+          <p><strong>参考标题：</strong>这个免费语音转文字工具，中文识别比 Whisper 还稳</p>
+          <p><strong>为什么值得做：</strong>语音转文字是刚需，免费和中文更强两个卖点很容易打动读者。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2032393339681878265" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月13日 12:50</span>
+      </div>
+      <div class="card-author">JitHub程序员</div>
+      
+      
+      <div class="summary"><span>用户昵称：小邱很行 <br> Username：52325442-2B8D-4A24-BE45-5A607295F456</span><br><br>一边写网站一边写 app<br><br>用上 Claude Code 的感觉真是太爽了<br></div>
+      
+      
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/LPFmm9sMXFLiprZ6qgQHwKEUutnpWo.heic" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69b4081025bae566125c5d36" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 12:01</span>
+      </div>
+      <div class="card-author">吕立青_JimmyLv</div>
+      
+      
+      <div class="summary"><a href="http://void.cloud" target="_blank" rel="noopener">http://void.cloud</a> 底层竟然是 Cloudflare 啊，简直不要太爽！<br><br>产品矩阵完全对标 Vercel，只不过后者基于 AWS<br><br>而且最近 CF 做了个 vinext — 用 Vite 重新实现了 Next.js<br>构建速度   4.4x、产物减小 57%<br><br>如果 vinext 成熟，Next.js项目可以迁移到 Vite 生态<br>将完全受益于 Vite+ 工具链，期待！<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDShga3bYAAtwbl?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Jimmy_JingLv/status/2032426914359775671" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 05:39</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">RT 卡比卡比<br>这几天把 xiaohongshu-cli 连续打磨了一轮，做了几件我自己很满意的事：<br><br>1. 放弃了没必要的 server 方案，回到纯 CLI，但把真正有价值的状态能力保住了：<br>- xsec_token + xsec_source 成对缓存<br>- search 更像浏览器真实请求链<br>- search_id / note context 复用<br>- read / comments / reread 的连续链路更稳<br><br>2. 补了一整套真实只读 smoke tests，不只是单测<br>直接验证：<br>search -&amp;gt; read -&amp;gt; comments -&amp;gt; feed -&amp;gt; reread<br>这类连续场景在真实登录态下能不能跑通<br><br>3. 做了短索引交互<br>现在不光能：<br>- xhs read 1<br>- xhs comments 1<br><br>还支持：<br>- xhs like 1<br>- xhs fa…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-2')">📖 查看全文</button>
+        <div id="fulltext-1-2" class="fulltext-source" data-title="RT 卡比卡比: 这几天把 xiaohongshu-cli 连续打磨了一轮，做了几件我自己很满意的事： 1. 放弃了没必要的 server 方案，回到纯 CLI，但把真正有价值的状态能力保..." data-ai="" data-author="宝玉" data-date="3月13日 05:39" style="display:none;">
+          RT 卡比卡比<br>这几天把 xiaohongshu-cli 连续打磨了一轮，做了几件我自己很满意的事：<br><br>1. 放弃了没必要的 server 方案，回到纯 CLI，但把真正有价值的状态能力保住了：<br>- xsec_token + xsec_source 成对缓存<br>- search 更像浏览器真实请求链<br>- search_id / note context 复用<br>- read / comments / reread 的连续链路更稳<br><br>2. 补了一整套真实只读 smoke tests，不只是单测<br>直接验证：<br>search -&amp;gt; read -&amp;gt; comments -&amp;gt; feed -&amp;gt; reread<br>这类连续场景在真实登录态下能不能跑通<br><br>3. 做了短索引交互<br>现在不光能：<br>- xhs read 1<br>- xhs comments 1<br><br>还支持：<br>- xhs like 1<br>- xhs favorite 1<br>- xhs unfavorite 1<br>- xhs comment 1 -c &quot;...&quot;<br>- xhs reply 1 --comment-id ... -c &quot;...&quot;<br><br>而且 search / feed / hot / user-posts / favorites / my-notes 都会刷新索引。<br><br>顺手还吸收并重做了社区 PR 的产品思路，把实现按当前主线重构了一遍，避免把新的 anti-blocking 逻辑回退掉。<br><br>最新版本：v0.6.3<br><a href="https://github.com/jackwener/xiaohongshu-cli" target="_blank" rel="noopener">https://github.com/jackwener/xiaohongshu-cli</a>
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2032341437505826826" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-2">
+          <h2 class="section-title">💡 行业观点 <span class="section-count">9 篇</span></h2>
+          
+    <article id="item-2-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 14:37</span>
+      </div>
+      <div class="card-author">elvis</div>
+      <h3 class="card-title">Memory 对 AI Agent 真的是分水岭能力</h3>
+      <div class="orig-title">EN: RT elvis: Memory is truly a game-changer for AI agents. Once I had memory set up correctly for my proactive agents, reasoning, skills, and tool usage ...</div>
+      <div class="summary"><p>作者认为，一旦把 memory 体系搭对，主动式 Agent 的推理、技能调用和工具使用都会明显提升。文中把多 Agent memory 视作类似计算机体系结构问题，重点讨论共享/分布式记忆、三层 memory hierarchy，以及一致性和访问控制两个核心难题。</p></div>
+      <div class="orig-summary">EN: <p>RT elvisMemory is truly a game-changer for AI agents.Once I had memory set up correctly for my proactive agents, reasoning, skills, and tool usage improved significantly.I use a combination of semantic search and keyword search (Obsidian vaults)Here is a report with a helpful framing for anyone building with memory and multi-agent systems.It proposes viewing multi-agent memory as a computer architecture problem.The p…</p></div>
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-1')">📖 查看全文</button>
+        <div id="fulltext-2-1" class="fulltext-source" data-title="Memory 对 AI Agent 真的是分水岭能力" data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Memory 会直接改变 Agent 表现&lt;/li&gt;&lt;li&gt;多 Agent 记忆更像体系结构问题&lt;/li&gt;&lt;li&gt;一致性与访问控制是关键缺口&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;Agent 进入多智能体阶段后，memory 不再是附件，而会变成真正决定上限的系统设计&lt;/p&gt;" data-author="elvis" data-date="3月13日 14:37" style="display:none;">
+          <p>RT elvis</p><p>Memory is truly a game-changer for AI agents.</p><p>Once I had memory set up correctly for my proactive agents, reasoning, skills, and tool usage improved significantly.</p><p>I use a combination of semantic search and keyword search (Obsidian vaults)</p><p>Here is a report with a helpful framing for anyone building with memory and multi-agent systems.</p><p>It proposes viewing multi-agent memory as a computer architecture problem.</p><p>The paper distinguishes shared and distributed memory paradigms, proposes a three-layer memory hierarchy (I/O, cache, and memory), and identifies two critical protocol gaps: cache sharing across agents and structured memory access control.</p><p>Agent memory systems today resemble human memory in that they are informal, redundant, and hard to control.</p><p>As agents evolve into collaborative multi-agent systems, their memory requirements grow rapidly in complexity.</p><p>Context is no longer a static prompt. It is a dynamic memory system with bandwidth, caching, and coherence constraints.</p><p>The largest open challenge identified was multi-agent memory consistency.</p><p>Multiple agents reading from and writing to shared memory concurrently raises classical challenges of visibility, ordering, and conflict resolution,</p><p>Memory should not be seen as raw bytes but semantic context used for reasoning.</p><p>Paper: <a href="https://arxiv.org/abs/2603.10062" target="_blank" rel="noopener">https://arxiv.org/abs/2603.10062</a></p><p>Learn to build effective AI agents in our academy: <a href="https://academy.dair.ai/" target="_blank" rel="noopener">https://academy.dair.ai/</a></p>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDTFCBsbMAAcQbv?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/omarsar0/status/2032563517061038273" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 09:55</span>
+      </div>
+      <div class="card-author">吕立青_JimmyLv</div>
+      
+      
+      <div class="summary">不得不说，OpenClaw 已经比最开始的时候好用太多了，<br>而且各个插件的稳定性也在持续增强，生态也最为旺盛。<br><br>现在如果还吐槽 OpenClaw，要么就是你的信息过时了，<br>要么就是你低估了 AI Agents 原生的进化速度，这才是变量。<br><br>找准需求，做好产品，<br>然后慢慢等着模型变强，<br>AI 创业这条定律依然没有变。<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDSEgNCagAAutDF?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Jimmy_JingLv/status/2032395025662034056" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 15:26</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">RT yan5xu<br>正好也分享一下关于上下文压缩这个事情。<br><br>我之前对上下文压缩这个事情也很头疼，尝试过各种压缩办法，摘要、滑动窗口等等，无论哪种总会发现后续工作会因为一些信息没了，不符合我的预期。<br><br>后来想明白了，是压缩就一定会丢失信息，所以解决上下文窗口有限的办法不是不存在的无损压缩，而是 agentic memory，给 agent 工具让它自己搜索和召回丢失的信息，压缩就不再是问题了。<br><br>这个想法是被 openclaw 启发的，它在对话历史上用了 RAG。我在这个基础上做了些改进：框架层对每个 query 自动做 embedding 召回相关 chunk，每个 chunk 又带 topic ID 和位置信息，agent 可以据此拉取前后上下文（也可以自己做语义搜索）。<br><br>实际感受，大部分时候自动召回大部分就足够了，不够的时候 agent 也会自己多搜几轮，最差的情况我记得，它第一次没搜出来的时候，我…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-2')">📖 查看全文</button>
+        <div id="fulltext-2-2" class="fulltext-source" data-title="RT yan5xu: 正好也分享一下关于上下文压缩这个事情。 我之前对上下文压缩这个事情也很头疼，尝试过各种压缩办法，摘要、滑动窗口等等，无论哪种总会发现后续工作..." data-ai="" data-author="宝玉" data-date="3月13日 15:26" style="display:none;">
+          RT yan5xu<br>正好也分享一下关于上下文压缩这个事情。<br><br>我之前对上下文压缩这个事情也很头疼，尝试过各种压缩办法，摘要、滑动窗口等等，无论哪种总会发现后续工作会因为一些信息没了，不符合我的预期。<br><br>后来想明白了，是压缩就一定会丢失信息，所以解决上下文窗口有限的办法不是不存在的无损压缩，而是 agentic memory，给 agent 工具让它自己搜索和召回丢失的信息，压缩就不再是问题了。<br><br>这个想法是被 openclaw 启发的，它在对话历史上用了 RAG。我在这个基础上做了些改进：框架层对每个 query 自动做 embedding 召回相关 chunk，每个 chunk 又带 topic ID 和位置信息，agent 可以据此拉取前后上下文（也可以自己做语义搜索）。<br><br>实际感受，大部分时候自动召回大部分就足够了，不够的时候 agent 也会自己多搜几轮，最差的情况我记得，它第一次没搜出来的时候，我提醒一下它再搜，也能搜出来。<div class="rsshub-quote"><br><br>yan5xu: @TarunAmasa asked about context compression, sharing my approach here.<br><br>I struggled with this for a long time. Tried all kinds of compression — summaries, sliding windows, you name it. Every method had cases where lost information degraded downstream performance.<br><br>My takeaway:<br></div>
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2032487717146083350" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 09:36</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">AK说未来编程工作需要进一步抽象提升。<br><br>过去用IDE写代码编程（代码文件）。<br><br>现在编程是写Agent（AI代理/智能体）。<div class="rsshub-quote"><br><br>Andrej Karpathy: Expectation: the age of the IDE is over<br>Reality: we’re going to need a bigger IDE<br>(imo).<br><br>It just looks very different because humans now move upwards and program at a higher level - the basic unit of interest is not one file but one agent. It’s still programming.<br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2032390260387348824" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 21:01</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      <h3 class="card-title">RT vx-underground：Meta 被曝大力游说在线年龄验证法案</h3>
+      <div class="orig-title">EN: RT vx-underground: Yeah, so basically it turns out Meta has been heavily lobbying online age verification laws. They&#x27;ve lobbied over $2,000,000,000 to...</div>
+      <div class="summary"><p>转引内容称，Meta 通过资助和捐赠等方式向政客投入超过 20 亿美元，以推动在线年龄验证相关立法，引发对平台监管动机的质疑。</p></div>
+      <div class="orig-summary">EN: <p>RT vx-undergroundYeah, so basically it turns out Meta has been heavily lobbying online age verification laws.They&#x27;ve lobbied over $2,000,000,000 to politicians in form of grants and donations.<a href="https://x.com/bee_fumo/status/2032460631622721916" target="_blank" rel="noopener">https://x.com/bee_fumo/status/2032460631622721916</a>🐝🇬🇷: someone traced the all the non profit grants for the age verification laws<a href="https://old.reddit.com/r/linux/comments/1rshc1f/i_traced_2_billion_in_nonprofit_grants_and_45/" target="_blank" rel="noopener">https://old.reddit.com/r/linux/comments/1rshc1f/i_traced_2_billion_in_nonprofit_grants_and_45/</a></p></div>
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDTAJ1QboAAJvCX?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2032584298260262976" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-6" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 12:29</span>
+      </div>
+      <div class="card-author">哥飞</div>
+      
+      
+      <div class="summary">指挥 AI 写代码，而且目标还是写好代码的话，对于非程序员的确会有一些难度。<br><br>但是，如果是指挥 AI 做具体的产品，不管是做网页，还是做小程序，还是做手机 App，只要你能说会测，就可以做出来。<br><br>区别是什么？<br><br>是目标不同，你要的是代码，还是产品？<br><br>如果要产品，那么屎一样的代码也都没问题的，只要产品能够正常运行就行。<br><br>再说了，人手写的屎山代码还少吗？</div>
+      
+      
+      
+      
+        <div class="topic-tip">
+          <div class="tip-tag">📝 深度选题</div>
+          <p><strong>选题角度：</strong>把“不会写代码也能做产品”说成人话：先定义结果，再让 AI 干活</p>
+          <p><strong>内容形式：</strong>快评+实测</p>
+          <p><strong>参考标题：</strong>以后做 App，不一定先学代码，先学会怎么指挥 AI</p>
+          <p><strong>为什么值得做：</strong>非常击中普通人对 AI 编程的想象，争议和传播性都强。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/gefei55/status/2032433767353389179" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-7" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 09:57</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">当年一起玩魔兽的好朋友，一直在做电影宣发工作。<br><br>约下周聊聊如何AI如何改变电影宣传，虽然我也不知道答案。<br><br>侧面看，大家都开始关心AI对自己的行业影响，积极拥抱变化了。<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDSEg49a8AA8oI9?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2032395664748114305" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-8" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 08:11</span>
+      </div>
+      <div class="card-author">吕立青_JimmyLv</div>
+      
+      
+      <div class="summary">没有什么是加钱不能解决的 😂<br><br>哈哈哈哈 其实加配置，反而跑得更快！<br>整体可能更省钱了，我觉得哈～<br><br>这跟我又想买顶配 mac studio 有关系吗 🤔<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDRsumXbsAAraGH?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Jimmy_JingLv/status/2032368884737864122" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-9" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月13日 06:53</span>
+      </div>
+      <div class="card-author">你不知道的行业内幕</div>
+      
+      
+      <div class="summary"><span>用户昵称：哈雷Halley <br> Username：25e70bf4-556a-4daa-a0ab-5a9d7d0335b6</span><br><br>当你觉得只不过是流量圈才喜欢营销“一人公司”之类的概念，<br>临港/中关村/工业园一众地方政府：OPC！</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69b3b45525bae56612544a95" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-3">
+          <h2 class="section-title">📚 教程技巧 <span class="section-count">6 篇</span></h2>
+          
+    <article id="item-3-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月14日 00:22</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">Learn Claude Code 是真做的好，强烈推荐👍 <br>项目作者：@baicai003<br><br>很多人用 Claude Code 或 Cursor 写代码，觉得 AI 编程助手很神奇，但如果问一句&quot;它到底是怎么工作的&quot;，大部分人答不上来。<br><br>Learn Claude Code 这个开源项目做的事情很简单：用 12 节课，从零开始搭一个类似 Claude Code 的 AI Agent，每节课只加一个机制，每个机制都有可运行的 Python 代码。<br><br>这个项目的核心洞察是：所有 AI 编程 Agent 的底层都是同一个循环。用户发消息给模型，模型决定要不要调用工具，调用了就执行，把结果喂回去，继续循环，直到模型觉得任务完成了。<br><br>整个 Agent 的最小实现不到 30 行代码。剩下的一切，规划、子任务拆分、上下文压缩、多 Agent 协作、工作目录隔离，都是在这个循环上面一层一层叠加的。1…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-3-1')">📖 查看全文</button>
+        <div id="fulltext-3-1" class="fulltext-source" data-title="Learn Claude Code 是真做的好，强烈推荐👍 项目作者：@baicai003 很多人用 Claude Code 或 Cursor 写代码，觉得 AI 编程助手很神奇，但如果问一句&quot;它到底是怎..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;12 节课拆解 Claude Code 式 Agent&lt;/li&gt;&lt;li&gt;从核心循环一路讲到多 Agent 协作&lt;/li&gt;&lt;li&gt;是理解 AI 编程 Agent 的优质路径&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;这类教程的价值在于把“神奇感”拆回工程结构，让人能从会用走到会搭&lt;/p&gt;" data-author="宝玉" data-date="3月14日 00:22" style="display:none;">
+          Learn Claude Code 是真做的好，强烈推荐👍 <br>项目作者：@baicai003<br><br>很多人用 Claude Code 或 Cursor 写代码，觉得 AI 编程助手很神奇，但如果问一句&quot;它到底是怎么工作的&quot;，大部分人答不上来。<br><br>Learn Claude Code 这个开源项目做的事情很简单：用 12 节课，从零开始搭一个类似 Claude Code 的 AI Agent，每节课只加一个机制，每个机制都有可运行的 Python 代码。<br><br>这个项目的核心洞察是：所有 AI 编程 Agent 的底层都是同一个循环。用户发消息给模型，模型决定要不要调用工具，调用了就执行，把结果喂回去，继续循环，直到模型觉得任务完成了。<br><br>整个 Agent 的最小实现不到 30 行代码。剩下的一切，规划、子任务拆分、上下文压缩、多 Agent 协作、工作目录隔离，都是在这个循环上面一层一层叠加的。12 节课就是这 12 层。<br><br>学习路径设计得很讲究。<br><br>前两节搞定核心循环和工具调用<br><br>第三节加入计划能力（没有计划的 Agent 会跑偏）<br><br>第四到六节处理子 Agent、技能加载和上下文压缩（上下文窗口是有限的，不压缩大项目根本跑不动）<br><br>第七八节做任务持久化和后台执行，最后四节进入多 Agent 协作：组队、通信协议、自主领取任务、工作目录隔离。从一个人干活，到一个团队协作，复杂度是渐进的。<br><br>项目配了一个交互式 Web 平台（<a href="http://learn-claude-agents.vercel.app" target="_blank" rel="noopener">http://learn-claude-agents.vercel.app</a>），有步骤图解、源码查看器和文档，支持英文、中文、日文三种语言。<br><br>文档风格是&quot;心智模型优先&quot;：先讲问题是什么，再讲解决方案，配 ASCII 图，最后是最小可运行代码。<br><br>对想搞懂 AI Agent 内部原理的开发者来说，这可能是目前最好的从零到一的学习路径。不需要什么前置知识，有 Python 基础就能跟。<br><br>学完之后再去看 Claude Code 或者任何 Agent 框架的源码，会发现都和这个教程介绍的差不多。<div class="rsshub-quote"><br><br>Tw93: A great resource if you want to understand how AI coding agents work. Learn Claude Code walks through building a minimal Claude Code like agent from scratch, explaining each mechanism step by step. <br><br>You’ll see the core loop most coding agents share: call the model, execute<br><br><img width="2048" height="1393" style="" src="https://pbs.twimg.com/media/HDD9ReYbwAAkbwi?format=jpg&amp;name=orig" referrerpolicy="no-referrer"></div>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDD9ReYbwAAkbwi?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2032613262525644985" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-3-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月14日 00:15</span>
+      </div>
+      <div class="card-author">吕立青_JimmyLv</div>
+      
+      
+      <div class="summary">说到这里，刚好龙虾给我发日报了 😂<br><br>对了，定时任务有个小tips，不要设在整点<br>很多人都设在整点，LLM和服务器都不稳定<br>所以我设在 8:08、12:08、17:08<br>哈哈哈哈 避开龙虾上班早高峰期<br><br><a href="https://x.com/Jimmy_JingLv/status/2032395025662034056?s=20" target="_blank" rel="noopener">https://x.com/Jimmy_JingLv/status/2032395025662034056?s=20</a><br><div class="rsshub-quote"><br><br>吕立青_JimmyLv 2𐃏26: 不得不说，OpenClaw 已经比最开始的时候好用太多了，<br>而且各个插件的稳定性也在持续增强，生态也最为旺盛。<br><br>现在如果还吐槽 OpenClaw，要么就是你的信息过时了，<br>要么就是你低估了 AI Agents 原生的进化速度，这才是变量。<br><br>找准需求，做好产品，<br>然后慢慢等着模型变强，<br>AI 创业这条定律依然没有变。<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDVJXPsaMAAwywF?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HDSEgNCagAAutDF?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Jimmy_JingLv/status/2032611474544451721" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-3-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 23:08</span>
+      </div>
+      <div class="card-author">Tw93</div>
+      <h3 class="card-title">想搞懂 AI 编程 Agent 怎么工作，这份 Learn Claude Code 很值得看</h3>
+      <div class="orig-title">EN: A great resource if you want to understand how AI coding agents work. Learn Claude Code walks through building a minimal Claude Code like agent from s...</div>
+      <div class="summary"><p>这份资源从零搭一个最小版 Claude Code 风格 Agent，逐步解释模型调用、工具执行、结果回传和迭代循环，是理解 AI coding agent 底层机制的入门材料。</p></div>
+      <div class="orig-summary">EN: <p>A great resource if you want to understand how AI coding agents work.Learn Claude Code walks through building a minimal Claude Code like agent from scratch, explaining each mechanism step by step.</p><p>You’ll see the core loop most coding agents share: call the model, execute tools, feed the results back, and iterate.A clean way to understand how these systems are actually built.<a href="https://learn-claude-agents.vercel.app/" target="_blank" rel="noopener">https://learn-claude-agents.vercel.app/</a></p></div>
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDD9ReYbwAAkbwi?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/HiTw93/status/2032594555099308056" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-3-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 10:05</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">按这个思路写了个自动Prompt优化的skill。<br><br>等我验证下效果<br><div class="rsshub-quote"><br><br>向阳乔木: AK写了一个自主AI研究员的Prompt。<br><br>让AI成为一个永不疲倦、持续试错、自我进化的研究助手，人类只需要设定目标和约束，然后让它自己探索优化空间。<br><br>我感觉跟Ralph Loop有点像！效果和方法也有点厉害<br><br>① 真正的自主， AI不提问，自己不断迭代 <br>② 基于Git的版本控制 <br>③ 好的实验推进分支<br>④<br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDSG3W3aUAAlqkN?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2032397724323389832" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-3-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 11:09</span>
+      </div>
+      <div class="card-author">Tw93</div>
+      
+      
+      <div class="summary">这篇 7 千字的文章，其实就等于这行命令<br>npx skills add tw93/claude-health，运行 /health 即可～<div class="rsshub-quote"><br><br>Tw93: <a href="http://x.com/i/article/2032079318256664586" target="_blank" rel="noopener">http://x.com/i/article/2032079318256664586</a><br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/HiTw93/status/2032413776398766429" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-3-6" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月14日 00:58</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">跟风服务器配置了sub2API。<br><br>把谷歌、Anthropic和OpenAI的订阅都转成支持Claude Code使用。<br><br>但用的时候提示：API Error: 403 Insufficient account balance · Please run /login<br><br>有知道原因的吗。。<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDVS5iYaMAEQwi0?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2032622239959626111" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-4">
+          <h2 class="section-title">💰 商业案例 <span class="section-count">1 篇</span></h2>
+          
+    <article id="item-4-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月13日 12:03</span>
+      </div>
+      <div class="card-author">你不知道的行业内幕</div>
+      
+      
+      <div class="summary"><span>用户昵称：张机 <br> Username：cca53530-30aa-4d32-9eb5-83671a19d55c</span><br><br>最赚钱的，原来是这样的自媒体。<br><br>在上海AWS （中国家电与消费电子展）见了一位老朋友，约她一起吃晚饭，她说不了，品牌方要请她吃饭。<br><br>我也接了展会的商单合作，但我都是通过代理公司，并不认识任何一位品牌方。<br><br>我就好奇啊，没听说她做成了多大的博主，怎么品牌方还要专门请她。<br><br>一问才知道，最近一年，她在发力 b 站，目前做到了 8 万粉丝，但广告收入已经超过了 100 万。<br><br>b 站？8 万粉丝？100 万？<br><br>我有点晕了，看了她的账号，才弄明白怎么一回事。<br><br>原来，她不分享生活，不分享故事，不分享观点，不分享信息差。<br><br>她分享的就是一个事，啥东西好用。<br><br>她是一个家电数码评测博主，她分享的内容，紧紧围绕消费者买一个产品前的消费决策，离下单近，离钱就近。<br><br>她最近一年，评测了洗地机，拖地机，擦玻璃机，人体工程学椅，床垫，书桌…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-1')">📖 查看全文</button>
+        <div id="fulltext-4-1" class="fulltext-source" data-title="最赚钱的，原来是这样的自媒体。 在上海AWS （中国家电与消费电子展）见了一位老朋友，约她一起吃晚饭，她说不了，品牌方要请她吃饭。 我也接了展会的商单合作，..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;8万粉家电评测号广告收入过百万&lt;/li&gt;&lt;li&gt;内容越贴近下单决策，离钱越近&lt;/li&gt;&lt;li&gt;B站长内容信任感带来更强变现&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;这类案例最值得抄的不是题材本身，而是把内容做成消费决策入口&lt;/p&gt;" data-author="你不知道的行业内幕" data-date="3月13日 12:03" style="display:none;">
+          <span>用户昵称：张机 <br> Username：cca53530-30aa-4d32-9eb5-83671a19d55c</span><br><br>最赚钱的，原来是这样的自媒体。<br><br>在上海AWS （中国家电与消费电子展）见了一位老朋友，约她一起吃晚饭，她说不了，品牌方要请她吃饭。<br><br>我也接了展会的商单合作，但我都是通过代理公司，并不认识任何一位品牌方。<br><br>我就好奇啊，没听说她做成了多大的博主，怎么品牌方还要专门请她。<br><br>一问才知道，最近一年，她在发力 b 站，目前做到了 8 万粉丝，但广告收入已经超过了 100 万。<br><br>b 站？8 万粉丝？100 万？<br><br>我有点晕了，看了她的账号，才弄明白怎么一回事。<br><br>原来，她不分享生活，不分享故事，不分享观点，不分享信息差。<br><br>她分享的就是一个事，啥东西好用。<br><br>她是一个家电数码评测博主，她分享的内容，紧紧围绕消费者买一个产品前的消费决策，离下单近，离钱就近。<br><br>她最近一年，评测了洗地机，拖地机，擦玻璃机，人体工程学椅，床垫，书桌，电视，冰箱，空调，洗碗机……<br><br>所有你能想到的新的老的消费电子产品，她都测评。<br><br>只要你开始做测评，甭管多少粉，你很快就能接触到品牌方邀约。<br><br>b 站这个平台很神奇，因为大家都觉得它没什么流量，变现难，所以竞争不激烈，加上长内容，用户和博主之间的信任就比较好。<br><br>翻了她的内容，她说，每一条背后都有广告主。要么是品牌赞助，要么独立的横评，也可以挨个带货挂链接。<br><br>广告每个月都是满的，带货每个月都能卖七八九十万。<br><br>怎么理解广告这个事？<br><br>你可以选嘛，你可以选行业里确实比较好的产品来推荐嘛。<br><br>现在的真实情况是，一个赛道的第一第二第三第四第五都要做推广，你放心大胆接广告，因为每家都有预算，好产品也要做投放。<br><br>和她聊完，觉得惭愧。<br><br>我做到了全网 100 万粉丝，但直到现在每次接广告，还在拧巴，还在纠结，还在想这个广告适不适合我的粉丝，这个推广伤不伤害我的信任。<br><br>本质也不是我矫情，而是我的内容模式离钱太远。<br><br>你分享的是观点和生活，你插入一个产品，观众就会反感。<br><br>你分享的是产品和评测，你插入一个产品，润物细无声。<br><br>所有做自媒体的请注意，<br><br>宇宙的尽头是带货，这句话的含金量还在提升。<br><img src="https://cdnv2.ruguoapp.com/FpvuMjj28E2jQ5oUibUgZEHJmh7rv3.jpg" referrerpolicy="no-referrer"><br><img src="https://cdnv2.ruguoapp.com/LPFrlB8riXtlRM7v5UHbBYshUl7_VC.heic" referrerpolicy="no-referrer">
+        </div>
+        
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FpvuMjj28E2jQ5oUibUgZEHJmh7rv3.jpg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/LPFrlB8riXtlRM7v5UHbBYshUl7_VC.heic" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      
+        <div class="topic-tip">
+          <div class="tip-tag">✅ 可做选题</div>
+          <p><strong>选题角度：</strong>讲清“为什么越靠近下单决策的内容越赚钱”</p>
+          <p><strong>内容形式：</strong>案例拆解</p>
+          <p><strong>参考标题：</strong>8 万粉年入 100 万：最赚钱的自媒体，原来不是讲观点</p>
+          <p><strong>为什么值得做：</strong>数字冲击强，又反常识，能直接打中想做内容变现的人。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69b3fd20800201ac682c2f42" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-5">
+          <h2 class="section-title">📰 资讯动态 <span class="section-count">8 篇</span></h2>
+          
+    <article id="item-5-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 16:41</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">Every time<br><div class="rsshub-quote"><br><br>Rizaan Jappie: @levelsio It&#x27;s part of daily commuting. It&#x27;s an adventure. Self driving is boring!<br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDThc_-XcAcGK5W?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2032497247523402211" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 15:01</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">AI资讯日报，3月13日：<a href="https://gorden-sun.notion.site/3-13-AI-32259424732580f0aa7aeb77ccb14efa?source=copy_link" target="_blank" rel="noopener">https://gorden-sun.notion.site/3-13-AI-32259424732580f0aa7aeb77ccb14efa?source=copy_link</a><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDTKi2xboAAc-dH?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2032472043833409788" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 07:14</span>
+      </div>
+      <div class="card-author">哥飞</div>
+      
+      
+      <div class="summary">有人花了19.9，买了一张纸<br><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HDRfzTQaEAAGzrm?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HDRfzDhaAAAjeGG?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/gefei55/status/2032354676289782023" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月13日 06:41</span>
+      </div>
+      <div class="card-author">JitHub程序员</div>
+      
+      
+      <div class="summary"><span>用户昵称：Arielle_Gao <br> Username：38A6D8B9-8A56-4011-88BC-08003B151AA9</span><br><br>理不明白了决定画个图，在光打下来的时候竟然有些赛博的美<br></div>
+      
+      
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FkNoxhXIqdltny8Lh0niL1UJKAZzv3.heic" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69b3b183800201ac6824e63d" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 14:30</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      <h3 class="card-title">等等，IBKR 怎么出现在 Louis Theroux 关于 manosphere 的新纪录片里了？</h3>
+      <div class="orig-title">EN: Wait that&#x27;s @IBKR in @louistheroux&#x27;s new docu about the manosphere😂 What they talking about though, IBKR is the best broker app in the world?</div>
+      <div class="summary"><p>作者吐槽在纪录片里看到 IBKR 露出，并顺手夸了一句它依然是最好用的券商 App。</p></div>
+      <div class="orig-summary">EN: <p>Wait that&#x27;s @IBKR in @louistheroux&#x27;s new docu about the manosphere😂</p><p>What they talking about though, IBKR is the best broker app in the world?</p></div>
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2032464319347081615" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-6" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月13日 12:57</span>
+      </div>
+      <div class="card-author">你不知道的行业内幕</div>
+      
+      
+      <div class="summary"><span>用户昵称：陈宇慧 <br> Username：DF75A452-F5D4-4D8F-9226-0E44C6EF8BF8</span><br><br>今天在小红书主要刷了：<br>1）沪币29r/个的蛋烘糕<br>2）noma事件及后续<br>3）新晋50 best餐厅一些有意思的宣传</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69b409a15d9339d4daf3f8a7" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-7" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月13日 08:25</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">等遇到事，才发现有个亲兄弟或亲妹妹真好。<br><br>我妹听说我要做手术，当天请假坐高铁从苏州赶到天津。<br><br>整整陪护一周，直到今天出院。<br><br>哪怕平时跟父辈闹点小矛盾，也有个中间传话人。<br><br>和老婆商量要了两个孩子，也是这样考虑。<br><br>另外，发现身边非独生子女的朋友，都倾向要二胎。</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2032372537704022291" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-8" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月13日 06:09</span>
+      </div>
+      <div class="card-author">你不知道的行业内幕</div>
+      
+      
+      <div class="summary"><span>用户昵称：小马宋王大洋 <br> Username：45F3C106-D400-4470-9B97-E6CAC451492C</span><br><br>别太思考，乳酪和奶酪，这俩词你觉得哪个代表更好的产品？<br>1还是2？</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69b3aa2a800201ac68243451" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+    </main>
+  </div>
+  
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+  
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">✕</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+  <script>
+  function openLightbox(src){var b=document.getElementById('lightbox'),i=document.getElementById('lightboxImg');i.src=src;b.classList.add('open');}
+  function closeLightbox(){var b=document.getElementById('lightbox'),i=document.getElementById('lightboxImg');i.src='';b.classList.remove('open');}
+  function openArticleModal(id){
+    var src=document.getElementById(id);if(!src)return;
+    var modal=document.getElementById('articleModal'),title=document.getElementById('articleModalTitle'),body=document.getElementById('articleModalBody');
+    title.textContent=src.getAttribute('data-title')||'全文';
+    var aiHtml=src.getAttribute('data-ai')||'';
+    var author=src.getAttribute('data-author')||'';
+    var date=src.getAttribute('data-date')||'';
+    var contentHtml=src.innerHTML||'';
+    var metaHtml='';
+    if(author||date){metaHtml='<div class="article-modal-meta">'+(author?'<span class="meta-author">'+author+'</span>':'')+(date?'<span class="meta-date">'+date+'</span>':'')+'</div>';}
+    body.innerHTML=metaHtml+(aiHtml?'<div class="article-ai-box">'+aiHtml+'</div>':'')+contentHtml;
+    modal.classList.add('open');
+  }
+  function closeArticleModal(){var m=document.getElementById('articleModal'),b=document.getElementById('articleModalBody');b.innerHTML='';m.classList.remove('open');}
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLightbox();closeArticleModal();}});
+</script>
+</body>
+</html>
