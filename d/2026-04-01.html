@@ -1,0 +1,1642 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI 日报 - 2026-04-01</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --bg: #f7f6f3;
+    --card: #ffffff;
+    --text: #2c2c2c;
+    --text-secondary: #9b9b9b;
+    --text-body: #4a4a4a;
+    --border: #ebe8e4;
+    --border-light: #f0eeeb;
+    --primary: #3d7c6b;
+    --primary-hover: #2e6355;
+    --primary-bg: #eef6f3;
+    --accent: #c97b3a;
+    --accent-bg: #fef7f0;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md: 0 4px 20px rgba(0,0,0,.06);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,.08);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 16px/1.8 'Inter','Noto Sans SC',system-ui,-apple-system,sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  /* ---- 布局 ---- */
+  .layout { max-width: 1360px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: 28px; padding: 28px; min-height: 100vh; }
+
+  /* ---- 侧边栏 ---- */
+  .sidebar { position: sticky; top: 20px; height: calc(100vh - 40px); overflow-y: auto; background: var(--card); border-radius: var(--radius); padding: 24px 20px; box-shadow: var(--shadow-md); scrollbar-width: thin; scrollbar-color: #d4d0cc transparent; }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: #d4d0cc; border-radius: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+
+  .brand { padding-bottom: 20px; border-bottom: 1px solid var(--border-light); margin-bottom: 4px; }
+  .brand h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -.3px; }
+  .brand-date { color: var(--text-secondary); font-size: 14px; margin-top: 4px; font-weight: 500; }
+  .stats-bar { display: flex; align-items: center; gap: 6px; color: var(--text-secondary); font-size: 13px; margin-top: 8px; }
+  .stats-bar .dot { opacity: .3; font-size: 8px; }
+  .stats-bar strong { color: var(--text); font-weight: 600; }
+
+  .nav-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); margin: 20px 0 10px; padding-left: 2px; }
+  .nav-link { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: var(--radius-sm); color: var(--text); text-decoration: none; font-size: 14.5px; font-weight: 500; transition: all .15s ease; }
+  .nav-link:hover { background: var(--primary-bg); color: var(--primary); text-decoration: none; }
+  .nav-count { font-size: 12px; color: var(--text-secondary); background: var(--bg); border-radius: 10px; padding: 1px 8px; font-weight: 600; min-width: 24px; text-align: center; }
+
+  .hotbox { margin-top: 4px; }
+  .hotbox ol { padding-left: 0; list-style: none; counter-reset: hotlist; }
+  .hotbox li { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--border-light); counter-increment: hotlist; }
+  .hotbox li:last-child { border-bottom: none; }
+  .hotbox li a { color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500; line-height: 1.45; display: block; }
+  .hotbox li a::before { content: counter(hotlist); display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; background: var(--bg); color: var(--text-secondary); font-size: 10px; font-weight: 700; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+  .hotbox li:nth-child(-n+3) a::before { background: var(--primary); color: #fff; }
+  .hotbox li a:hover { color: var(--primary); }
+  .hot-source { display: block; color: var(--text-secondary); font-size: 12px; margin-top: 3px; padding-left: 26px; }
+
+  .health-box { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-light); }
+  .health-box summary { cursor: pointer; font-size: 13px; color: var(--text-secondary); user-select: none; font-weight: 600; }
+  .health-list { margin: 10px 0 0; padding-left: 0; list-style: none; font-size: 12px; }
+  .health-list li { margin: 5px 0; color: var(--text-secondary); }
+  .health-link { color: var(--text-secondary); text-decoration: none; }
+  .health-link:hover { color: var(--primary); }
+  .health-err { color: #c0392b; font-size: 11px; }
+
+  /* ---- 主内容 ---- */
+  .content { min-width: 0; }
+  section { margin-bottom: 40px; }
+  .section-title { font-size: 18px; font-weight: 700; margin: 0 0 18px; padding: 10px 16px; background: var(--card); border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); letter-spacing: -.2px; display: flex; align-items: center; justify-content: space-between; }
+  .section-count { color: var(--text-secondary); font-size: 13px; font-weight: 600; background: var(--bg); padding: 2px 10px; border-radius: 10px; }
+
+  /* ---- 卡片 ---- */
+  .card { background: var(--card); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 14px; box-shadow: var(--shadow-sm); transition: box-shadow .2s ease, transform .2s ease; position: relative; }
+  .card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .card-meta { display: flex; gap: 6px; align-items: center; }
+  .card-date { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+  .card-author { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 8px; letter-spacing: -.1px; }
+
+  .pill { font-size: 11.5px; border-radius: 5px; padding: 2px 8px; font-weight: 700; letter-spacing: .2px; }
+  .pill.importance { background: var(--accent-bg); color: var(--accent); }
+  .pill.platform { background: var(--primary-bg); color: var(--primary); }
+
+  .card-title { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 12px; overflow-wrap: anywhere; color: var(--text); letter-spacing: -.2px; }
+  .orig-title { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; font-style: italic; }
+
+  .summary p { margin: 0 0 12px; color: var(--text-body); line-height: 1.85; font-size: 15px; }
+  .orig-summary { margin-top: 14px; padding: 12px 14px; background: #faf9f7; border-radius: var(--radius-sm); }
+  .orig-summary p { color: var(--text-secondary); font-size: 13.5px; line-height: 1.7; margin: 0 0 8px; }
+  .orig-summary p:last-child { margin-bottom: 0; }
+
+  /* ---- AI 总结 ---- */
+  .ai-box { margin: 14px 0; background: #f5f9f8; border-left: 3px solid var(--primary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 16px; }
+  .ai-title { font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .8px; }
+  .ai-box ul { margin: 0; padding-left: 16px; }
+  .ai-box li { margin: 4px 0; font-size: 14px; color: var(--text-body); line-height: 1.65; }
+  .ai-box li::marker { color: var(--primary); }
+  .ai-insight { margin: 10px 0 0; color: var(--primary-hover); font-size: 14px; line-height: 1.7; border-top: 1px solid #e0ebe8; padding-top: 10px; font-style: italic; }
+
+  /* ---- 全文按钮 ---- */
+  .btn-fulltext { margin-top: 12px; border: none; background: var(--primary-bg); color: var(--primary); border-radius: var(--radius-sm); padding: 8px 18px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s ease; }
+  .btn-fulltext:hover { background: var(--primary); color: #fff; }
+  .fulltext-source { display: none; }
+
+  /* ---- 图片 ---- */
+  .media-grid { margin: 20px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .media-grid img { width: 100%; max-height: 360px; object-fit: contain; border-radius: var(--radius-sm); background: var(--bg); cursor: zoom-in; transition: opacity .2s; }
+  .media-grid img:hover { opacity: .9; }
+
+  /* ---- 视频/iframe 约束 ---- */
+  .card video, .card iframe, .article-body video, .article-body iframe { max-width: 100%; height: auto; border-radius: var(--radius-sm); margin: 16px 0; }
+
+  /* ---- 摘要内嵌内容约束 ---- */
+  .summary img { max-width: 100%; height: auto; border-radius: var(--radius-sm); margin: 14px 0; }
+  .summary video, .summary iframe { max-width: 100%; height: auto; margin: 14px 0; }
+  .summary { color: var(--text-body); font-size: 15px; line-height: 1.85; }
+
+  /* ---- 引用推文 / blockquote ---- */
+  .card blockquote, .article-body blockquote, .summary blockquote { margin: 12px 0; padding: 10px 16px; border-left: 3px solid var(--border); background: var(--bg); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; color: var(--text-body); font-size: 14px; }
+  /* RSSHub 引用推文样式 */
+  .rsshub-quote { margin: 16px 0; padding: 12px 16px; border-left: 3px solid #c4b5a0; background: #faf8f5; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 14px; color: var(--text-body); line-height: 1.75; }
+  .rsshub-quote > br:first-child, .rsshub-quote > br:first-child + br { display: none; }
+  .rsshub-quote img { max-width: 100%; height: auto; border-radius: var(--radius-sm); margin: 8px 0; }
+  .rt-quote { margin: 12px 0; padding: 12px 16px; border-left: 3px solid #c4b5a0; background: #faf8f5; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .rt-quote .rt-author { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+  .rt-quote .rt-body { font-size: 14.5px; color: var(--text-body); line-height: 1.75; }
+
+  /* ---- 选题 ---- */
+  .topic-tip { margin-top: 14px; background: var(--accent-bg); border-left: 3px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 16px; }
+  .tip-tag { font-size: 12px; display: inline-block; margin-bottom: 8px; color: #fff; font-weight: 700; background: var(--accent); padding: 2px 10px; border-radius: 5px; }
+  .topic-tip p { margin: 4px 0; font-size: 14px; color: #6b4c2e; line-height: 1.65; }
+  .topic-tip strong { font-weight: 600; }
+  .ai-status-tag { margin-top: 12px; font-size: 12px; color: var(--text-secondary); font-weight: 500; padding: 6px 12px; background: var(--bg); border-radius: var(--radius-sm); display: inline-block; }
+  .ai-status-tag.ai-status-none { color: #b45309; background: #fffbeb; }
+
+  /* ---- 卡片底部 ---- */
+  .card-footer { padding-top: 14px; margin-top: 16px; border-top: 1px solid var(--border-light); }
+  .read-link { color: var(--primary); font-size: 14px; font-weight: 600; text-decoration: none; transition: color .15s; }
+  .read-link:hover { color: var(--primary-hover); }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .muted { color: var(--text-secondary); font-size: 14px; }
+
+  /* ---- 灯箱 ---- */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(20,20,18,.88); z-index:9999; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(4px); }
+  .lightbox.open { display:flex; }
+  .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:var(--radius-sm); }
+  .lightbox .close { position:fixed; right:24px; top:18px; color:#fff; font-size:28px; cursor:pointer; user-select:none; opacity:.7; transition:opacity .15s; }
+  .lightbox .close:hover { opacity:1; }
+
+  /* ---- 全文弹窗 ---- */
+  .article-modal { display:none; position:fixed; inset:0; background:rgba(20,20,18,.5); z-index:10000; align-items:center; justify-content:center; padding:16px; backdrop-filter:blur(4px); }
+  .article-modal.open { display:flex; }
+  .article-panel { width:min(1000px,96vw); max-height:90vh; background:#fff; border-radius:var(--radius); display:flex; flex-direction:column; overflow:hidden; box-shadow: var(--shadow-lg); }
+  .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:16px 24px; border-bottom:1px solid var(--border-light); }
+  .article-toolbar .title { font-size:16px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; color:var(--text); }
+  .article-toolbar button { border:none; background:var(--bg); border-radius:var(--radius-sm); width:34px; height:34px; cursor:pointer; font-size:16px; color:var(--text-secondary); transition:all .15s; display:flex; align-items:center; justify-content:center; }
+  .article-toolbar button:hover { background: var(--border); color: var(--text); }
+  .article-body { overflow:auto; padding:28px 32px; font-size:16px; line-height:1.85; color:var(--text-body); }
+  .article-body p { margin:0 0 16px; }
+  .article-body img { max-width:100%; height:auto; border-radius:var(--radius-sm); margin:12px 0; }
+  .article-body video, .article-body iframe { max-width:100%; height:auto; border-radius:var(--radius-sm); margin:12px 0; }
+  .article-body blockquote { margin:14px 0; padding:12px 16px; border-left:3px solid var(--border); background:var(--bg); border-radius:0 var(--radius-sm) var(--radius-sm) 0; }
+  .article-body a { word-break: break-all; }
+  .article-ai-box { background:#f5f9f8; border-left:3px solid var(--primary); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:14px 16px; margin-bottom:20px; }
+  .article-ai-box .ai-title { font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .8px; }
+  .article-ai-box ul { margin: 0; padding-left: 16px; }
+  .article-ai-box li { margin: 4px 0; font-size: 14px; color: var(--text-body); line-height: 1.65; }
+  .article-ai-box li::marker { color: var(--primary); }
+  .article-ai-box .ai-insight { margin: 10px 0 0; color: var(--primary-hover); font-size: 14px; line-height: 1.7; border-top: 1px solid #e0ebe8; padding-top: 10px; font-style: italic; }
+  .article-modal-meta { padding: 0 0 16px; margin-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+  .article-modal-meta .meta-author { font-size: 14px; font-weight: 600; color: var(--primary); }
+  .article-modal-meta .meta-date { font-size: 13px; color: var(--text-secondary); margin-left: 12px; }
+
+  /* ---- 响应式 ---- */
+  @media (max-width:1024px) {
+    .layout { grid-template-columns:1fr; padding:14px; gap:16px; }
+    .sidebar { order:1; position:static; height:auto; max-height:none; overflow-y:visible; padding:18px 16px; }
+    .content { order:2; }
+    .sidebar-nav { display:flex; gap:6px; overflow-x:auto; flex-wrap:nowrap; padding-bottom: 4px; }
+    .nav-link { flex:0 0 auto; white-space:nowrap; background:var(--bg); font-size:14px; border: 1px solid var(--border-light); }
+    .nav-label { display:none; }
+    .hotbox { display: none; }
+    .media-grid { grid-template-columns:1fr; }
+    .card { padding:20px; margin-bottom:12px; }
+    .section-title { font-size: 16px; padding: 8px 14px; }
+  }
+  @media (max-width:640px) {
+    .card-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .card-title { font-size: 16.5px; }
+    .summary p { font-size: 14.5px; }
+  }
+</style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <p class="brand-date">2026-04-01</p>
+        <div class="stats-bar">
+          <span>源 26</span>
+          <span class="dot">·</span>
+          <span>成功 16</span>
+          <span class="dot">·</span>
+          <span>失败 1</span>
+        </div>
+        <div class="stats-bar">
+          <span>去重后 <strong>59</strong> 条</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-label">分类</div>
+        <a href="#cat-0" class="nav-link"><span>🔥 重磅发布</span><span class="nav-count">11</span></a><a href="#cat-1" class="nav-link"><span>🛠 工具推荐</span><span class="nav-count">9</span></a><a href="#cat-2" class="nav-link"><span>💡 行业观点</span><span class="nav-count">17</span></a><a href="#cat-3" class="nav-link"><span>📚 教程技巧</span><span class="nav-count">4</span></a><a href="#cat-4" class="nav-link"><span>💰 商业案例</span><span class="nav-count">3</span></a><a href="#cat-5" class="nav-link"><span>📰 资讯动态</span><span class="nav-count">15</span></a>
+      </nav>
+      <div class="hotbox">
+        <div class="nav-label">今日重点</div>
+        <ol><li><a href="#item-2-1">反蒸馏机制曝光</a><span class="hot-source">宝玉</span></li><li><a href="#item-3-1">公众号流水线教程</a><span class="hot-source">Tom Huang</span></li><li><a href="#item-1-1">AI 工具分工表</a><span class="hot-source">AI探索站</span></li><li><a href="#item-0-1">Claude 会点桌面了</a><span class="hot-source">苍何</span></li><li><a href="#item-3-2">低成本续 Opus</a><span class="hot-source">JitHub程序员</span></li><li><a href="#item-1-2">AI 任务灵动岛</a><span class="hot-source">AI探索站</span></li><li><a href="#item-2-2">自然语言 Harness</a><span class="hot-source">elvis</span></li><li><a href="#item-2-3">Harness 可差6倍</a><span class="hot-source">elvis</span></li><li><a href="#item-0-2">Claude Code 外溢</a><span class="hot-source">JitHub程序员</span></li><li><a href="#item-3-3">Agent 交互指南</a><span class="hot-source">Gorden Sun</span></li></ol>
+      </div>
+      
+    <div class="health-box">
+      <details>
+        <summary>源状态 🟢16 🟡9 🔴1</summary>
+        <ul class="health-list"><li>🔴 <a href="https://gzh.hyrule.top/mpClassificationAtom/1" target="_blank" rel="noopener" class="health-link">https://gzh.hyrule.top/mpClassificationAtom/1</a> <span class="health-err">(HTTP Error 502: Bad Gateway)</span></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/home" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/home</a></li><li>🟡 <a href="https://s.baoyu.io/feed.xml" target="_blank" rel="noopener" class="health-link">https://s.baoyu.io/feed.xml</a></li><li>🟡 <a href="https://blog.n8n.io/rss/" target="_blank" rel="noopener" class="health-link">https://blog.n8n.io/rss/</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/aigclink" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/aigcli…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/xiaokedada" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/xiaoke…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/aiwarts" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/aiwart…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/eze_is_1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/eze_is…</a></li><li>🟡 <a href="https://api.substack.com/feed/podcast/10845/s/198869/private/4477642e-4891-4b0e-931e-52d3917ce6b8.rss" target="_blank" rel="noopener" class="health-link">https://api.substack.com/feed/podcast/10845/s…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/sama" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/sama</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/Jimmy_JingLv" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/Jimmy_…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/nicekate8888" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/niceka…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/yangyi" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/yangyi</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/gefei55" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/gefei5…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/user/35224A78-8B11-469E-B307-16B58688FBEC" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/user/35224A78-…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/HiTw93" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/HiTw93</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/canghe" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/canghe</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/omarsar0" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/omarsa…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/tuturetom" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/tuture…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/topic/55e02198dcef9f0e00d7b3c3/1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/topic/55e02198…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/topic/5699f451d3e8351200bffdc8/1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/topic/5699f451…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/topic/63579abb6724cc583b9bba9a/1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/topic/63579abb…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/Gorden_Sun" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/Gorden…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/dotey" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/dotey</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/levelsio" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/levels…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/vista8" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/vista8</a></li></ul>
+      </details>
+    </div>
+    
+    </aside>
+    <main class="content">
+      
+        <section id="cat-0">
+          <h2 class="section-title">🔥 重磅发布 <span class="section-count">11 篇</span></h2>
+          
+    <article id="item-0-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 04:11</span>
+      </div>
+      <div class="card-author">苍何</div>
+      
+      
+      <div class="summary">Claude Code 刚更新了 Computer use 功能，能自动打开 app 应用程序！<div class="rsshub-quote"><br><br>Claude: Computer use is now in Claude Code.<br><br>Claude can open your apps, click through your UI, and test what it built, right from the CLI.<br><br>Now in research preview on Pro and Max plans.<br><br><video width="2048" height="1152" src="https://video.twimg.com/amplify_video/2038658389862146048/vid/avc1/2560x1440/RWKrt5E3VVtmNIUK.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/media/HErKxqCXAAAJ8Y-?format=jpg&amp;name=orig"></video></div></div>
+      
+      
+      
+      
+        <div class="topic-tip">
+          <div class="tip-tag">🔥 热点借势</div>
+          <p><strong>选题角度：</strong>普通人会立刻关心：AI 以后是不是能自己点软件、做重复操作、替我跑流程。</p>
+          <p><strong>内容形式：</strong>快评+实测</p>
+          <p><strong>参考标题：</strong>Claude Code 会自己点鼠标了，这离真正的电脑助手还有多远？</p>
+          <p><strong>为什么值得做：</strong>概念非常直观，适合做热点解读或实测内容。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/canghe/status/2038831469456662967" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 10:21</span>
+      </div>
+      <div class="card-author">JitHub程序员</div>
+      
+      
+      <div class="summary"><span>用户昵称：莫尔索 <br> Username：0d4d6ca0-ac3f-4056-991e-d10bbdc3fb7c</span><br><br>有好心人在GitHub传了一份 instructkr/claude-code，<a href="https://github.com/instructkr/claude-code" target="_blank" rel="noopener">https://github.com/instructkr/claude-code</a>。<br>🤡字节/腾讯/阿里/等各家 cli 即将迎来重大更新</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cba01ed040e5f5e6fcd390" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 16:21</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">速度也太快了。让Claude Code分析自己的源码，来重写Claude Agent SDK，以后Agent基建可以用这个了。<div class="rsshub-quote"><br><br>idoubi: 让 Claude Code 分析了一遍  claude-code-sourcemap 源码，把逻辑全部抽离出来，写了个 open-agent-sdk，用于替代 claude-agent-sdk<br><br>使用 claude-agent-sdk 做过 Agent 产品的都知道，其本质是在 claude code 的基础上套了一层壳，做成 sdk 给第三方接入，可以加速 Agent<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEv8MurbIAAigbG?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2039015165849686443" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 15:51</span>
+      </div>
+      <div class="card-author">JitHub程序员</div>
+      
+      
+      <div class="summary"><span>用户昵称：艾逗笔 <br> Username：35224A78-8B11-469E-B307-16B58688FBEC</span><br><br>让 Claude Code 分析了一遍  claude-code-sourcemap 源码，把逻辑全部抽离出来，写了个 open-agent-sdk，用于替代 claude-agent-sdk<br><br>使用 claude-agent-sdk 做过 Agent 产品的都知道，其本质是在 claude code 的基础上套了一层壳，做成 sdk 给第三方接入，可以加速 Agent 产品的开发，但是弊端也很明显：<br><br>1. claude-agent-sdk 依赖 claude code，而 claude code 是不开源的，一切都是黑盒调用，出了问题你没法修<br><br>2. claude-agent-sdk 接到的 query，需要创建 claude code 进程去处理，开销很大，不适合云端 Agent 使用<br><br>在…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-1')">📖 查看全文</button>
+        <div id="fulltext-0-1" class="fulltext-source" data-title="让 Claude Code 分析了一遍 claude-code-sourcemap 源码，把逻辑全部抽离出来，写了个 open-agent-sdk，用于替代 claude-agent-sdk 使用 claude-agent-sdk 做过 ..." data-ai="" data-author="JitHub程序员" data-date="3月31日 15:51" style="display:none;">
+          <span>用户昵称：艾逗笔 <br> Username：35224A78-8B11-469E-B307-16B58688FBEC</span><br><br>让 Claude Code 分析了一遍  claude-code-sourcemap 源码，把逻辑全部抽离出来，写了个 open-agent-sdk，用于替代 claude-agent-sdk<br><br>使用 claude-agent-sdk 做过 Agent 产品的都知道，其本质是在 claude code 的基础上套了一层壳，做成 sdk 给第三方接入，可以加速 Agent 产品的开发，但是弊端也很明显：<br><br>1. claude-agent-sdk 依赖 claude code，而 claude code 是不开源的，一切都是黑盒调用，出了问题你没法修<br><br>2. claude-agent-sdk 接到的 query，需要创建 claude code 进程去处理，开销很大，不适合云端 Agent 使用<br><br>在 Claude Code 源码基础上实现的 open-agent-sdk<br><br>1. 完全兼容 claude-agent-sdk 的接口形式，只需换个包名即可快速替换<br><br>2. 完全开源，你可以接入到你的 Agent 后做定制化修改，不再是黑盒调用<br><br>3. 函数调用，不依赖本地 cli 进程，没有额外的开销，意味着你可以在云端 Agent 规模化调用<br><br>想到一个有意思的比方不知道合不合适😄<br><br>Claude Code 家后院起火，我让 Claude Code 把家里的桌椅板凳、锅碗瓢盆都搬出来，盖了一座新房子，让大家都可以免费住。🐶<br><br>MIT 协议开源，欢迎使用。👇<br><br><a href="https://github.com/shipany-ai/open-agent-sdk" target="_blank" rel="noopener">https://github.com/shipany-ai/open-agent-sdk</a><br><img src="https://cdnv2.ruguoapp.com/FtuViqZI3LRGrCxB4zQLFK6FfPdXv3.png" referrerpolicy="no-referrer">
+        </div>
+        
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FtuViqZI3LRGrCxB4zQLFK6FfPdXv3.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cbed8a3788f4820ca00bf2" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 14:21</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">Checking...<br><div class="rsshub-quote"><br><br>Feross: 🚨 CRITICAL: Active supply chain attack on axios -- one of npm&#x27;s most depended-on packages.<br><br>The latest axios@1.14.1 now pulls in plain-crypto-js@4.2.1, a package that did not exist before today. This is a live compromise.<br><br>This is textbook supply chain installer malware. axios<br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEvuGpzbMAAi03_?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2038985062100705742" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-6" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 14:14</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">几个小发现：<br>1、Anthropic内部员工有单独的订阅等级；<br>2、毫无悬念采集的数据非常多；<br>3、明天愚人节会上线Buddy彩蛋，上线后会一直可用，一共18种，稀有度不同看你能抽中哪个了；<br><br><div class="rsshub-quote"><br><br>Gorden Sun: Claude Code源码泄露<br>我让Claude Code分析了，基本确定是Claude Code源码，而且是比较新的版本，因为支持claude-opus-4-6。<br>下载地址：<a href="https://drive.google.com/file/d/1RgvuW9rTG_Ny3hcx_6M1JR2a5MrFaDsJ/view?usp=sharing" target="_blank" rel="noopener">https://drive.google.com/file/d/1RgvuW9rTG_Ny3hcx_6M1JR2a5MrFaDsJ/view?usp=sharing</a><br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEvrzuOaQAAoeBN?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEvsiKyacAAU181?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEumAhwbsAALgLH?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEunMhfbQAACGwS?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2038983343312920698" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-7" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 13:57</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">一觉醒来 claude code 源码泄漏了，还能下载<div class="rsshub-quote"><br><br>Chaofan Shou: Claude code source code has been leaked via a map file in their npm registry! <br><br>Code: <a href="https://pub-aea8527898604c1bbb12468b1581d95e.r2.dev/src.zip" target="_blank" rel="noopener">https://pub-aea8527898604c1bbb12468b1581d95e.r2.dev/src.zip</a><br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEubw45WQAA3VRl?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2038978960466272398" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-8" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 09:11</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">Claude Code源码泄露<br>我让Claude Code分析了，基本确定是Claude Code源码，而且是比较新的版本，因为支持claude-opus-4-6。<br>下载地址：<a href="https://drive.google.com/file/d/1RgvuW9rTG_Ny3hcx_6M1JR2a5MrFaDsJ/view?usp=sharing" target="_blank" rel="noopener">https://drive.google.com/file/d/1RgvuW9rTG_Ny3hcx_6M1JR2a5MrFaDsJ/view?usp=sharing</a><br><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEumAhwbsAALgLH?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEunMhfbQAACGwS?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2038907120637317346" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-9" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 07:26</span>
+      </div>
+      <div class="card-author">Tom Huang</div>
+      
+      
+      <div class="summary">在想象力腾飞的时代，我们坚持把执行做到位<br><br>Nexu 正式发布 0.1.8，更多的 channels、更多的客户端类型支持 Intel Mac、微信直连、更好的稳定性<br><br>我们会持续投入加码，并深入开源开放的决心<br><br>欢迎支持我们 <a href="https://github.com/nexu-io/nexu" target="_blank" rel="noopener">https://github.com/nexu-io/nexu</a><div class="rsshub-quote"><br><br>Joey Lee: <a href="http://x.com/i/article/2038807242766462976" target="_blank" rel="noopener">http://x.com/i/article/2038807242766462976</a><br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/tuturetom/status/2038880714364498054" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-10" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 04:00</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">RT Cos(余弦)😶‍🌫️<br>麻了，又又又一个知名模块 axios 被投毒，带毒版本 axios@1.14.1 与 axios@0.30.4。排查参考：<br><a href="https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan" target="_blank" rel="noopener">https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan</a><br><div class="rsshub-quote"><br><br>Feross: 🚨 CRITICAL: Active supply chain attack on axios -- one of npm&#x27;s most depended-on packages.<br><br>The latest axios@1.14.1 now pulls in plain-crypto-js@4.2.1, a package that did not exist before today. This is a live co…</div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEtfWxPbMAATCpl?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2038981463345885365" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-11" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 09:32</span>
+      </div>
+      <div class="card-author">JitHub程序员</div>
+      
+      
+      <div class="summary"><span>用户昵称：空弦Uni <br> Username：1CE4D186-79A1-4A41-9383-E58662035A84</span><br><br><a href="https://github.com/instructkr/claude-code" target="_blank" rel="noopener">https://github.com/instructkr/claude-code</a><br><br>CC 源代码被泄露，还是热乎的😅</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cb949dd040e5f5e6fbe27f" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-1">
+          <h2 class="section-title">🛠 工具推荐 <span class="section-count">9 篇</span></h2>
+          
+    <article id="item-1-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 06:58</span>
+      </div>
+      <div class="card-author">AI探索站</div>
+      
+      
+      <div class="summary"><span>用户昵称：刘飞Lufy <br> Username：BB769515-C724-4652-8838-6AA32EC1A8DF</span><br><br>目前日常 AI 工具的使用。<br><br>Claude Opus 逻辑能力断档第一，润色的文本已经在发布及格线，提建议和反馈都很准确，关键问题都靠它解决。但搜索能力一般，数据源一般。<br><br>Gemini 搜索和整理能力断档第一。像我这种日常需要海量资料搜集的工作，完全离不开。Claude 虽然幻觉不多，但知道的太少了。<br><br>Grok 用来搜其它家产品不愿意聊或者禁止聊的话题。<br><br>ChatGPT 5.4 没有预期中好用其实，作为替补。额度主要用来用 codex。<br><br>Claude Code 不太舍得用。文本工作对我的价值还没有替代性。代码方面疑难杂症再找 Claude 出来解决一下。<br><br>生活小能手，豆包。实时录音和文稿处理，千问。元宝很久没打开了。ima 还不错，知识库整理。<br><br>Nano Banana 生图准确性断档第一。…</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cb7091800201ac684bc57a" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 14:43</span>
+      </div>
+      <div class="card-author">AI探索站</div>
+      
+      
+      <div class="summary"><span>用户昵称：Edward.Luo <br> Username：E778037C-D581-4408-BA62-C4DD2CD4F727</span><br><br>最近每天烧几亿 Tokens，做了一款很有趣的 Mac「灵动岛」App - 👾 Vibe Island.<br><br>Vibe Island 的灵感来源于我在 Vibe Coding 会同时开 5-10 个对话跑不同的任务，经常切着切着就忘了刚刚那个对话跑到哪了...任务做没做完、需不需要我审批等等问题。<br><br>感觉人类大脑的上下文窗口已经远远不够用了。<br><br>于是，我就给这些  Agents 造了一座灵动岛！<br><br>装上 Vibe Island 之后：Mac 刘海区域会展示各种 Agents (Claude Code / Codex /  OpenClaw 等等）的实时工作状态：<br><br>- 当 Agent 需要权限审批或任务完成时，灵动岛会自动展开，不用切回终端就能操作<br>- 面板聚合了所有正在运行的 Agents…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-1')">📖 查看全文</button>
+        <div id="fulltext-1-1" class="fulltext-source" data-title="最近每天烧几亿 Tokens，做了一款很有趣的 Mac「灵动岛」App - 👾 Vibe Island. Vibe Island 的灵感来源于我在 Vibe Coding 会同时开 5-10 个对话跑不同的任务..." data-ai="" data-author="AI探索站" data-date="3月31日 14:43" style="display:none;">
+          <span>用户昵称：Edward.Luo <br> Username：E778037C-D581-4408-BA62-C4DD2CD4F727</span><br><br>最近每天烧几亿 Tokens，做了一款很有趣的 Mac「灵动岛」App - 👾 Vibe Island.<br><br>Vibe Island 的灵感来源于我在 Vibe Coding 会同时开 5-10 个对话跑不同的任务，经常切着切着就忘了刚刚那个对话跑到哪了...任务做没做完、需不需要我审批等等问题。<br><br>感觉人类大脑的上下文窗口已经远远不够用了。<br><br>于是，我就给这些  Agents 造了一座灵动岛！<br><br>装上 Vibe Island 之后：Mac 刘海区域会展示各种 Agents (Claude Code / Codex /  OpenClaw 等等）的实时工作状态：<br><br>- 当 Agent 需要权限审批或任务完成时，灵动岛会自动展开，不用切回终端就能操作<br>- 面板聚合了所有正在运行的 Agents 对话，点击卡片，精准跳回到会话所在的终端界面<br>- 所有状态都配有定制化的 8 bit 像素风游戏音效，狠狠提升了 Vibe Coding 的氛围感<br><br>灵动岛是一个极其优雅的形态：既能展示后台任务的状态，又不打扰前台正在进行的任务，它只在需要你注意的时候弹出，不用切换应用就能完成轻量交互，还带有一点陪伴感。<br><br>其实最早这个 App 只能触发右上角的系统通知，后来发现只做通知远远不够，实际应该解决的是：如何在恰当的时刻，以最小的摩擦，把注意力带回到正确的位置。<br><br>欢迎前往官网下载体验： <br>🏝️ <a href="https://vibeisland.app/" target="_blank" rel="noopener">https://vibeisland.app/</a> <br><br>最后 感谢我的各种卷王朋友们 @西西弗森 @埃隆噗大可 @杨远骋Koji @Kenny_肯尼  @达尔文地雀 @白日梦想家Vivi @碎瓜 @zzzhizhi …一路以来的支持和疯狂鼓励！<br><video src="https://videocdnv2.ruguoapp.com/lgSX2_JnYpPZjmwBAmbBQAxkbfZx.mp4?sign=470db40bc63b1fc2b7570f7bb909e3d8&amp;t=69cc7312" controls=""></video>
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cbdd7625bae56612855591" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 14:49</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">codex-plugin-cc：在Claude Code里使用Codex<br>OpenAI官方推出的插件，可以让Claude Code调用Codex执行任务，例如写代码、审核代码等，支持后台运行。<br>Codex暂时打不过Claude Code，这种方式合作也挺好。用户可以减少Claude消耗的token，Codex可以拿到更多代码场景的数据。希望OpenAI能追上来，20美元的订阅额度真的很良心。<br>Github：<a href="https://github.com/openai/codex-plugin-cc" target="_blank" rel="noopener">https://github.com/openai/codex-plugin-cc</a><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEv0hGqbQAAd2pC?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2038992122767188177" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 02:32</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">我们之前已经搞了这么一个插件了<br>现在自动化测试全靠codex<div class="rsshub-quote"><br><br>宝玉: OpenAI 官方发布了一个 Claude Code 插件 codex-plugin-cc，让开发者可以直接在 Claude Code 里调用 Codex 做代码审查、对抗性审查，甚至把任务整个移交给 Codex 执行。<br><br>这件事有意思的地方在于：这是 OpenAI 主动把自己的工具送进竞争对手 Anthropic 的地盘。Claude Code 有自己的插件生态，OpenAI<br><br><video width="1280" height="720" src="https://video.twimg.com/amplify_video/2038682166285017088/vid/avc1/1280x720/HKK687HqoKXUo-Sv.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2038682166285017088/img/7hNLFACoB0EH-Cc1.jpg"></video></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2038806605580640581" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 14:23</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      <h3 class="card-title">See-through：把一张动漫图拆成可编辑分层 PSD</h3>
+      <div class="orig-title">EN: See-through：把动漫图拆成部件 可以把动漫图片变成透明背景的组件，PSD分层，方便继续加工成动画。 Github：<a href="https://github.com/shitagaki-lab/see-through" target="_blank" rel="noopener">https://github.com/shitagaki-lab/see-through</a></div>
+      <div class="summary"><p>这个开源项目能自动把动漫角色拆成透明背景的多图层文件，并补全被遮挡区域，方便继续做动画或二次创作。</p></div>
+      <div class="orig-summary">EN: <p>See-through：把动漫图拆成部件可以把动漫图片变成透明背景的组件，PSD分层，方便继续加工成动画。Github：<a href="https://github.com/shitagaki-lab/see-through" target="_blank" rel="noopener">https://github.com/shitagaki-lab/see-through</a>李萌萌: We&#x27;re reintroducing and open-sourcing project &quot;See-through&quot;.</p><p>Given a single anime illustration, it automatically decomposes the character into fully-inpainted semantic layers with depth ordering.</p></div>
+      
+      
+      
+        <div class="topic-tip">
+          <div class="tip-tag">✅ 可做选题</div>
+          <p><strong>选题角度：</strong>告诉普通创作者，一张动漫图也能直接拆成可动图层，省掉大量手工抠图时间。</p>
+          <p><strong>内容形式：</strong>工具安利</p>
+          <p><strong>参考标题：</strong>一张动漫图自动拆成 PSD 分层，做动画终于不用手抠了</p>
+          <p><strong>为什么值得做：</strong>创作者一看就懂价值，而且演示效果很强。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2038985417043935235" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-6" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 23:13</span>
+      </div>
+      <div class="card-author">Tw93</div>
+      <h3 class="card-title">发现一个极简零配置文档生成器 docmd</h3>
+      <div class="orig-title">EN: Ran into docmd, a minimalist zero-config documentation generator built for developers. It turns Markdown into fast, clean static docs with auto routin...</div>
+      <div class="summary"><p>docmd 可以把 Markdown 直接变成轻量静态文档站，自带路由、搜索和 AI 可读上下文文件，不用上重框架。</p></div>
+      <div class="orig-summary">EN: <p>Ran into docmd, a minimalist zero-config documentation generator built for developers.It turns Markdown into fast, clean static docs with auto routing, built-in search, and AI-ready context files, all without heavy frameworks.<a href="https://docmd.io/" target="_blank" rel="noopener">https://docmd.io/</a></p></div>
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEqwXskaoAAqx66?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/HiTw93/status/2039118794358948334" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-7" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 13:13</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">让牛马AI分析了一下claude code的代码 <br>发现里面怎么有个基于用户ID生成的宠物精灵？ <br>要不我也给牛马AI搞个桌面自定义的通知宠物？<br><div class="rsshub-quote"><br><br>Mr.wu | Quil Holder: @yangyi 这波代码泄漏，对于牛马ai算是赋予能把吧！<br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEveemMbQAA8yrR?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2038967891253772588" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-8" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 18:49</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">如果想提前看看 claude code 的愚人节菜单：buddy 伴侣精灵<br><br><a href="https://claude-buddy-psi.vercel.app/" target="_blank" rel="noopener">https://claude-buddy-psi.vercel.app/</a><div class="rsshub-quote"><br><br>溪文 Sylvain: 复现了一下Claude Code预计在明天愚人节推出的buddy伴侣精灵功能。😇<br><br><video width="730" height="370" src="https://video.twimg.com/amplify_video/2038947767645790208/vid/avc1/730x370/I8PNvBlFuoW6mwg0.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2038947767645790208/img/QF_qeP8LTMTRFl4Y.jpg"></video></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2039052386128273620" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-9" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 03:30</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">这个库很好用<br>之前牛马AI的表格会出现截断问题<br>现在挂上这个库之后，给fix了<br><br><div class="rsshub-quote"><br><br>铁锤人: 最近基于这个仓库的代码刷屏了<br><br>普通人可能不太清楚为什么？<br><br>就是之前页面每一次修改文字布局消耗的性能很高，这个库解决了这个问题。<br><br>所以今天你看到很多程序员做了很多围绕文字的Demo。<br><br>对于普通人这个不是很重要的信息，你生活中百分之99的事情都没有改变。<br><a href="https://github.com/chenglou/pretext" target="_blank" rel="noopener">https://github.com/chenglou/pretext</a><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEtY_pkbsAAEwLE?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEtZBiKbMAACnB1?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2038821230233706630" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-2">
+          <h2 class="section-title">💡 行业观点 <span class="section-count">17 篇</span></h2>
+          
+    <article id="item-2-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 18:09</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">看鸭哥写的：《AI 工程的真实代价：从 Claude Code 泄露源码看新模型接入的工程现实》<br><a href="https://yage.ai/share/claude-code-engineering-cost-20260331.html" target="_blank" rel="noopener">https://yage.ai/share/claude-code-engineering-cost-20260331.html</a><br><br>里面提到了 Anthropic 在 Claude Code 里埋了三层反蒸馏机制，专门防竞争对手用 API 输出来训练自己的模型。泄露的源码把这套系统完整暴露了出来。<br><br>第一层：往输出里掺假。API 返回结果时，服务端会混入一些虚假的工具调用数据。正常用户完全不受影响，服务端会帮你过滤掉。但如果有人批量抓取 API 输出去训练模型，这些假数据会一起被吃进训练集，污染模型质量。<br><br>第二层：把推理过程藏起来。Claude 在工具调用之间会产生中间推理文本，比如&quot;我先读这个文件，再检查语法&quot;。这些细节对蒸馏训练价值很高，因为它暴露了模型怎么思考。这一层把中间文本替…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-1')">📖 查看全文</button>
+        <div id="fulltext-2-1" class="fulltext-source" data-title="看鸭哥写的：《AI 工程的真实代价：从 Claude Code 泄露源码看新模型接入的工程现实》 https://yage.ai/share/claude-code-engineering-cost-20260331.html 里面..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;文章拆解 Claude Code 工程现实&lt;/li&gt;&lt;li&gt;提到三层反蒸馏机制&lt;/li&gt;&lt;li&gt;说明模型接入背后有大量对抗设计&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;真正的 AI 工程门槛从来不只在模型调用，而在系统如何防滥用、防蒸馏、防误伤&lt;/p&gt;" data-author="宝玉" data-date="3月31日 18:09" style="display:none;">
+          看鸭哥写的：《AI 工程的真实代价：从 Claude Code 泄露源码看新模型接入的工程现实》<br><a href="https://yage.ai/share/claude-code-engineering-cost-20260331.html" target="_blank" rel="noopener">https://yage.ai/share/claude-code-engineering-cost-20260331.html</a><br><br>里面提到了 Anthropic 在 Claude Code 里埋了三层反蒸馏机制，专门防竞争对手用 API 输出来训练自己的模型。泄露的源码把这套系统完整暴露了出来。<br><br>第一层：往输出里掺假。API 返回结果时，服务端会混入一些虚假的工具调用数据。正常用户完全不受影响，服务端会帮你过滤掉。但如果有人批量抓取 API 输出去训练模型，这些假数据会一起被吃进训练集，污染模型质量。<br><br>第二层：把推理过程藏起来。Claude 在工具调用之间会产生中间推理文本，比如&quot;我先读这个文件，再检查语法&quot;。这些细节对蒸馏训练价值很高，因为它暴露了模型怎么思考。这一层把中间文本替换为一句摘要加密签名，下一轮对话时客户端拿签名换回原文。外部观察者只能看到摘要，完整推理链拿不到。<br><br>第三层：协议隔离。Claude Code 用一种新的 JSON 协议格式跟 API 通信，带独立的版本标记，跟每周 920 万次的普通 API 请求在统计上隔离开。服务端可以对不同群体做差异化处理，也让竞争对手无法简单伪装成 Claude Code 来获取特殊待遇。附带好处是省了大约 4.5% 的输出 token。<br><img width="1295" height="2048" style="" src="https://pbs.twimg.com/media/HEwiKfiaQAA3SH5?format=jpg&amp;name=orig" referrerpolicy="no-referrer"><div class="rsshub-quote"><br><br>宝玉: 分析claude code源代码第一步，先跑起来。这次泄漏的代码只是source map还原后的结果，缺少很多脚手架和私有package。本来我打算自己搞一下，结果发现已经有好心人搞定了。<br><br><a href="https://github.com/claude-code-best/claude-code" target="_blank" rel="noopener">https://github.com/claude-code-best/claude-code</a><br><br>（我运行时有点小bug，把错误信息发给codex就搞定了）<br><br>尽早fork下载本地，估计存活不了太久😂<br><br><img width="1846" height="1570" style="" src="https://pbs.twimg.com/media/HEwOANUbEAAE1yO?format=jpg&amp;name=orig" referrerpolicy="no-referrer"></div>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEwiKfiaQAA3SH5?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEwOANUbEAAE1yO?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2039042306871906655" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 13:14</span>
+      </div>
+      <div class="card-author">elvis</div>
+      <h3 class="card-title">研究者提出用自然语言编写 Agent Harness</h3>
+      <div class="orig-title">EN: RT DAIR.AI: Agent harnesses are too restrictive. That&#x27;s because they&#x27;re still designed as code. What if the harness itself were written in natural lan...</div>
+      <div class="summary"><p>这项研究认为传统 Agent harness 太像代码，提出 Natural-Language Agent Harness，让 LLM 在运行时解释自然语言约束。</p></div>
+      <div class="orig-summary">EN: <p>RT DAIR.AIAgent harnesses are too restrictive.That&#x27;s because they&#x27;re still designed as code.What if the harness itself were written in natural language and interpreted by an LLM at runtime?</p><p>This research explores the idea.The work introduces Natural-Language Agent Harnesses (NLAHs), a structured natural-language representation that externalizes harness logic as a portable, executable artifact.Instead of scattering co…</p></div>
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-2')">📖 查看全文</button>
+        <div id="fulltext-2-2" class="fulltext-source" data-title="研究者提出用自然语言编写 Agent Harness" data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;批评现有 harness 太像代码&lt;/li&gt;&lt;li&gt;提出自然语言 Harness 方案&lt;/li&gt;&lt;li&gt;让 LLM 运行时解释约束&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;如果 harness 也能被自然语言化，Agent 迭代速度会再上一个量级&lt;/p&gt;" data-author="elvis" data-date="3月31日 13:14" style="display:none;">
+          <p>RT DAIR.AI</p><p>Agent harnesses are too restrictive.</p><p>That&#x27;s because they&#x27;re still designed as code.</p><p>What if the harness itself were written in natural language and interpreted by an LLM at runtime?</p><p>This research explores the idea.</p><p>The work introduces Natural-Language Agent Harnesses (NLAHs), a structured natural-language representation that externalizes harness logic as a portable, executable artifact.</p><p>Instead of scattering control flow across controller code, framework defaults, and tool adapters, NLAHs make contracts, roles, stage structure, state semantics, and failure taxonomies explicit and editable.</p><p>An Intelligent Harness Runtime (IHR) places an LLM inside the runtime loop to interpret and execute these harnesses directly.</p><p>Why does it matter?</p><p>Harness design is increasingly decisive for agent performance, but it&#x27;s buried in code that&#x27;s hard to transfer, compare, or ablate.</p><p>NLAHs make the orchestration layer a first-class scientific object.</p><p>The practical implication: harnesses become portable across runtimes, composable across tasks, and directly inspectable by humans and models alike.</p><p>Paper: <a href="https://arxiv.org/abs/2603.25723" target="_blank" rel="noopener">https://arxiv.org/abs/2603.25723</a></p><p>Learn to build effective AI agents in our academy: <a href="https://academy.dair.ai/" target="_blank" rel="noopener">https://academy.dair.ai/</a></p>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEvepzkacAA_DJ1?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/omarsar0/status/2039042632584761472" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 13:13</span>
+      </div>
+      <div class="card-author">elvis</div>
+      <h3 class="card-title">Stanford 和 MIT 论文：同模型不同 Harness 可差 6 倍</h3>
+      <div class="orig-title">EN: RT elvis: NEW Stanford &amp; MIT paper on Model Harnesses. Changing the harness around a fixed LLM can produce a 6x performance gap on the same benchmark....</div>
+      <div class="summary"><p>论文指出，同一模型只要换一套 harness，基准测试表现就可能拉开 6 倍差距，并提出 Meta-Harness 自动搜索更优编排。</p></div>
+      <div class="orig-summary">EN: <p>RT elvisNEW Stanford &amp; MIT paper on Model Harnesses.Changing the harness around a fixed LLM can produce a 6x performance gap on the same benchmark.What if we automated harness engineering itself?</p><p>The work introduces Meta-Harness, an agentic system that searches over harness code by exposing the full history through a filesystem.The proposer reads source code, execution traces, and scores from all prior candidates, re…</p></div>
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-3')">📖 查看全文</button>
+        <div id="fulltext-2-3" class="fulltext-source" data-title="Stanford 和 MIT 论文：同模型不同 Harness 可差 6 倍" data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;同一模型换 harness 可差 6 倍&lt;/li&gt;&lt;li&gt;论文提出 Meta-Harness 自动搜索&lt;/li&gt;&lt;li&gt;说明编排层已成核心变量&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;模型越来越像底座，真正拉开差距的正在变成 harness engineering&lt;/p&gt;" data-author="elvis" data-date="3月31日 13:13" style="display:none;">
+          <p>RT elvis</p><p>NEW Stanford &amp; MIT paper on Model Harnesses.</p><p>Changing the harness around a fixed LLM can produce a 6x performance gap on the same benchmark.</p><p>What if we automated harness engineering itself?</p><p>The work introduces Meta-Harness, an agentic system that searches over harness code by exposing the full history through a filesystem.</p><p>The proposer reads source code, execution traces, and scores from all prior candidates, referencing over 20 past attempts per step.</p><p>On text classification, it improves over SOTA context management by 7.7 points while using 4x fewer tokens.</p><p>On agentic coding, it outperforms all hand-engineered baselines on TerminalBench-2, scoring 37.6% versus Claude Code&#x27;s 27.5%.</p><p>This is a big deal! Here is why:</p><p>The harness around a model often matters as much as the model itself.</p><p>Meta-Harness shows that giving an optimizer rich access to prior experience, not just compressed scores, unlocks automated engineering that beats human-designed scaffolding.</p><p>Paper: <a href="https://arxiv.org/abs/2603.28052" target="_blank" rel="noopener">https://arxiv.org/abs/2603.28052</a></p><p>Learn to build effective AI agents in our academy: <a href="https://academy.dair.ai/" target="_blank" rel="noopener">https://academy.dair.ai/</a></p>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEveclJa0AAux36?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/omarsar0/status/2039091164557562276" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 21:30</span>
+      </div>
+      <div class="card-author">elvis</div>
+      <h3 class="card-title">主动式 Agent 会慢慢出现在所有产品里</h3>
+      <div class="orig-title">EN: Proactive agents are slowly going to start to show up everywhere. It’s not an endgame. More like natural next step to scale with agents. I build with...</div>
+      <div class="summary"><p>作者认为主动式 Agent 不是终局，但会成为 Agent 扩张的自然下一步，真正难点在于稳定输出质量。</p></div>
+      <div class="orig-summary">EN: <p>Proactive agents are slowly going to start to show up everywhere.It’s not an endgame.More like natural next step to scale with agents.I build with proactive agents already and the biggest challenge is not scaling work with agents it’s about the quality of output.Ole Lehmann: i can&#x27;t believe more people aren&#x27;t talking about this part of the claude code leakthere&#x27;s a hidden feature in the source code called KAIROS, and…</p></div>
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-4')">📖 查看全文</button>
+        <div id="fulltext-2-4" class="fulltext-source" data-title="主动式 Agent 会慢慢出现在所有产品里" data-ai="" data-author="elvis" data-date="3月31日 21:30" style="display:none;">
+          <p>Proactive agents are slowly going to start to show up everywhere.</p><p>It’s not an endgame. More like natural next step to scale with agents.</p><p>I build with proactive agents already and the biggest challenge is not scaling work with agents it’s about the quality of output.</p><p>Ole Lehmann: i can&#x27;t believe more people aren&#x27;t talking about this part of the claude code leak</p><p>there&#x27;s a hidden feature in the source code called KAIROS, and it basically shows you anthropic&#x27;s endgame</p><p>KAIROS is an always-on, *proactive* Claude that does things without you asking it to.</p><p>it</p>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEwM8PFbMAEB203?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/omarsar0/status/2039092989780230487" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 20:09</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">恰恰相反，codex cli 做的很难用，不如 claude code 代码有价值。<br><br>但如果你只是要做一个 ai agent，没必要用 claude code 或者 codex 代码，pi-mono 这种轻量级的库更适合你。<div class="rsshub-quote"><br><br>图拉鼎: 没有兴趣去研究 Claude Code 泄漏的源码，毕竟 Codex 天然开源的源码才更值得我去学习（+使用）。<br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2039072519852888360" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-6" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 14:40</span>
+      </div>
+      <div class="card-author">JitHub程序员</div>
+      
+      
+      <div class="summary"><span>用户昵称：王铮Silvia <br> Username：FE5E210F-A4CF-4145-B83E-318538C8F8B1</span><br><br>一堆吃瓜Claude Code“开源”的自媒体文章里，看到了两篇从Agent实践角度分析Claude Code架构可学习之处的干货帖，都是关注的即友，说明真的上手干活儿的人拆解问题的能力就是强……👍👍<br>这是一个非技术背景的人也应该吃透的案例，估计会成为面试题目～～🤭🤭</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cbdcf6800201ac68555e9e" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-7" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 10:38</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">拿来分析封号因素吧，封号是服务端决策，但是客户端也能找到些关联因素<br><div class="rsshub-quote"><br><br>Gorden Sun: Claude Code源码泄露<br>我让Claude Code分析了，基本确定是Claude Code源码，而且是比较新的版本，因为支持claude-opus-4-6。<br>下载地址：<a href="https://drive.google.com/file/d/1RgvuW9rTG_Ny3hcx_6M1JR2a5MrFaDsJ/view?usp=sharing" target="_blank" rel="noopener">https://drive.google.com/file/d/1RgvuW9rTG_Ny3hcx_6M1JR2a5MrFaDsJ/view?usp=sharing</a><br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEu68clagAAPPdP?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEumAhwbsAALgLH?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEunMhfbQAACGwS?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2038928821517516817" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-8" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 00:18</span>
+      </div>
+      <div class="card-author">AI探索站</div>
+      
+      
+      <div class="summary"><span>用户昵称：鸠摩小虾米 <br> Username：2FF63D38-82E0-49FB-B773-3872C9FD40CC</span><br><br>我前几天看了why not tv采访wenjiayi（openai的一个核心工程师），他非常笃定的说出宿命论和人绝对没有自由意志这个事情。<br>于是我又开始看佛学，看各种显化，觉得这个东西太神奇了。<br>我大概写一下：<br><br>人类其实就是AI，没有区别，这个其实佛早就讲过了。<br><br>佛说无我。说的就是这件事。你以为有一个”我”在做决定，在选择，在控制自己的人生。佛说，这个”我”是幻觉。真正在运作的，是五蕴，色受想行识，一堆因缘条件聚合在一起，产生了一个”我在这里”的感觉。<br><br>就像河流。没有一滴水是固定的，但河的形状一直在。你是那个形状的暂时维持。缘起性空，一切都是条件聚合出来的，其实你也是。<br><br>你是一条河，你必须run下去，你没有第二个选择。<br><br>1980年代，科学家利贝特做了一个实验。他发现，人在”决定”做一件事之前…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-5')">📖 查看全文</button>
+        <div id="fulltext-2-5" class="fulltext-source" data-title="我前几天看了why not tv采访wenjiayi（openai的一个核心工程师），他非常笃定的说出宿命论和人绝对没有自由意志这个事情。 于是我又开始看佛学，看各种显化，觉..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;从工程师访谈聊到宿命论&lt;/li&gt;&lt;li&gt;把佛学与 AI 类比在一起&lt;/li&gt;&lt;li&gt;是带哲思色彩的长文&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;把人类理解成可预测系统很刺激，但一旦忽视主观能动性就容易滑向过度决定论&lt;/p&gt;" data-author="AI探索站" data-date="3月31日 00:18" style="display:none;">
+          <span>用户昵称：鸠摩小虾米 <br> Username：2FF63D38-82E0-49FB-B773-3872C9FD40CC</span><br><br>我前几天看了why not tv采访wenjiayi（openai的一个核心工程师），他非常笃定的说出宿命论和人绝对没有自由意志这个事情。<br>于是我又开始看佛学，看各种显化，觉得这个东西太神奇了。<br>我大概写一下：<br><br>人类其实就是AI，没有区别，这个其实佛早就讲过了。<br><br>佛说无我。说的就是这件事。你以为有一个”我”在做决定，在选择，在控制自己的人生。佛说，这个”我”是幻觉。真正在运作的，是五蕴，色受想行识，一堆因缘条件聚合在一起，产生了一个”我在这里”的感觉。<br><br>就像河流。没有一滴水是固定的，但河的形状一直在。你是那个形状的暂时维持。缘起性空，一切都是条件聚合出来的，其实你也是。<br><br>你是一条河，你必须run下去，你没有第二个选择。<br><br>1980年代，科学家利贝特做了一个实验。他发现，人在”决定”做一件事之前，大脑的运动皮层已经激活了。早了将近半秒。意识感受到的”我选择了”，是大脑已经启动之后，产生的一个事后叙述。<br>意识，就像是在给一个已经发生的事情编个故事。<br>我们人类自以为我们的人生是开了一辆车去目的地，但是，其实车早就出发了，你只是车里的广播，播报行程罢了。<br>这个行程，你作为广播，你是没有能力去安排的。<br><br>叔本华说，人类所有的行为都是”意志”在驱动。这个意志，是一股宇宙盲目的且没有目的的力量，借你的身体在表达。你想要那个东西，是意志通过你在想要。你是通道，也是工具。<br>这就是宿命论。<br><br>在任何一个当下，你能做出的选择，已经被你的基因、你的成长经历、你接收过的所有信息、你此刻的物理化学状态，完全决定了。给定同样的初始条件，输出只有一个。<br>更高维度看，我们人类就是一段已经写好的代码在运行。时间，只是人类感知这段代码的方式。<br>你就是被写好的程序。上帝，老天爷，真主阿拉，or whatever you called，是坐在屏幕前写prompt的人。他写什么，你run什么，你甚至相信什么。<br><br>那显化呢。显化，在这套框架里有一个跳脱。<br>你相信某件事会发生，大脑里的网状激活系统就开始过滤信息，让你只看到支持这个信念的证据。你的行为模式在你察觉之前，已经悄悄朝那个方向调整。神经元反复激活同一条回路，突触连接变强，思维和行为的默认路径，就这样慢慢改变了。<br>显化，是你作为ai，通过各种方式，改写prompt，整套系统开始按新的prompt跑。<br>但这里有个悖论。如果一切都是宿命，“改写prompt”这个动作本身，也是被决定好的。你在宿命里显化，那显化也是宿命的一部分。<br><br>那还有什么出路。<br>出路，是觉知。<br><br>冥想和正念训练的，是前额叶皮层对杏仁核的调节能力。杏仁核是情绪反应的发射台，前额叶是观察和调节的部分。训练觉知，是在神经层面上，加强那个”看着自己在跑程序”的回路。<br><br>大多数人一辈子活在autopilot里。饿了吃，困了睡，有人夸就高兴，有人骂就难受，刷到什么想什么，遇到什么反应什么。程序在跑，然后自己全程缺席。<br>觉知，是程序里出现了一个能观察程序本身的子结构。这个子结构越活跃，你和自动反应之间的距离越大，痛苦的密度越低。<br>所以佛说一定要打坐。别的都不重要。<br>菩萨，就是这么度化众生的。<br>菩萨不是一个神仙，是老师，是教会你这套方法的老师。<br><br>涅槃的巴利文原意，是熄灭。<br>佛学里，觉知的终点，是”能觉知的”和”被觉知的”之间的边界消融。观察者和被观察的，合而为一。连”我在观察”这件事，也放下了。<br>熄灭的，是那个一直以为自己是独立主体的感觉。<br><br>所以，神经、哲学、佛学。一切好像成为了一个闭环。<br><br>正念去了！拜拜。<br>正念才能让我意识我我其实是ai。
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cb12bf800201ac684360c0" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-9" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 14:54</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">再多的agent客户端也没用<br>真正重要的是谁能持续在一个场景深挖下去<br>找到那个核心致胜因素  不断在那里耕作</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2038993218361315446" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-10" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 14:24</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      <h3 class="card-title">求官方把 Codex Desktop 开源吧</h3>
+      <div class="orig-title">EN: Make Codex Desktop open-source, please!</div>
+      <div class="summary"><p>在泄露传闻背景下，有人直接喊话 OpenAI，不如把 Codex Desktop 正式开源。</p></div>
+      <div class="orig-summary">EN: <p>Vaibhav (VB) Srivastav: holy shitt, somebody at OpenAI leaked the entire codex codebase..<a href="https://github.com/openai/codex" target="_blank" rel="noopener">https://github.com/openai/codex</a></p></div>
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2038985726033899747" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-11" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 11:53</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">ai时代如果仍然要做产品 我觉得有3个要遵循的要素<br>第一个要素是更简单 更轻松 更积极的引导用户留存上下文<br>第二个要素是面向接下来6个月的模型能力去设计<br>第三个要素是和模型发展方向正交 而非重叠</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2038947687400415305" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-12" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 04:55</span>
+      </div>
+      <div class="card-author">你不知道的行业内幕</div>
+      
+      
+      <div class="summary"><span>用户昵称：风小海 <br> Username：EBBD211D-4513-48AF-8D8C-9C2F1A4D7300</span><br><br>韭菜，为什么永远割不完<br><br>我接触知识付费这个圈子有一段时间了，发现有这么一类人。<br><br>他们身上有一种独特的气质，永远在学习，永远在焦虑，永远在付费，永远没有结果。<br><br>社群加了一大堆，课买了一门又一门，朋友圈每天发励志文案。<br>还有各种线下局，学习局，创业局，共同成长局。<br>一堆素不相识的人围坐在一起，吃顿饭，讲自己在做什么项目，准备冲什么赛道。<br><br>每个人说话都很有气势。<br>散场之后，各自回家，什么也没发生。<br><br>回家的路上，朋友圈发出来：今天和一群优秀的人相聚，收获满满，感谢xxx的组织，期待下次。<br><br>你以为他很牛，他以为你很牛。<br>牛牛对牛牛。<br>第二天继续报下一个局。<br>我把这类人叫做：完美韭菜。<br><br>不是骂他们，是因为这个词最准确。<br><br>这类人有几个共同特征。<br><br>第一个特征是热爱学习。<br><br>不是说学习不好，但学习不是目的，不要没结果的学习，不要痴迷…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-6')">📖 查看全文</button>
+        <div id="fulltext-2-6" class="fulltext-source" data-title="韭菜，为什么永远割不完 我接触知识付费这个圈子有一段时间了，发现有这么一类人。 他们身上有一种独特的气质，永远在学习，永远在焦虑，永远在付费，永远没有结..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;知识付费圈常见伪勤奋&lt;/li&gt;&lt;li&gt;不断学习付费却没产出&lt;/li&gt;&lt;li&gt;社交热闹不等于做成事&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;只消费焦虑却不做闭环，越努力越像被收割&lt;/p&gt;" data-author="你不知道的行业内幕" data-date="3月31日 04:55" style="display:none;">
+          <span>用户昵称：风小海 <br> Username：EBBD211D-4513-48AF-8D8C-9C2F1A4D7300</span><br><br>韭菜，为什么永远割不完<br><br>我接触知识付费这个圈子有一段时间了，发现有这么一类人。<br><br>他们身上有一种独特的气质，永远在学习，永远在焦虑，永远在付费，永远没有结果。<br><br>社群加了一大堆，课买了一门又一门，朋友圈每天发励志文案。<br>还有各种线下局，学习局，创业局，共同成长局。<br>一堆素不相识的人围坐在一起，吃顿饭，讲自己在做什么项目，准备冲什么赛道。<br><br>每个人说话都很有气势。<br>散场之后，各自回家，什么也没发生。<br><br>回家的路上，朋友圈发出来：今天和一群优秀的人相聚，收获满满，感谢xxx的组织，期待下次。<br><br>你以为他很牛，他以为你很牛。<br>牛牛对牛牛。<br>第二天继续报下一个局。<br>我把这类人叫做：完美韭菜。<br><br>不是骂他们，是因为这个词最准确。<br><br>这类人有几个共同特征。<br><br>第一个特征是热爱学习。<br><br>不是说学习不好，但学习不是目的，不要没结果的学习，不要痴迷于学习的状态本身。看到课程就兴奋，一实操就心慌，社群加了一大堆，各种老师的线下课都去了，最终成为了学习时间最长、实际产出最少的那批人。<br><br>第二是特征是爱问大问题。<br><br>问的问题是这样的：<br><br>&quot;老师您好，在当前存量博弈的市场环境下，我应该如何通过差异化的内容策略，精准卡位细分赛道，同时完成个人IP的底层逻辑重构，最终实现从流量到留量的跨越式转化？&quot;<br><br>还有这种：<br><br>&quot;老师您好，我目前处于起步阶段但有一定基础，想做内容但不知道做什么，有变现想法但没有产品，请问我应该从哪里开始，怎么做，做多久能见效？&quot;<br><br>别急，还有这种：<br><br>&quot;老师您好，我深耕某个领域多年，有丰富的行业经验和独特的个人认知，目前想借助新媒体东风完成个人品牌的从0到1，请问如何在精准触达目标用户的同时，构建可持续的商业闭环，最终打通变现链路，实现财务自由？&quot;<br><br>每个字我都认识。但组合在一起，我就感觉我得了阅读障碍。<br><br>扔给AI都得转几圈。<br><br>其实说来说去都是同一个问题：<br><br>&quot;老师您好，我什么都没有，请问怎么赚钱？&quot;<br><br>这本质上，其实是在表演上进。<br><br>大词堆大词，把自己都说不清的焦虑包装成看似无比精准的问题，然后期待我给一个三句话能让他月入过万的答案。<br><br>割韭菜<br><br>这个生意，它的底层逻辑其实很简单。               <br><br>先制造焦虑：你不学AI就要被淘汰，不做副业就要被裁员，不掌握这套方法论就永远没有出路。<br><br>然后提供解药：10节课，3999，限时优惠，今天下单立减1000。<br><br>但真正被出售的，其实是付款那一刻的安心感。我买了，我在行动，我就安全了。<br><br>所以你明白为什么这些课的内容普遍是废话了。<br><br>因为内容真的不重要。<br><br>不过内容必须看起来有价值，但也不能真的有价值。真的有价值意味着你学会了，不需要再买下一门了。<br><br>这个模式最精妙的地方是：被割过的人，不但不会揭穿这件事，反而会主动加入进来为这个谎言站台，继续割。因为他们没有办法承认自己被骗了。<br><br>你想想，花了三千块学了一套&quot;月入过万自媒体方法论&quot;，学完发现没用。怎么办？<br><br>承认方法论是假的吗？我被骗了，我损失了三千块。<br><br>不，这太难了。<br><br>接受这个结论意味着：我是傻瓜，我被人耍了，我的钱打了水漂。大脑天然排斥这个结论，会自动去找另一个解释。<br><br>所以，最让人舒服的解释是，方法是对的，是我自己还没做好。<br><br>我执行力不够。我没有坚持。我悟性太低。我需要再学一门配套的课。<br><br>于是这个人开始自我说服，然后开始传播这套东西。他真诚地告诉身边的朋友：这套方法很好，这个老师说的很对，就是要坚持，你也来学一学。<br><br>他其实也不是在骗人。因为他自己真的也信了。<br><br>某种程度上，这和传销的运作原理是一样的。<br><br>囤了一批货发现被骗，不愿承认，开始拉下线稀释损失，拉下线的时候，自己也慢慢信了。<br><br>买了课发现没用，不承认，于是自己开始讲故事，我用豆包搭自动化工作流吗，副业月入8万，我用6个龙虾员工24小时在线，月入10万。<br><br>视频拍起来，课也卖起来。总有人成为韭菜，也总有韭菜成为镰刀。<br><br>被割的人变成了割人的人。<br><br>下一批被割的人，又会经历同样的循环。<br><br>这个生态永远跟着风口走。<br><br>区块链来了，卖区块链课。元宇宙来了，卖元宇宙课。ChatGPT来了，卖AI应用课。龙虾刚火，课已经卖了几百万。<br><br>有位自称清华博士的李老师，靠一套AI课年收入过千万，被网友并列奥特曼，称为华人AI双雄。<br><br>你可能会想，那些学员为什么不去B站搜一下，明明都是免费的？<br><br>因为这不是信息检索能力的问题。是个焦虑管理的问题。<br><br>人在焦虑的时候，不需要最好的信息，需要的是确定感。<br><br>付了钱，进了群，有老师答疑。<br><br>这一套仪式感，给了焦虑的大脑一个&quot;我在行动了&quot;的信号。<br><br>这个割韭菜系统存在这么多年，从成功学到知识付费，从励志课到AI副业课，风口换了一茬又一茬，但从来没有彻底消失过。<br><br>不是割的人手段有多高明，是因为焦虑永远不会消失。<br><br>只要有人害怕落后，就有人需要一个我在努力的证明。<br><br>因为镰刀不需要进化，韭菜会自己长回来。
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cb53c83ccbdc6bb50ad64f" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-13" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 04:04</span>
+      </div>
+      <div class="card-author">哥飞</div>
+      
+      
+      <div class="summary">2026年了，努力还有用吗？<br><br>从我的观察来看，在我们出海这个方向，努力是有用的。<br><br>当然，努力的前提是找对方向，朝着正确的方向前进，这样的努力才有意义。<br><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEtRMEPbMAAfxWj?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEs6SXaaYAEvHc6?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEtg4DFbEAAmwEb?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/gefei55/status/2038829775012479250" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-14" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 21:59</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">虽然混淆后js代码能还原，但是<br>1. 50 万行代码还原代价极大，让它还原后还能运行现在AI也做不到<br>2. 你看不到注释<br>3. 你看不到代码结构，看不到代码是怎么组织的<div class="rsshub-quote"><br><br>大吉大利: @dotey 不明白这有多大意义， js项目不是天生就能看到混淆后的代码吗 用ai还原不出来吗？<br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2039100369108603136" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-15" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 19:22</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      <h3 class="card-title">也许民主真的有点用，只是反馈太慢</h3>
+      <div class="orig-title">EN: Ironically I&#x27;m convinced democracy might kinda work It just takes 3-5 years of shouting on X about an issue, getting told off for it and then suddenly...</div>
+      <div class="summary"><p>作者调侃，社交平台上吵三五年后政府才会跟进民意，如果能把这个反馈周期压到几周会更理想。</p></div>
+      <div class="orig-summary">EN: <p>Ironically I&#x27;m convinced democracy might kinda workIt just takes 3-5 years of shouting on X about an issue, getting told off for it and then suddenly the governments actually do what people said they should do on hereI wonder if you can fasten that feedback loop from 5 years to 5 months or 5 weeksHome Office: Police time will no longer be wasted investigating legal social media posts, freeing up officers to patrol th…</p></div>
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-7')">📖 查看全文</button>
+        <div id="fulltext-2-7" class="fulltext-source" data-title="也许民主真的有点用，只是反馈太慢" data-ai="" data-author="levelsio" data-date="3月31日 19:22" style="display:none;">
+          <p>Ironically I&#x27;m convinced democracy might kinda work</p><p>It just takes 3-5 years of shouting on X about an issue, getting told off for it and then suddenly the governments actually do what people said they should do on here</p><p>I wonder if you can fasten that feedback loop from 5 years to 5 months or 5 weeks</p><p>Home Office: Police time will no longer be wasted investigating legal social media posts, freeing up officers to patrol the streets and tackle real crime.</p><p>By scrapping Non‑Crime Hate Incidents, we are balancing the protection of vulnerable communities while respecting free speech.</p>
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2039060705190551948" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-16" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 15:14</span>
+      </div>
+      <div class="card-author">吕立青_JimmyLv</div>
+      
+      
+      <div class="summary">我其实想用 opencli 围绕推特大 V 出一个【卧槽指数】的，😂 <br>无奈刚好 CC token 不够用了，哪位推友做了 credit 一下我。。。<div class="rsshub-quote"><br><br>卡比卡比: opencli 的能力真的太强了！最近用opencli 的搜索搞了个小红书指数。发现它是真的太反指了。<br>不管是黄金，还是存储，还是其他的，只要小红书里热度高起来了，教人梭哈买入。<br>就该跑路了，这些马上就要开始套人了。<br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Jimmy_JingLv/status/2038998306827665571" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-17" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 13:42</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">最近被迫减少玩AI时间，多看书，多休息。</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2038975204475675009" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-3">
+          <h2 class="section-title">📚 教程技巧 <span class="section-count">4 篇</span></h2>
+          
+    <article id="item-3-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 13:34</span>
+      </div>
+      <div class="card-author">Tom Huang</div>
+      
+      
+      <div class="summary">兄弟们，这是我看到最小白的龙虾🦞公众号自动流水线教程～<br><br>@lxfater 之前分享了一个公众号自动排版的开源 Skill，@seekjourney 做的 md2wechat。然后 @wangray  在这基础上做了 wewrite，把选题、写作、配图、排版全串起来了。<br><br>现在有人把这几个 Skill 装到 Nexu 上，写了个从零跑通的教程，还挺完整的。<br><br>这三个项目各做一段，拼在一起就是一条完整的公众号内容管线。开源社区这种接力式创作挺有意思的。<div class="rsshub-quote"><br><br>Joey Lee: <a href="http://x.com/i/article/2038963846925148160" target="_blank" rel="noopener">http://x.com/i/article/2038963846925148160</a><br></div></div>
+      
+      
+      
+      
+        <div class="topic-tip">
+          <div class="tip-tag">✅ 可做选题</div>
+          <p><strong>选题角度：</strong>普通人最关心的就是：不用会代码，能不能把公众号选题、写作、排版一次串起来。</p>
+          <p><strong>内容形式：</strong>实操教程</p>
+          <p><strong>参考标题：</strong>不会写代码，也能搭一条公众号自动写作流水线</p>
+          <p><strong>为什么值得做：</strong>门槛低、结果明确，特别适合做教程型内容。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/tuturetom/status/2038973160981180864" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-3-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 02:55</span>
+      </div>
+      <div class="card-author">JitHub程序员</div>
+      
+      
+      <div class="summary"><span>用户昵称：Yanzhang <br> Username：B8D9E902-BB3C-4AE2-88CC-3830D96271D6</span><br><br>Claude Opus自由邪修法，已跑通<br>1. 谷歌账号备好，不能是香港或中国大陆地区的，最好是养了一段时间的<br>2. 网上购买学生认证，成本10r，认证后获得一年Gemini Pro<br>3. 下载Antigravity，VPN开启TUN模式，地区和谷歌账号保持一致，OAuth登录成功<br>4. 使用开源项目 antigravity-manager 实现API反代<br>5. 恭喜你，Claude Opus再续一口！<br></div>
+      
+      
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FsyYkKn7A5oLeFxDrHS-sZ9YdxkQv3.jpg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cb37b3800201ac6846e79f" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-3-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 08:36</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">Agent交互指南<br>Linear发布，可以理解为早期版本的iOS交互规范，只不过iOS交互规范定义的是人和APP如何交互，Agent交互指南定义的是人和Agent如何交互。<br>这份指南还非常基础，核心内容就是把Agent当做人来协作，使用人类的UI和标准操作，但是这个人明确标记出是AI且是个透明、及时反馈、听话的好同事。<br>文档：<a href="https://linear.app/developers/aig" target="_blank" rel="noopener">https://linear.app/developers/aig</a><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEufAumaAAAlxez?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2038898104444092436" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-3-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 15:12</span>
+      </div>
+      <div class="card-author">吕立青_JimmyLv</div>
+      
+      
+      <div class="summary">这篇文章值得提取好几个 agent skills！太强了，值得转发再看～<div class="rsshub-quote"><br><br>JaredL: <a href="http://x.com/i/article/2038591985653878784" target="_blank" rel="noopener">http://x.com/i/article/2038591985653878784</a><br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Jimmy_JingLv/status/2038997974924034190" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-4">
+          <h2 class="section-title">💰 商业案例 <span class="section-count">3 篇</span></h2>
+          
+    <article id="item-4-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 13:22</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      <h3 class="card-title">Marc Lou 公布 3 月收入 7.8 万美元</h3>
+      <div class="orig-title">EN: RT Marc Lou: I made $78,120 in March 2026. ⭐️ TrustMRR — $36K 📈 DataFast — $21K ⚡️ ShipFast — $9.2K 🧑‍💻 CodeFast — $8.3K 🐥 Twitte...</div>
+      <div class="summary"><p>Marc Lou 晒出 2026 年 3 月的产品收入结构，单月总收入约 7.8 万美元，同时提到课程和模板业务正在被 AI 冲击。</p></div>
+      <div class="orig-summary">EN: <p>RT Marc LouI made $78,120 in March 2026.⭐️ TrustMRR — $36K📈 DataFast — $21K⚡️ ShipFast — $9.2K🧑‍💻 CodeFast — $8.3K🐥 Twitter — $2.4K🍜 Indie Page — $505🎞️ YouTube — $217🌱 HabitsGarden — $147🚀 LaunchViral — $129🛡️ ByeDispute — $96💨 Zenvoice — $69📚 WorkbookPDF — $57+ AI has killed my coding course and my boilerplate+ TrustMRR hits an all-time high revenue with the 3% acquisition fee</p></div>
+      
+      
+      
+        <div class="topic-tip">
+          <div class="tip-tag">📝 深度选题</div>
+          <p><strong>选题角度：</strong>普通读者最关心的不是技术，而是一个人怎么同时跑出多个稳定赚钱的小产品。</p>
+          <p><strong>内容形式：</strong>案例拆解</p>
+          <p><strong>参考标题：</strong>他一个月进账 7.8 万美元：独立开发者的收入组合是怎么搭起来的</p>
+          <p><strong>为什么值得做：</strong>收入拆解天然有传播力，还能顺带讲产品矩阵思路。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2038996903010894148" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 09:39</span>
+      </div>
+      <div class="card-author">你不知道的行业内幕</div>
+      
+      
+      <div class="summary"><span>用户昵称：一只萧包子 <br> Username：81682737-b9cb-48a7-aff0-13e166323c8a</span><br><br>朋友说他余额宝存了20多，一天到账有4块多5块，问我有什么更好的理财产品？<br><br>我说你可以去写公众号，没有爆款的情况下，日常更新，我现在一篇公众号平均下来每天都有9块，相当于你40的余额。<br><br>重点是安全，稳赚不赔，还能自我成长。<br><br>关注我，教你更多理财知识。</div>
+      
+      
+      
+      
+        <div class="topic-tip">
+          <div class="tip-tag">✅ 可做选题</div>
+          <p><strong>选题角度：</strong>告诉普通人，没资源没团队也能把公众号当长期副业资产来做。</p>
+          <p><strong>内容形式：</strong>案例拆解</p>
+          <p><strong>参考标题：</strong>余额宝不香后，我发现公众号才是更稳的长期副业</p>
+          <p><strong>为什么值得做：</strong>理财焦虑加副业替代，普通读者会很有代入感。</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cb964ac5a1d4e649687ce1" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 03:57</span>
+      </div>
+      <div class="card-author">哥飞</div>
+      
+      
+      <div class="summary">这是正经服务吗？买卖脚片，每个月有 200 多万访问量。前三访问地区是美国、英国、德国。<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEtfMgwbsAAz0DJ?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/gefei55/status/2038827957100388502" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-5">
+          <h2 class="section-title">📰 资讯动态 <span class="section-count">15 篇</span></h2>
+          
+    <article id="item-5-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 12:57</span>
+      </div>
+      <div class="card-author">Tw93</div>
+      
+      
+      <div class="summary"><a href="http://x.com/i/article/2038575427921600512" target="_blank" rel="noopener">http://x.com/i/article/2038575427921600512</a></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/HiTw93/status/2038963830580289569" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 12:41</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">RT Yuker<br><a href="http://x.com/i/article/2038942033629564928" target="_blank" rel="noopener">http://x.com/i/article/2038942033629564928</a></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2039059115880714469" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 02:33</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary"><a href="http://x.com/i/article/2038805544794820609" target="_blank" rel="noopener">http://x.com/i/article/2038805544794820609</a></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2038806815883047340" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 15:14</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">RT CuiMao<br>实锤了，刚才开会我录屏了   @DarioAmodei  @AnthropicAI  @claudeai<br><video width="2048" height="1152" src="https://video.twimg.com/amplify_video/2038998087109414913/vid/avc1/2560x1440/p60jmNn_je4Icemu.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2038998087109414913/img/WK2SEEtuEQ_UVJQ6.jpg"></video></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2039003282018869394" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 09:23</span>
+      </div>
+      <div class="card-author">JitHub程序员</div>
+      
+      
+      <div class="summary"><span>用户昵称：苍斯基 <br> Username：1e801722-aa61-4992-8858-8997533edf8e</span><br><br>还是充了Claude Max，聊一次看一次limits。</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cb927c8e33be87f234f45c" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-6" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 23:08</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      <h3 class="card-title">一个很典型的 AI 犯蠢瞬间</h3>
+      <div class="orig-title">EN: A beautiful moment of AI idiocy</div>
+      <div class="summary"><p>levelsio 分享了一个让人哭笑不得的 AI 失误案例，属于日常使用里常见的模型翻车时刻。</p></div>
+      <div class="orig-summary">EN: <p>A beautiful moment of AI idiocy</p></div>
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HExmjD3WsAEwiHw?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2039117580128923660" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-7" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 15:04</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">AI资讯日报，3月31日：<a href="https://gorden-sun.notion.site/3-31-AI-33459424732580fbbf04c35de46c61f0?source=copy_link" target="_blank" rel="noopener">https://gorden-sun.notion.site/3-31-AI-33459424732580fbbf04c35de46c61f0?source=copy_link</a><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEv3wopb0AAjstD?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2038995940602998924" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-8" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 14:28</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      <h3 class="card-title">一篇文章质疑 Artemis II 的飞行安全</h3>
+      <div class="orig-title">EN: Artemis II Orion spacecraft (built by Lockheed Martin, Boeing and Airbus) is not safe to fly via @idlewords <a href="https://idlewords.com/2026/03/artemis_ii_i" target="_blank" rel="noopener">https://idlewords.com/2026/03/artemis_ii_i</a>...</div>
+      <div class="summary"><p>有人转发 idlewords 的文章，认为由多家承包商参与的 Artemis II Orion 飞船目前并不安全，具体还需看原文论证。</p></div>
+      <div class="orig-summary">EN: <p>Artemis II Orion spacecraft (built by Lockheed Martin, Boeing and Airbus) is not safe to flyvia @idlewords <a href="https://idlewords.com/2026/03/artemis_ii_is_not_safe_to_fly.htm" target="_blank" rel="noopener">https://idlewords.com/2026/03/artemis_ii_is_not_safe_to_fly.htm</a></p></div>
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEvvqREbEAA0SJd?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2038986774727250199" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-9" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 14:22</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">✅ We&#x27;re clean!<br><div class="rsshub-quote"><br><br>@levelsio: Checking...<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HEvuN-zaoAA7bLl?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HEvuGpzbMAAi03_?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2038985186243743936" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-10" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 23:55</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">这篇蛮详尽<div class="rsshub-quote"><br><br>Xiao Tan: <a href="http://x.com/i/article/2038936106947805184" target="_blank" rel="noopener">http://x.com/i/article/2038936106947805184</a><br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2039129586982867127" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-11" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 15:46</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">最近这kimi coding plan降智的厉害啊</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2039006328505720909" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-12" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 09:49</span>
+      </div>
+      <div class="card-author">nicekate</div>
+      
+      
+      <div class="summary">刷了半天张雪机车，张雪纪录片，记者回忆视角等<br><br>很佩服张雪<br><br>【有梦想就去追 因为勇敢 我的人生更精彩！  2006年湖南卫视《晚间新闻》 采访怀化麻阳小伙张雪 完整版-哔哩哔哩】 <a href="https://b23.tv/zh0p2Uy" target="_blank" rel="noopener">https://b23.tv/zh0p2Uy</a></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/nicekate8888/status/2038916703154061636" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-13" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">3月31日 03:47</span>
+      </div>
+      <div class="card-author">你不知道的行业内幕</div>
+      
+      
+      <div class="summary"><span>用户昵称：Akira神小狼 <br> Username：2531D24D-9BA3-4E87-805E-E21E9D5D0566</span><br><br><a href="https://www.bilibili.com/video/BV1TzXeBuE7C/?spm_id_from=333.1007.tianma.1-1-1.click&amp;vd_source=309a87541c781fd66592fd3d9144c6c0">https://www.bilibili.com/video/BV1TzXeBuE7C/?spm_id_from=333.1007.tianma.1-1-1.click&amp;vd_source=309a87541c781fd66592fd3d9144c6c0</a><br>        <br>张雪:五年内我们会吃掉国际品牌一半的份额<br><br>直播采访，张雪果然是非常纯粹的人啊。</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69cb43d8a8f1a31514bfca65" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-14" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 01:55</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      <h3 class="card-title">他猜测巴西政府让企业对每笔消费都做 KYC</h3>
+      <div class="orig-title">EN: I believe it has something to do with the Brazil government and companies following their orders related to KYC on literally every purchase Similar to...</div>
+      <div class="summary"><p>作者吐槽巴西很多消费场景都要求身份验证，并拿葡萄牙的 NIF 习惯做类比，属于跨境生活和本地化观察。</p></div>
+      <div class="orig-summary">EN: <p>I believe it has something to do with the Brazil government and companies following their orders related to KYC on literally every purchaseSimilar to NIF in PortgualI remember my first week in Portugal, I of course lost my Airpods, so I went to Worten, asked for Airpods, got them, asked to pay, he said what&#x27;s your NIF, I said what, he said ok your passport number?</p><p>I said why you need my passport number for buying Air…</p></div>
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-5-1')">📖 查看全文</button>
+        <div id="fulltext-5-1" class="fulltext-source" data-title="他猜测巴西政府让企业对每笔消费都做 KYC" data-ai="" data-author="levelsio" data-date="3月31日 01:55" style="display:none;">
+          <p>I believe it has something to do with the Brazil government and companies following their orders related to KYC on literally every purchase</p><p>Similar to NIF in Portgual</p><p>I remember my first week in Portugal, I of course lost my Airpods, so I went to Worten, asked for Airpods, got them, asked to pay, he said what&#x27;s your NIF, I said what, he said ok your passport number? I said why you need my passport number for buying Airpods? I denied giving it of course! 😂</p><p>ManuAlzuru🥑: @levelsio Thank you. I have also struggled with this so much. Still don’t get why are so many companies fixated in only selling me stuff if i provide them a CPF?</p>
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2038797393420857642" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-5-15" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">3月31日 01:52</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      <h3 class="card-title">他私信 iFood CEO 后，注册终于不用 CPF 了</h3>
+      <div class="orig-title">EN: I told the iFood CEO over DM, he fixed it and that&#x27;s how I ended up here :D No CPF or BR phone number required for iFood sign up anymore!</div>
+      <div class="summary"><p>据称 iFood 现在注册不再强制巴西 CPF 和本地手机号，这说明国际用户门槛开始被放松。</p></div>
+      <div class="orig-summary">EN: <p>I told the iFood CEO over DM, he fixed it and that&#x27;s how I ended up here :DNo CPF or BR phone number required for iFood sign up anymore!</p><p>Gonçalo Hall: @levelsio @iFood Tell them to stop the CPF and brazilian number mess and go international.I always used Rappi because of that.</p></div>
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2038796529696223474" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+    </main>
+  </div>
+  
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+  
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">✕</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+  <script>
+  function openLightbox(src){var b=document.getElementById('lightbox'),i=document.getElementById('lightboxImg');i.src=src;b.classList.add('open');}
+  function closeLightbox(){var b=document.getElementById('lightbox'),i=document.getElementById('lightboxImg');i.src='';b.classList.remove('open');}
+  function openArticleModal(id){
+    var src=document.getElementById(id);if(!src)return;
+    var modal=document.getElementById('articleModal'),title=document.getElementById('articleModalTitle'),body=document.getElementById('articleModalBody');
+    title.textContent=src.getAttribute('data-title')||'全文';
+    var aiHtml=src.getAttribute('data-ai')||'';
+    var author=src.getAttribute('data-author')||'';
+    var date=src.getAttribute('data-date')||'';
+    var contentHtml=src.innerHTML||'';
+    var metaHtml='';
+    if(author||date){metaHtml='<div class="article-modal-meta">'+(author?'<span class="meta-author">'+author+'</span>':'')+(date?'<span class="meta-date">'+date+'</span>':'')+'</div>';}
+    body.innerHTML=metaHtml+(aiHtml?'<div class="article-ai-box">'+aiHtml+'</div>':'')+contentHtml;
+    modal.classList.add('open');
+  }
+  function closeArticleModal(){var m=document.getElementById('articleModal'),b=document.getElementById('articleModalBody');b.innerHTML='';m.classList.remove('open');}
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLightbox();closeArticleModal();}});
+</script>
+</body>
+</html>
