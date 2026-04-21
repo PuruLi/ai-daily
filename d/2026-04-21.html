@@ -1,0 +1,2017 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI 日报 - 2026-04-21</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --bg: #f7f6f3;
+    --card: #ffffff;
+    --text: #2c2c2c;
+    --text-secondary: #9b9b9b;
+    --text-body: #4a4a4a;
+    --border: #ebe8e4;
+    --border-light: #f0eeeb;
+    --primary: #3d7c6b;
+    --primary-hover: #2e6355;
+    --primary-bg: #eef6f3;
+    --accent: #c97b3a;
+    --accent-bg: #fef7f0;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md: 0 4px 20px rgba(0,0,0,.06);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,.08);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 16px/1.8 'Inter','Noto Sans SC',system-ui,-apple-system,sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  /* ---- 布局 ---- */
+  .layout { max-width: 1360px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: 28px; padding: 28px; min-height: 100vh; }
+
+  /* ---- 侧边栏 ---- */
+  .sidebar { position: sticky; top: 20px; height: calc(100vh - 40px); overflow-y: auto; background: var(--card); border-radius: var(--radius); padding: 24px 20px; box-shadow: var(--shadow-md); scrollbar-width: thin; scrollbar-color: #d4d0cc transparent; }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: #d4d0cc; border-radius: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+
+  .brand { padding-bottom: 20px; border-bottom: 1px solid var(--border-light); margin-bottom: 4px; }
+  .brand h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -.3px; }
+  .brand-date { color: var(--text-secondary); font-size: 14px; margin-top: 4px; font-weight: 500; }
+  .stats-bar { display: flex; align-items: center; gap: 6px; color: var(--text-secondary); font-size: 13px; margin-top: 8px; }
+  .stats-bar .dot { opacity: .3; font-size: 8px; }
+  .stats-bar strong { color: var(--text); font-weight: 600; }
+
+  .nav-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); margin: 20px 0 10px; padding-left: 2px; }
+  .nav-link { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: var(--radius-sm); color: var(--text); text-decoration: none; font-size: 14.5px; font-weight: 500; transition: all .15s ease; }
+  .nav-link:hover { background: var(--primary-bg); color: var(--primary); text-decoration: none; }
+  .nav-count { font-size: 12px; color: var(--text-secondary); background: var(--bg); border-radius: 10px; padding: 1px 8px; font-weight: 600; min-width: 24px; text-align: center; }
+
+  .hotbox { margin-top: 4px; }
+  .hotbox ol { padding-left: 0; list-style: none; counter-reset: hotlist; }
+  .hotbox li { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--border-light); counter-increment: hotlist; }
+  .hotbox li:last-child { border-bottom: none; }
+  .hotbox li a { color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500; line-height: 1.45; display: block; }
+  .hotbox li a::before { content: counter(hotlist); display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; background: var(--bg); color: var(--text-secondary); font-size: 10px; font-weight: 700; margin-right: 8px; flex-shrink: 0; vertical-align: middle; }
+  .hotbox li:nth-child(-n+3) a::before { background: var(--primary); color: #fff; }
+  .hotbox li a:hover { color: var(--primary); }
+  .hot-source { display: block; color: var(--text-secondary); font-size: 12px; margin-top: 3px; padding-left: 26px; }
+
+  .health-box { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-light); }
+  .health-box summary { cursor: pointer; font-size: 13px; color: var(--text-secondary); user-select: none; font-weight: 600; }
+  .health-list { margin: 10px 0 0; padding-left: 0; list-style: none; font-size: 12px; }
+  .health-list li { margin: 5px 0; color: var(--text-secondary); }
+  .health-link { color: var(--text-secondary); text-decoration: none; }
+  .health-link:hover { color: var(--primary); }
+  .health-err { color: #c0392b; font-size: 11px; }
+
+  /* ---- 主内容 ---- */
+  .content { min-width: 0; }
+  section { margin-bottom: 40px; }
+  .section-title { font-size: 18px; font-weight: 700; margin: 0 0 18px; padding: 10px 16px; background: var(--card); border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); letter-spacing: -.2px; display: flex; align-items: center; justify-content: space-between; }
+  .section-count { color: var(--text-secondary); font-size: 13px; font-weight: 600; background: var(--bg); padding: 2px 10px; border-radius: 10px; }
+
+  /* ---- 卡片 ---- */
+  .card { background: var(--card); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 14px; box-shadow: var(--shadow-sm); transition: box-shadow .2s ease, transform .2s ease; position: relative; }
+  .card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .card-meta { display: flex; gap: 6px; align-items: center; }
+  .card-date { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+  .card-author { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 8px; letter-spacing: -.1px; }
+
+  .pill { font-size: 11.5px; border-radius: 5px; padding: 2px 8px; font-weight: 700; letter-spacing: .2px; }
+  .pill.importance { background: var(--accent-bg); color: var(--accent); }
+  .pill.platform { background: var(--primary-bg); color: var(--primary); }
+
+  .card-title { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 12px; overflow-wrap: anywhere; color: var(--text); letter-spacing: -.2px; }
+  .orig-title { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; font-style: italic; }
+
+  .summary p { margin: 0 0 12px; color: var(--text-body); line-height: 1.85; font-size: 15px; }
+  .orig-summary { margin-top: 14px; padding: 12px 14px; background: #faf9f7; border-radius: var(--radius-sm); }
+  .orig-summary p { color: var(--text-secondary); font-size: 13.5px; line-height: 1.7; margin: 0 0 8px; }
+  .orig-summary p:last-child { margin-bottom: 0; }
+
+  /* ---- AI 总结 ---- */
+  .ai-box { margin: 14px 0; background: #f5f9f8; border-left: 3px solid var(--primary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 16px; }
+  .ai-title { font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .8px; }
+  .ai-box ul { margin: 0; padding-left: 16px; }
+  .ai-box li { margin: 4px 0; font-size: 14px; color: var(--text-body); line-height: 1.65; }
+  .ai-box li::marker { color: var(--primary); }
+  .ai-insight { margin: 10px 0 0; color: var(--primary-hover); font-size: 14px; line-height: 1.7; border-top: 1px solid #e0ebe8; padding-top: 10px; font-style: italic; }
+
+  /* ---- 全文按钮 ---- */
+  .btn-fulltext { margin-top: 12px; border: none; background: var(--primary-bg); color: var(--primary); border-radius: var(--radius-sm); padding: 8px 18px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s ease; }
+  .btn-fulltext:hover { background: var(--primary); color: #fff; }
+  .fulltext-source { display: none; }
+
+  /* ---- 图片 ---- */
+  .media-grid { margin: 20px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .media-grid img { width: 100%; max-height: 360px; object-fit: contain; border-radius: var(--radius-sm); background: var(--bg); cursor: zoom-in; transition: opacity .2s; }
+  .media-grid img:hover { opacity: .9; }
+
+  /* ---- 视频/iframe 约束 ---- */
+  .card video, .card iframe, .article-body video, .article-body iframe { max-width: 100%; height: auto; border-radius: var(--radius-sm); margin: 16px 0; }
+
+  /* ---- 摘要内嵌内容约束 ---- */
+  .summary img { max-width: 100%; height: auto; border-radius: var(--radius-sm); margin: 14px 0; }
+  .summary video, .summary iframe { max-width: 100%; height: auto; margin: 14px 0; }
+  .summary { color: var(--text-body); font-size: 15px; line-height: 1.85; }
+
+  /* ---- 引用推文 / blockquote ---- */
+  .card blockquote, .article-body blockquote, .summary blockquote { margin: 12px 0; padding: 10px 16px; border-left: 3px solid var(--border); background: var(--bg); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; color: var(--text-body); font-size: 14px; }
+  /* RSSHub 引用推文样式 */
+  .rsshub-quote { margin: 16px 0; padding: 12px 16px; border-left: 3px solid #c4b5a0; background: #faf8f5; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 14px; color: var(--text-body); line-height: 1.75; }
+  .rsshub-quote > br:first-child, .rsshub-quote > br:first-child + br { display: none; }
+  .rsshub-quote img { max-width: 100%; height: auto; border-radius: var(--radius-sm); margin: 8px 0; }
+  .rt-quote { margin: 12px 0; padding: 12px 16px; border-left: 3px solid #c4b5a0; background: #faf8f5; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .rt-quote .rt-author { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+  .rt-quote .rt-body { font-size: 14.5px; color: var(--text-body); line-height: 1.75; }
+
+  /* ---- 选题 ---- */
+  .topic-tip { margin-top: 14px; background: var(--accent-bg); border-left: 3px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 16px; }
+  .tip-tag { font-size: 12px; display: inline-block; margin-bottom: 8px; color: #fff; font-weight: 700; background: var(--accent); padding: 2px 10px; border-radius: 5px; }
+  .topic-tip p { margin: 4px 0; font-size: 14px; color: #6b4c2e; line-height: 1.65; }
+  .topic-tip strong { font-weight: 600; }
+  .ai-status-tag { margin-top: 12px; font-size: 12px; color: var(--text-secondary); font-weight: 500; padding: 6px 12px; background: var(--bg); border-radius: var(--radius-sm); display: inline-block; }
+  .ai-status-tag.ai-status-none { color: #b45309; background: #fffbeb; }
+
+  /* ---- 卡片底部 ---- */
+  .card-footer { padding-top: 14px; margin-top: 16px; border-top: 1px solid var(--border-light); }
+  .read-link { color: var(--primary); font-size: 14px; font-weight: 600; text-decoration: none; transition: color .15s; }
+  .read-link:hover { color: var(--primary-hover); }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .muted { color: var(--text-secondary); font-size: 14px; }
+
+  /* ---- 灯箱 ---- */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(20,20,18,.88); z-index:9999; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(4px); }
+  .lightbox.open { display:flex; }
+  .lightbox img { max-width:94vw; max-height:90vh; object-fit:contain; border-radius:var(--radius-sm); }
+  .lightbox .close { position:fixed; right:24px; top:18px; color:#fff; font-size:28px; cursor:pointer; user-select:none; opacity:.7; transition:opacity .15s; }
+  .lightbox .close:hover { opacity:1; }
+
+  /* ---- 全文弹窗 ---- */
+  .article-modal { display:none; position:fixed; inset:0; background:rgba(20,20,18,.5); z-index:10000; align-items:center; justify-content:center; padding:16px; backdrop-filter:blur(4px); }
+  .article-modal.open { display:flex; }
+  .article-panel { width:min(1000px,96vw); max-height:90vh; background:#fff; border-radius:var(--radius); display:flex; flex-direction:column; overflow:hidden; box-shadow: var(--shadow-lg); }
+  .article-toolbar { display:flex; justify-content:space-between; align-items:center; padding:16px 24px; border-bottom:1px solid var(--border-light); }
+  .article-toolbar .title { font-size:16px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:12px; color:var(--text); }
+  .article-toolbar button { border:none; background:var(--bg); border-radius:var(--radius-sm); width:34px; height:34px; cursor:pointer; font-size:16px; color:var(--text-secondary); transition:all .15s; display:flex; align-items:center; justify-content:center; }
+  .article-toolbar button:hover { background: var(--border); color: var(--text); }
+  .article-body { overflow:auto; padding:28px 32px; font-size:16px; line-height:1.85; color:var(--text-body); }
+  .article-body p { margin:0 0 16px; }
+  .article-body img { max-width:100%; height:auto; border-radius:var(--radius-sm); margin:12px 0; }
+  .article-body video, .article-body iframe { max-width:100%; height:auto; border-radius:var(--radius-sm); margin:12px 0; }
+  .article-body blockquote { margin:14px 0; padding:12px 16px; border-left:3px solid var(--border); background:var(--bg); border-radius:0 var(--radius-sm) var(--radius-sm) 0; }
+  .article-body a { word-break: break-all; }
+  .article-ai-box { background:#f5f9f8; border-left:3px solid var(--primary); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:14px 16px; margin-bottom:20px; }
+  .article-ai-box .ai-title { font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .8px; }
+  .article-ai-box ul { margin: 0; padding-left: 16px; }
+  .article-ai-box li { margin: 4px 0; font-size: 14px; color: var(--text-body); line-height: 1.65; }
+  .article-ai-box li::marker { color: var(--primary); }
+  .article-ai-box .ai-insight { margin: 10px 0 0; color: var(--primary-hover); font-size: 14px; line-height: 1.7; border-top: 1px solid #e0ebe8; padding-top: 10px; font-style: italic; }
+  .article-modal-meta { padding: 0 0 16px; margin-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+  .article-modal-meta .meta-author { font-size: 14px; font-weight: 600; color: var(--primary); }
+  .article-modal-meta .meta-date { font-size: 13px; color: var(--text-secondary); margin-left: 12px; }
+
+  /* ---- 响应式 ---- */
+  @media (max-width:1024px) {
+    .layout { grid-template-columns:1fr; padding:14px; gap:16px; }
+    .sidebar { order:1; position:static; height:auto; max-height:none; overflow-y:visible; padding:18px 16px; }
+    .content { order:2; }
+    .sidebar-nav { display:flex; gap:6px; overflow-x:auto; flex-wrap:nowrap; padding-bottom: 4px; }
+    .nav-link { flex:0 0 auto; white-space:nowrap; background:var(--bg); font-size:14px; border: 1px solid var(--border-light); }
+    .nav-label { display:none; }
+    .hotbox { display: none; }
+    .media-grid { grid-template-columns:1fr; }
+    .card { padding:20px; margin-bottom:12px; }
+    .section-title { font-size: 16px; padding: 8px 14px; }
+  }
+  @media (max-width:640px) {
+    .card-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .card-title { font-size: 16.5px; }
+    .summary p { font-size: 14.5px; }
+  }
+</style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>AI 日报</h1>
+        <p class="brand-date">2026-04-21</p>
+        <div class="stats-bar">
+          <span>源 30</span>
+          <span class="dot">·</span>
+          <span>成功 16</span>
+          <span class="dot">·</span>
+          <span>失败 0</span>
+        </div>
+        <div class="stats-bar">
+          <span>去重后 <strong>59</strong> 条</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-label">分类</div>
+        <a href="#cat-0" class="nav-link"><span>🔥 重磅发布</span><span class="nav-count">4</span></a><a href="#cat-1" class="nav-link"><span>🛠 工具推荐</span><span class="nav-count">4</span></a><a href="#cat-2" class="nav-link"><span>💡 行业观点</span><span class="nav-count">5</span></a><a href="#cat-3" class="nav-link"><span>📚 教程技巧</span><span class="nav-count">2</span></a><a href="#cat-4" class="nav-link"><span>📰 资讯动态</span><span class="nav-count">44</span></a>
+      </nav>
+      <div class="hotbox">
+        <div class="nav-label">今日重点</div>
+        <ol><li><a href="#item-0-1">开源了！拿墨水屏蓝牙控制你的 Claude…</a><span class="hot-source">AI探索站</span></li><li><a href="#item-0-2">从0开始，在国内用上Claude Code…</a><span class="hot-source">公众号源</span></li><li><a href="#item-0-3">录了个详细的视频讲解我的 Vibe Cod…</a><span class="hot-source">吕立青_JimmyLv</span></li><li><a href="#item-1-1">OpenAI 给 Codex 加了一个新功…</a><span class="hot-source">宝玉</span></li><li><a href="#item-4-1">openai不会今晚就更吧</a><span class="hot-source">卡尔的AI沃茨</span></li><li><a href="#item-2-1">我觉得GPT-image-2 好像不是单独…</a><span class="hot-source">九原客</span></li><li><a href="#item-0-4">天天念经的AI神棍，求求你们别蒸馏了。 我…</a><span class="hot-source">你不知道的行业内幕</span></li><li><a href="#item-2-2">Browser Harness：自进化浏览…</a><span class="hot-source">Gorden Sun</span></li><li><a href="#item-1-2">用Claude Design做了个公众号排…</a><span class="hot-source">Gorden Sun</span></li><li><a href="#item-4-2">后面还会支持 M5Stack Cardpu…</a><span class="hot-source">歸藏</span></li></ol>
+      </div>
+      
+    <div class="health-box">
+      <details>
+        <summary>源状态 🟢16 🟡15 🔴1</summary>
+        <ul class="health-list"><li>🟢 <a href="https://gzh.hyrule.top/mpClassificationAtom/1" target="_blank" rel="noopener" class="health-link">https://gzh.hyrule.top/mpClassificationAtom/1</a></li><li>🔴 <a href="https://rsshub.hyrule.top/anthropic/news" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/anthropic/news</a> <span class="health-err">(HTTP Error 503: Service Unavailable)</span></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/topic/5699f451d3e8351200bffdc8/1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/topic/5699f451…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/jike/user/35224A78-8B11-469E-B307-16B58688FBEC" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/user/35224A78-…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/aigclink" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/aigcli…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/home" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/home</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/nicekate8888" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/niceka…</a></li><li>🟡 <a href="https://s.baoyu.io/feed.xml" target="_blank" rel="noopener" class="health-link">https://s.baoyu.io/feed.xml</a></li><li>🟡 <a href="https://blog.n8n.io/rss/" target="_blank" rel="noopener" class="health-link">https://blog.n8n.io/rss/</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/eze_is_1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/eze_is…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/xiaokedada" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/xiaoke…</a></li><li>🟡 <a href="https://api.substack.com/feed/podcast/10845/s/198869/private/4477642e-4891-4b0e-931e-52d3917ce6b8.rss" target="_blank" rel="noopener" class="health-link">https://api.substack.com/feed/podcast/10845/s…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/sama" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/sama</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/gefei55" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/gefei5…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/canghe" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/canghe</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/tuturetom" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/tuture…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/aiwarts" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/aiwart…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/9hills" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/9hills</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/HiTw93" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/HiTw93</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/huangyun_122" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/huangy…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/hylarucoder" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/hylaru…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/levelsio" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/levels…</a></li><li>🟡 <a href="https://rsshub.hyrule.top/twitter/user/omarsar0" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/omarsa…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/topic/55e02198dcef9f0e00d7b3c3/1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/topic/55e02198…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/topic/63579abb6724cc583b9bba9a/1" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/topic/63579abb…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/jike/user/27BF807A-FA4D-4B01-AAFD-05FAAA674335" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/jike/user/27BF807A-…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/Gorden_Sun" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/Gorden…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/Jimmy_JingLv" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/Jimmy_…</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/dotey" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/dotey</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/op7418" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/op7418</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/vista8" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/vista8</a></li><li>🟢 <a href="https://rsshub.hyrule.top/twitter/user/yangyi" target="_blank" rel="noopener" class="health-link">https://rsshub.hyrule.top/twitter/user/yangyi</a></li></ul>
+      </details>
+    </div>
+    
+    </aside>
+    <main class="content">
+      
+        <section id="cat-0">
+          <h2 class="section-title">🔥 重磅发布 <span class="section-count">4 篇</span></h2>
+          
+    <article id="item-0-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 02:13</span>
+      </div>
+      <div class="card-author">AI探索站</div>
+      
+      
+      <div class="summary"><span>用户昵称：歸藏 <br> Username：0ae2afa7-9b10-4b3a-ab7e-15fbf847038d</span><br><br>开源了！拿墨水屏蓝牙控制你的 Claude code，监控多个对话状态，并且快速审批权限。<br><br>现在做硬件的门槛是真低啊，USB一插让Claudecode跑就行<br><br>详情：<a href="https://github.com/op7418/m5-paper-buddy" target="_blank" rel="noopener">https://github.com/op7418/m5-paper-buddy</a><br><br>AI 和物理世界的交互，不应该只有机器人和自动驾驶这种&quot;大硬件&quot;。<br><br>前几天我给 Claude Code 做了个墨水屏监工，能蓝牙连接电脑，监控所有对话状态，还能用物理按键审批操作。<br><br>做着做着发现，这其实是&quot;手机小组件的物理化&quot;——一个被忽视的巨大空间。<br><br>M5 Paper Buddy 能做什么？<br><br>------<br><br>多会话 Dashboard<br><br>所有 Claude Code 窗口的状态显示在一个墨水屏上。每个会话显示：上下文使用量…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-1')">📖 查看全文</button>
+        <div id="fulltext-0-1" class="fulltext-source" data-title="开源了！拿墨水屏蓝牙控制你的 Claude code，监控多个对话状态，并且快速审批权限。 ​ ​现在做硬件的门槛是真低啊，USB一插让Claudecode跑就行 详情：https://..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;拿墨水屏蓝牙控制你的 Claude code，监控多个…&lt;/li&gt;&lt;li&gt;​ ​现在做硬件的门槛是真低啊，USB一插让Claud…&lt;/li&gt;&lt;li&gt;现在做硬件的门槛是真低啊，USB一插让Claudeco…&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;并行会话一旦被官方做顺了，写代码这件事会从“单线程操作”转成“任务调度”&lt;/p&gt;" data-author="AI探索站" data-date="4月20日 02:13" style="display:none;">
+          <span>用户昵称：歸藏 <br> Username：0ae2afa7-9b10-4b3a-ab7e-15fbf847038d</span><br><br>开源了！拿墨水屏蓝牙控制你的 Claude code，监控多个对话状态，并且快速审批权限。<br><br>现在做硬件的门槛是真低啊，USB一插让Claudecode跑就行<br><br>详情：<a href="https://github.com/op7418/m5-paper-buddy" target="_blank" rel="noopener">https://github.com/op7418/m5-paper-buddy</a><br><br>AI 和物理世界的交互，不应该只有机器人和自动驾驶这种&quot;大硬件&quot;。<br><br>前几天我给 Claude Code 做了个墨水屏监工，能蓝牙连接电脑，监控所有对话状态，还能用物理按键审批操作。<br><br>做着做着发现，这其实是&quot;手机小组件的物理化&quot;——一个被忽视的巨大空间。<br><br>M5 Paper Buddy 能做什么？<br><br>------<br><br>多会话 Dashboard<br><br>所有 Claude Code 窗口的状态显示在一个墨水屏上。每个会话显示：上下文使用量（45.8K / 200K）、模型（Opus 4.7）、项目名、分支、dirty 文件数。<br><br>触屏点击可以切换关注的会话，右侧显示该会话的详细信息（最近回复、活动日志）。<br><br>比如我在写 AIGC Weekly 时，同时跑 3 个项目。看一眼就知道每个的进度，以及他们当前的状态。<br><br>M5Stack 是一个以模块化、积木式堆叠设计闻名的 ESP32 开源物联网硬件生态，而 M5Paper 则是该生态中一款专为低功耗信息看板打造的触控墨水屏极客终端。<br><br>------<br><br>物理按键审批<br><br>Claude Code 需要你在终端里审批操作。M5 Paper Buddy 把审批搬到物理按键上：<br><br>全屏显示审批卡：tool 名 + 项目 + 完整内容（bash 命令原文 / edit 的 diff / write 的文件预览）。PUSH 按钮同意，DOWN 按钮拒绝。审批记录在活动日志里留痕。<br><br>物理按键更有仪式感。尤其是 rm -rf、git push --force 这种高风险操作，按物理按钮会让你更慎重。而且你可以看到完整的 diff 或命令内容，不用在终端里上下翻页。<br><br>------<br><br>蓝牙远程控制<br><br>通过蓝牙连接电脑，可以离开书桌审批操作。<br><br>比如你在沙发上看书，Claude 在跑测试，突然需要审批一个 bash 命令。墨水屏在桌上亮了，拿起来按一下按钮就行。<br><br>配对后自动连接，断电保持状态。<br><br>======<br><br>技术实现<br><br>硬件：M5Paper V1.1（ESP32 + 4.7 寸墨水屏 + 3 个物理按键 + GT911 电容触屏）<br><br>架构：Claude Code → Bridge Daemon（Python）→ M5Paper（蓝牙/USB）<br><br>协议：JSON 行分隔，向后兼容<br><br>中文支持：3.4MB TTF 字体，专门写了 codepoint-aware 的 wrapText<br><br>======<br><br>和 Anthropic 官方项目的区别<br><br>Anthropic 的 claude-desktop-buddy 是单会话、只显示状态、不支持审批。主要用来显示 Buddy 的状态，是个好玩的玩具。<br><br>M5 Paper Buddy 支持多会话、触屏切换、物理按键审批、蓝牙远程控制。增强了工具属性，而且利用了 M5 Paper 设备的大屏幕。<br><br>Anthropic 官方项目用的也是 M5Stack 硬件。开源协议、开源代码，天天敌视国内涉及到硬件还得用国内生态。<br><br>======<br><br>手机小组件的&quot;物理化&quot;<br><br>这个项目本质上是&quot;手机小组件的物理化&quot;。<br><br>手机小组件只能&quot;显示信息&quot;，不能&quot;交互&quot;。你不能在小组件上按按钮、不能语音回复、不能触屏操作。<br><br>如果把它做成物理设备：可以有按键和触屏、&quot;永远亮着&quot;（墨水屏不耗电，断电保持显示）、不依赖手机屏幕，但和手机/电脑的 AI Agent 保持连接。<br><br>形态可以很多样：磁吸在手机背面、挂在背包上（像挂件）、放在桌上（像桌面陪伴）<br><br>------<br><br>现在的 M5 Paper Buddy 只有墨水屏 + 按键。但未来可以加语音交互。<br><br>无论你在哪里，它都能主动告诉你信息，然后你再回复。这比&quot;看屏幕 + 按按钮&quot;更符合真实场景。<br><br>物理按键和语音不是替代关系，而是互补。按键适合快速确认，语音适合复杂交互。真正的&quot;陪伴&quot;应该是：无论你在哪里，它都能主动告诉你信息。<br><br>======<br><br>做这个项目的过程中，我发现了一些有意思的事<br><br>其实这些技术都不新。墨水屏、蓝牙、触摸屏都是成熟技术，M5Stack、Arduino 这种模块化硬件也早就有了。但为什么以前没人做这种东西？<br><br>我觉得是因为做硬件的和做 AI 的是两拨人。做硬件的（苹果、三星）关心怎么卖更多手机，不关心&quot;AI Agent 状态监控&quot;。做 AI 的（OpenAI、Anthropic）关心模型能力，不关心硬件形态。两拨人不说话。<br><br>但现在不一样了。<br><br>------<br><br>我做这个项目的时候，几乎没碰过硬件开发。以前做硬件需要懂电路设计、画 PCB、读几百页的 datasheet。现在 M5Stack 买回来就能用，官方提供完整的库和示例代码。遇到问题，AI 可以帮你读 datasheet、写驱动、调试代码。<br><br>更重要的是深圳供应链。全球的 AI 硬件项目都绕不开这里。Anthropic 的 claude-desktop-buddy 用的也是 M5Stack 硬件。快速打样（1-2 周）、小批量量产、成本低（M5Paper ¥500）。做 AI 的人可以很快出一个 Demo，去跟做硬件的人沟通交流。<br><br>再加上 3D 打印（拼多多几百块就能买到打印机），你可以做出很精致的外壳。社区有大量开源模型（Thingiverse、Printables）。<br><br>所以现在做 AI 的人可以做硬件了。个人开发者可以先做出来，大公司还在立项。<br><br>======<br><br>前几天 OpenClaw（龙虾）火了<br><br>我看到很多人在讨论为什么 OpenClaw 会火。我觉得有几个原因：开源（所有人都能改）、可玩性（不只是&quot;有用&quot;，而是&quot;好玩&quot;）、低门槛（模块化 + AI 辅助开发）。<br><br>M5 Paper Buddy 也是这个思路：开源（GPL-3.0）、可玩性（桌面陪伴、物理审批的仪式感）、低门槛（两条命令：/buddy-install + /buddy-start）。<br><br>AI 和物理世界的交互，不应该只有机器人、自动驾驶这种&quot;大硬件&quot;。这种模块化的小硬件，门槛低得多，可玩性也强。再搭配 3D 打印，会有不少玩法。<br><br>======<br><br>大公司肯定会做这种东西<br><br>Anthropic 已经开源了 claude-desktop-buddy 项目，用的也是 M5Stack 硬件。看起来他们想让生态参与进来。苹果可能会做 MagSafe AI 配件，Google 可能会做 Pixel AI 配件。<br><br>但大公司慢。做硬件需要供应链、认证、渠道，从立项到上市至少 1-2 年。以前他们没做，可能是因为比较迟钝，而且做硬件和做 AI 的是两拨人。<br><br>所以现在有个窗口期。个人开发者可以先做出来，开源社区可以先验证概念。等大公司做出来，社区已经有成熟方案了。<br><br>======<br><br>物理化的 AI 触点<br><br>我觉得 AI 的下一步不只是更强的模型，还有物理世界的交互。不只是机器人、自动驾驶这种&quot;大硬件&quot;，也包括桌面小设备、可穿戴设备、手机配件这种&quot;小硬件&quot;。<br><br>M5 Paper Buddy 是一个例子。把 AI 的状态和决策&quot;物理化&quot;，让手机小组件从屏幕里走出来。<br><br>你的桌上可能有一个&quot;AI 监工&quot;（墨水屏 + 按键）。你的手机背面可能有一个&quot;AI 小组件&quot;（磁吸 + 触屏）。你的背包上可能有一个&quot;AI 挂件&quot;（语音 + 震动）。这些可能都不是大公司的产品，而是开源社区的创作。<br><br>如果你手头有开发板，不妨试试做点什么。<br><img src="https://cdnv2.ruguoapp.com/lj0VO41fzNw38t4S6FTdFar1zBkMv3.png" referrerpolicy="no-referrer">
+        </div>
+        
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/lj0VO41fzNw38t4S6FTdFar1zBkMv3.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e58bb1800201ac68aab41d" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">📱 公众号</span>
+        </div>
+        <span class="card-date">4月20日 02:08</span>
+      </div>
+      <div class="card-author">公众号源 · 数字生命卡兹克</div>
+      <h3 class="card-title">从0开始，在国内用上Claude Code的终极保姆教程来了。</h3>
+      
+      <div class="summary"><p>在小说阅读器中沉浸阅读 最近很多朋友都在问我，能不能出一期Claude Code的小白教程。他们也想用上这个世界上最牛逼的Agent产品。</p><p>而且其实很多人不太知道，Agent产品一般是Agent框架+模型组成的，Claude的模型国内确实会封，会非常的难搞，我也没有任何办法教大家弄。但Claude Code不会被封，也不会用不了，因为这玩意其实就是个Agent框架，搭配任何模型都可以使用。</p></div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-2')">📖 查看全文</button>
+        <div id="fulltext-0-2" class="fulltext-source" data-title="从0开始，在国内用上Claude Code的终极保姆教程来了。" data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;从0开始，在国内用上Claude Code的终极保姆教…&lt;/li&gt;&lt;li&gt;在小说阅读器中沉浸阅读 最近很多朋友都在问我，能不能出…&lt;/li&gt;&lt;li&gt;他们也想用上这个世界上最牛逼的Agent产品&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;这条真正值得看的是，它把一个原本停留在演示里的能力推进到了可直接使用的产品层&lt;/p&gt;" data-author="公众号源 · 数字生命卡兹克" data-date="4月20日 02:08" style="display:none;">
+           
+ <p data-pm-slice="0 0 []" style="margin-left: 8px;margin-right: 8px;"><span leaf="">最近很多朋友都在问我，能不能出一期Claude Code的小白教程。</span></p> 
+ <p data-pm-slice="0 0 []" style="margin-left: 8px;margin-right: 8px;"><span leaf="">他们也想用上这个世界上最牛逼的Agent产品。</span></p> 
+ <p data-pm-slice="0 0 []" style="margin-left: 8px;margin-right: 8px;"><span leaf=""></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">而且其实很多人不太知道，Agent产品一般是Agent框架+模型组成的，Claude的模型国内确实会封，会非常的难搞，我也没有任何办法教大家弄。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">但Claude Code不会被封，也不会用不了，因为这玩意其实就是个Agent框架，搭配任何模型都可以使用。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">虽然A</span></span><span leaf=""><span textstyle="" style="font-size: 16px;">nthropics确实很狗，天天封号，又搞实名认证</span></span><span leaf=""><span textstyle="" style="font-size: 16px;">，但我依然不得不承认，这个世界上目前最好的Agent框架，还是Claude Code。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">所以我常年说，</span></span><span leaf=""><span textstyle="" style="font-size: 16px;">能一步到位就一步到位，我当然知道现在比如什么OpenClaw、Hermers Agent等等非常火，但是我还是依然会建议你使用Claude Code，即使用不了Claude的原生模型，你搭配个国产模型，效果也依然很好。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">而且也不用担心封号，不需要外国手机号，visa卡，甚至都可以不上魔法。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">所以今天，就来一篇Claude Code的从0入门全面新手教程，并且尽可能让所有的朋友，都可以用上，Windows和Mac，有魔法没魔法的操作，我都准备了，大家按需看对应的部分就行。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">下面的安装流程，是我一整个周末，跟我们小伙伴一起，折腾了五六台电脑反复安装卸载试出来的。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">比如有些场景，像没有魔法，其实还有其他安装方式，像npm，又或者直接curl国内镜像源，这些办法其实也能用，但我在不同电脑上测试的时候并不够稳定。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">所以最后，我选了在我看来最简单，并且在极度原始的电脑上测试也不容易翻车的方式。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">只希望大家跟着文章，都能顺利地用上世界上最牛逼的Agent框架。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我会把每一步都给大家说得尽量详细清楚，可能会有些啰嗦，大家别介意。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">好了，我们直接开始。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><br></span></p> 
+ <p style="margin-bottom: 16px;text-align: left;margin-left: 8px;margin-right: 8px;"><span style="font-size: 20px;"><strong><span style="font-size: 20px;letter-spacing: 0.578px;text-decoration: none;background-color: rgb(0, 0, 0);color: rgb(255, 255, 255);"><span leaf="">一. Claude Code 安装</span></span></strong></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 20px;font-weight: bold;">1. Mac</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;font-weight: normal;">先来看Mac，Windows同学可以直接跳过Mac这一趴去下面找Windows的教程。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们先在App中找到终端打开。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWfp05Lp1YVQ5c5JRhQfjhJvbSibrugI6OcMyl0lH5rsmIC8nhrBlIvp7kho1IFMYHWjJbDFgHF8Pr4Jibdd9QTyicEjYB7TvrBFA/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.1457345971563981" data-type="png" data-w="844" data-width="844" data-height="123" data-imgfileid="500197884" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWfp05Lp1YVQ5c5JRhQfjhJvbSibrugI6OcMyl0lH5rsmIC8nhrBlIvp7kho1IFMYHWjJbDFgHF8Pr4Jibdd9QTyicEjYB7TvrBFA/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们先来安装一下今天的主角，Claude Code。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这里我给自己的电脑新建了一个全新的macOS账号，基本等同于空电脑，方便演示。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;font-weight: bold;">先聊有魔法的情况。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">命令就一句话。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="nginx"><code><span leaf=""><span class="code-snippet__attribute">curl</span>&amp;nbsp;-fsSL <a href="https://claude.ai/install.sh" target="_blank" rel="noopener">https://claude.ai/install.sh</a> | bash</span></code></pre> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们在终端粘贴这条命令后，按下回车。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWxNHs70iaa6cMYhNhia2JgKI8TG5zuia7Et42LpViauE3ic4RCO6AibHJbicQ0XUIroiaBmtVQfrFu7pibY3Zh8w2lxqO1OsuLaZ7yV2IE/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.5850091407678245" data-type="png" data-w="547" data-width="547" data-height="320" data-imgfileid="500197886" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWxNHs70iaa6cMYhNhia2JgKI8TG5zuia7Et42LpViauE3ic4RCO6AibHJbicQ0XUIroiaBmtVQfrFu7pibY3Zh8w2lxqO1OsuLaZ7yV2IE/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">等一会，就能看到安装成功。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqUqHA6AzYsWqLsGc8g306ib1L3YJt50OSxzhicpXpEOaOs4nutQoYrBibojlEfiarhcbYpljvqBSjzzQmfNtFx4FBwvccmSxeYicl2A/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.5850091407678245" data-type="png" data-w="547" data-width="547" data-height="320" data-imgfileid="500197888" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqUqHA6AzYsWqLsGc8g306ib1L3YJt50OSxzhicpXpEOaOs4nutQoYrBibojlEfiarhcbYpljvqBSjzzQmfNtFx4FBwvccmSxeYicl2A/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">虽然装好了，但这里有可能他也会给出一个提示。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXjetN2yFPx3by4LyyWfYicdrBaE56GApYSZLLnsiaxgib8URjO5YX3ky9wovbPcln1siaP1MZSmuN4aFjbYrOOZr5k8erIAfWhNkE/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.5850091407678245" data-type="png" data-w="547" data-width="547" data-height="320" data-imgfileid="500197890" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXjetN2yFPx3by4LyyWfYicdrBaE56GApYSZLLnsiaxgib8URjO5YX3ky9wovbPcln1siaP1MZSmuN4aFjbYrOOZr5k8erIAfWhNkE/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">意思是说，Claude Code已经装好了，但Claude Code的安装位置~/.local/bin还没加到你的PATH环境变量里，所以你直接敲claude可能找不到这个命令。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">还说要解决这个问题，请执行下面那条命令巴拉巴拉。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">看不懂也没关系，我们就按他说的，把他给出的那一长串echo命令复制到终端里，回车跑一下。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">然后输入claude --version，有版本号输出，就表示安装成功了。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWc2BxYR3YnjxJR5H9Piat1G94gJLg3oX1SA0VxZ9JzqmaHnkVZVXkPKux52oPicpNicPrJXFS4ibtrAtD4pkFcGL2NTicNBhicO98lk/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.09516616314199396" data-type="png" data-w="662" data-width="662" data-height="63" data-imgfileid="500197889" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWc2BxYR3YnjxJR5H9Piat1G94gJLg3oX1SA0VxZ9JzqmaHnkVZVXkPKux52oPicpNicPrJXFS4ibtrAtD4pkFcGL2NTicNBhicO98lk/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">有魔法的情况非常简单，但是我也知道，很多同学是没有魔法的。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;font-weight: bold;">所以，如果没有魔法的话，我们可以通过homebrew安装。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">Homebrew是macOS上最流行的命令行包管理器，作用是让你用一条命令就能安装、更新、卸载各种软件和开发工具。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这里我借了一台我们经纪小伙伴的新电脑，没有魔法，环境非常干净。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们先来装一下brew，看着可能会有点复杂，但是其实你跟着做，特别简单。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">把下面这行命令粘贴到命令行，回车运行。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="bash"><code><span leaf="">/bin/bash -c&amp;nbsp;<span class="code-snippet__string">&quot;</span><span class="code-snippet__string"><span class="code-snippet__subst">$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh" target="_blank" rel="noopener">https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh</a>)</span></span><span class="code-snippet__string">&quot;</span></span></code></pre> 
+ </section> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqWicIiaSticDib53AEXY9kic8Z6Z340xPo22Q3gpmnk88RTDfibVW5a45wXfWRADqcxO9icTSsMOSsF8qv5XQfZTrbN3jZuURcziaewgB8/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.7361111111111112" data-type="png" data-w="1080" style="width:562px;height:413px;" data-width="1566" data-height="1208" data-croporisrc="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUI7QfJA5adklbmyB547GXQDwhk6ibssC5gxoT6rZeZMU8b9kLMvOyZSWSSdPibue7PhqdfJZlNDk0ALTuOXwgvyTicWrEyEaHSfo/640?wx_fmt=png&amp;from=appmsg" data-cropx2="1080" data-cropy1="38.43416370106762" data-cropy2="832.0996441281139" data-imgfileid="500197891" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqWicIiaSticDib53AEXY9kic8Z6Z340xPo22Q3gpmnk88RTDfibVW5a45wXfWRADqcxO9icTSsMOSsF8qv5XQfZTrbN3jZuURcziaewgB8/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">看到提示之后，我们直接回车。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">然后他就会跑啊跑啊。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">耐心等待几分钟，等他跑完，出现安装成功就装好了。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqXYQBxaCjooFohuwXoATBPPvYWNyzvkUF9XXFLPPulauUhkjCtFic1EjnYv1vh3PXbc1b6icKYa7sH6h3pXuyptNHxX05GyA15icY/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.6592592592592592" data-type="png" data-w="1080" style="width:562px;height:370px;" data-width="2180" data-height="1522" data-croporisrc="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUf87gricOs1DT0qqQvGmXFdwAabqibYhTEQrkrDicJG2cPicvY3ThWfN92ePibksCJwMxJVVZzm8Hicia8T6OjBhfs7ldzQcyKsKict3Y/640?wx_fmt=png&amp;from=appmsg" data-cropx2="1080" data-cropy1="42.27758007117438" data-cropy2="753.3096085409253" data-imgfileid="500197893" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqXYQBxaCjooFohuwXoATBPPvYWNyzvkUF9XXFLPPulauUhkjCtFic1EjnYv1vh3PXbc1b6icKYa7sH6h3pXuyptNHxX05GyA15icY/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">下一步，我们需要把homebrew加到路径变量里面去，这样我们在终端使用homebrew的时候他才能找到命令。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqWiaAck2UaD9g5icph32dibT99kQqicKFgUXRDlUwibSNOnniaOw7tAZesNtSEeuY2su2Wzcob1OQG05EG1BZmVVQ65c08PrcNkZGZico/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.5981481481481481" data-type="png" data-w="1080" style="width:562px;height:336px;" data-width="2180" data-height="1388" data-croporisrc="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqWZR6qHuCkV4iaJwse6icMuktEXU1t1ns9vg9ZQuicDibs2nAUIeKtfE6rVU2AQldeFJoBgTqFnJLEaf3nQbwicSVfgbTTuhypgqnnI/640?wx_fmt=png&amp;from=appmsg" data-cropx2="1080" data-cropy1="42.27758007117437" data-cropy2="687.9715302491103" data-imgfileid="500197898" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqWiaAck2UaD9g5icph32dibT99kQqicKFgUXRDlUwibSNOnniaOw7tAZesNtSEeuY2su2Wzcob1OQG05EG1BZmVVQ65c08PrcNkZGZico/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">把这几行命令粘贴到终端里跑一遍。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqX8X5vcuTGLpjmCM3j0diafqvcqp1O24kSbBhT8UPseHHpxAT7Q3uiaWvibyG7JjkmTm7AjXDgCr6Q8rQPzcXqULrubPIq3Eo7528/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.10648148148148148" data-type="png" data-w="1080" data-width="1612" data-height="172" data-imgfileid="500197894" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqX8X5vcuTGLpjmCM3j0diafqvcqp1O24kSbBhT8UPseHHpxAT7Q3uiaWvibyG7JjkmTm7AjXDgCr6Q8rQPzcXqULrubPIq3Eo7528/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这样，我们就可以使用homebrew来管理Mac包了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">接着，用下面这行命令来装Claude code，这里因为公众号编辑器会自动改一些格式，直接复制粘贴会报错。辛苦大家手敲一下，或者发给claude让他改了，再粘贴到终端。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="css"><code><span leaf="">brew&amp;nbsp;install&amp;nbsp;--cask&amp;nbsp;claude-code@latest<span class="code-snippet__attr"></span><span class="code-snippet__selector-tag"></span></span></code></pre> 
+ </section> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXiaU4YypyjKQB3TdETic6UO3sDaF0tqvULSiaRVOV1ZnAS3m1G15o6ich3MCDrwPQLRBUunsMN8ISZyFjib5AaiarSlTOxY5n75biclc/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.23148148148148148" data-type="png" data-w="1080" data-width="2180" data-height="504" data-imgfileid="500197895" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXiaU4YypyjKQB3TdETic6UO3sDaF0tqvULSiaRVOV1ZnAS3m1G15o6ich3MCDrwPQLRBUunsMN8ISZyFjib5AaiarSlTOxY5n75biclc/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这里的安装速度有点慢，大家可以先去抹灰鱼，忙完了回来看。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">等安装成功出现，我们在终端输入claude，就能看到小螃蟹了。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;text-align: center;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqXyEjAnVtjXMxIibDo9dicyjDAPABBmxU8b4bjPsBtTmtD3XJlVbElGJtqL8h0eufOwMeTptq0AichXwIlldDjiaYxQ01s2LEz9rvc/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.6509988249118684" data-type="png" data-w="851" style="width:100%;" data-width="2180" data-height="1118" data-croporisrc="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqXq0ElN5p0hnSrOnicKPzb0XsbsynjeuZY7DGVbsWflzU0DFjSJcqHyE9Slf9H6NlasolZx1VPgBaCHjjDy0KopA37T9m6tL7RM/640?wx_fmt=png&amp;from=appmsg" data-cropx2="851.3167259786477" data-cropy2="553.4519572953736" data-backw="443" data-backh="288" data-imgfileid="500197897" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqXyEjAnVtjXMxIibDo9dicyjDAPABBmxU8b4bjPsBtTmtD3XJlVbElGJtqL8h0eufOwMeTptq0AichXwIlldDjiaYxQ01s2LEz9rvc/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">但是这里，会显示用不了，可以先不管，一会我们会教大家怎么接上模型。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">mac说完了，然后在单独说一下Windows，会稍微有一点点不一样，安装好的Mac同学可以直接跳过这一趴。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 20px;font-weight: bold;">2. Windows</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;font-weight: normal;">再来看Windows。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我这里拿了一台刚刷机过的Windows来装了一遍。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">因为Claude Code在Windows上内部是用Git Bash来执行命令的，所以要想在Windows上用Claude Code，必须先把Git安装上。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">所以第一步，我们先把Git装上。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">已经装好的朋友可以跳过这一趴。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">用WinGet来装，这个东西是Windows官方的包管理器，可以理解成Windows版本的Homebrew。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们在任务栏搜索终端打开。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;text-align: center;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqUC4TyMPu6ic61N8M04NEQqCLibdnCzosVYlnug6g0AfhbuykzDCBweQoPb0fpOhDbYbRlrenWdadNaRfFYyAx5b4Wky0OIXWV74/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="1.0168269230769231" data-type="png" data-w="832" style="width:100%;" data-width="1032" data-height="846" data-croporisrc="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUaqur0peexUSlLSicRuJAIT4FR7IBibKLV4gPrSWtqQWseo2Hx4AlBwxSq6cTIBJbpxgHibhT9Jt73dblm7fs2yQJZZtvMdCYTMo/640?wx_fmt=png&amp;from=appmsg" data-cropx1="179.9572953736655" data-cropx2="1011.8007117437722" data-cropy2="846.5338078291816" data-backw="453" data-backh="461" data-imgfileid="500197896" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqUC4TyMPu6ic61N8M04NEQqCLibdnCzosVYlnug6g0AfhbuykzDCBweQoPb0fpOhDbYbRlrenWdadNaRfFYyAx5b4Wky0OIXWV74/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">粘贴下面的命令到终端，这里安装的时候不开魔法速度会快很多。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="nginx"><code><span leaf=""><span class="code-snippet__attribute">winget</span>&amp;nbsp;install Git.Git</span></code></pre> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">跑完就会显示成功安装了。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqVHMNWzava5WtGRbqlFc8xnUHYicF3fOHyF7fVqbeu4at0Taq9kWnPPAaicd7nlXxXIzKI5ABG3e1Fwt7AEtINXiayFI26Qzs7xCM/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.3212962962962963" data-type="png" data-w="1080" style="width:562px;height:181px;" data-width="1730" data-height="1259" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWHplQaZwXMQWqr8nEmAK2NYmBkDun9mzJCICguJXhJKasGFrbnWuibuHp5sy3XogI7Cia9dLD8AMvWcbWSllNrBmkvpWJcrlMkk/640?wx_fmt=png&amp;from=appmsg" data-cropx2="1080" data-cropy2="347.82918149466195" data-imgfileid="500197901" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqVHMNWzava5WtGRbqlFc8xnUHYicF3fOHyF7fVqbeu4at0Taq9kWnPPAaicd7nlXxXIzKI5ABG3e1Fwt7AEtINXiayFI26Qzs7xCM/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;font-weight: bold;">Git装好了之后，老规矩，我们先说有魔法的情况。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">有魔法的朋友，我们还是用他官方的原生安装命令。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">粘贴命令到终端。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="nginx"><code><span leaf=""><span class="code-snippet__attribute">irm</span>&amp;nbsp;<a href="https://claude.ai/install.ps1" target="_blank" rel="noopener">https://claude.ai/install.ps1</a> | iex</span></code></pre> 
+ </section> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqVu9vA9QicUcncWxMNBJsUTPx72gVYzc5qT75HHPOp8yzibW9Oib4wMpumUzp0Dic5TvKEJJa9DHmz7x04IyCMm5a2wwvumZvKPe7g/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.22962962962962963" data-type="png" data-w="1080" data-width="1112" data-height="255" data-imgfileid="500197899" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqVu9vA9QicUcncWxMNBJsUTPx72gVYzc5qT75HHPOp8yzibW9Oib4wMpumUzp0Dic5TvKEJJa9DHmz7x04IyCMm5a2wwvumZvKPe7g/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">等一会就安装好了。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqX2DKlBscDyfDKBLlQQiax8vpVsZicYHayfib6pwGKcJ1SyMXkOONUsrM9yMCtMMiaSbWicictZhpPaJVWJefarQQXR0z7Tm3vqu6iaFA/640?wx_fmt=jpeg&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.5981481481481481" data-type="jpeg" data-w="1080" data-width="1112" data-height="665" data-imgfileid="500197902" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqX2DKlBscDyfDKBLlQQiax8vpVsZicYHayfib6pwGKcJ1SyMXkOONUsrM9yMCtMMiaSbWicictZhpPaJVWJefarQQXR0z7Tm3vqu6iaFA/640?wx_fmt=jpeg&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">非常便捷。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;font-weight: bold;">如果没魔法的话，我们就得使用WinGet来安装。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">在终端中运行这行命令。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="nginx"><code><span leaf=""><span class="code-snippet__attribute">winget</span>&amp;nbsp;install Anthropic.ClaudeCode</span></code></pre> 
+ </section> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXhNfFdwdLj2ialffWeesanSCMWBsn1oMf59ASxUkeCbuJtibsqxbHgkAJJ2ib9aGEU3vcNe00EO5cmrAriarEnSleetriatlML8T5E/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.30925925925925923" data-type="png" data-w="1080" data-width="1308" data-height="405" data-imgfileid="500197900" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXhNfFdwdLj2ialffWeesanSCMWBsn1oMf59ASxUkeCbuJtibsqxbHgkAJJ2ib9aGEU3vcNe00EO5cmrAriarEnSleetriatlML8T5E/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">等他安装成功后，同样可以输入claude，就能看到已经安装成功了。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXQG2jTMicQnHqALrfgCIpC4VseT9fD5Xn6PemADdTyJ7VQZ3Cic6DR2DibLkZxQh7nV95JmEc4H4sqib9RcaiaAvckzZUeLK1DupZE/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.6851851851851852" data-type="png" data-w="1080" data-width="1308" data-height="896" data-imgfileid="500197903" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXQG2jTMicQnHqALrfgCIpC4VseT9fD5Xn6PemADdTyJ7VQZ3Cic6DR2DibLkZxQh7nV95JmEc4H4sqib9RcaiaAvckzZUeLK1DupZE/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">到这一步，从道理上讲，我们在终端里输入claude，就能进到Claude Code页面了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">但是。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们这里光装了框架，还没给他安脑子，所以还没法用。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">那接下来，我们就需要把他的脑子接上。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><br></span></p> 
+ <p style="margin-bottom: 16px;text-align: left;margin-left: 8px;margin-right: 8px;"><span style="font-size: 20px;"><strong><span style="font-size: 20px;letter-spacing: 0.578px;text-decoration: none;background-color: rgb(0, 0, 0);color: rgb(255, 255, 255);"><span leaf="" data-pm-slice="1 1 [&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-bottom: 16px; text-align: left; margin-left: 8px; margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;font-size: 20px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;strong&quot;,&quot;attributes&quot;:{},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;font-size: 20px; letter-spacing: 0.578px; text-decoration: none; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;}]">二. 接模型</span></span></strong></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf="" data-pm-slice="1 1 [&quot;heading&quot;,{&quot;tagName&quot;:&quot;h1&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;,&quot;level&quot;:1}]"><span textstyle="" style="font-size: 16px;">如果是有Claude账号的，直接登录就行了，这里我就不细说了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf="" data-pm-slice="1 1 [&quot;heading&quot;,{&quot;tagName&quot;:&quot;h1&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;,&quot;level&quot;:1}]"><span textstyle="" style="font-size: 16px;">因为理论上你已经有Claude账号了，你也不会来看这个保姆教程。。。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf="" data-pm-slice="1 1 [&quot;heading&quot;,{&quot;tagName&quot;:&quot;h1&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;,&quot;level&quot;:1}]"><span textstyle="" style="font-size: 16px;">所以，为了让国内所有的小伙伴都能用上，这里我用国产模型GLM-5.1来举例子。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">因为GLM-5.1是目前我用下来觉得国内效果最好最接近Claude Opus 4.6体验的。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">当然，你要是没抢到他们的coding plan的话，用MiniMax M2.7和K2.5也都不错，K2.6 code应该也快出了，感觉kimi也会有一波飞跃，推荐大家可以蹲一下。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">然后GLM5.1这块，智谱官方有提供一句话命令来安装，特别简单。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="nginx"><code><span leaf=""><span class="code-snippet__attribute">npx</span>&amp;nbsp;<span class="code-snippet__variable">@z_ai</span>/coding-helper</span></code></pre> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">但这里，为了方便大家也能接入其他模型并且随意切换，所以，我们教大家一个更通用的方法，也就是，用CC Switch。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">还是分Mac和Windows。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf="" data-pm-slice="1 1 [&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;}]"><span textstyle="" style="font-size: 20px;font-weight: bold;">1. Mac</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">在Mac上，他的安装就两行命令，第二行命令同样因为格式原因，直接复制粘贴会报错。辛苦大家手敲一下，或者发给claude让他改了，再粘贴到终端。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="css"><code><span leaf="">brew tap farion1231/ccswitch</span></code><code><span leaf="">brew install&amp;nbsp;<span class="code-snippet__attr">--cask</span>&amp;nbsp;cc-<span class="code-snippet__selector-tag">switch</span></span></code></pre> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">在终端粘贴，回车运行。</span></span></p> 
+ <section style="text-align: center;" nodeleaf=""> 
+   
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">等他装好就成了。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;text-align: center;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqUiantpxmaS060YVygmLUCc2cFhVdjsORicAXgia4CDL1v1sCJ0Z2mhaHrjMbtF3BC5MA3EY18eLMu3gfvGuzOta0mHFl39ChibRHY/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.5896464646464646" data-type="png" data-w="792" style="width:100%;" data-width="1433" data-height="651" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqUShUushoBlBHuEWjA0jrwVhoUTY2iax3XO0LyH7xSdia3DDn2ia9WDOLc1pMib3QMtDrw5bDhtf8UMmnW1IM8Xnm3NPGica77S6ibFM/640?wx_fmt=png&amp;from=appmsg" data-cropx1="288.2562277580071" data-cropx2="1080" data-cropy1="24.98220640569395" data-cropy2="491.9572953736655" data-backw="412" data-backh="243" data-imgfileid="500197908" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqUiantpxmaS060YVygmLUCc2cFhVdjsORicAXgia4CDL1v1sCJ0Z2mhaHrjMbtF3BC5MA3EY18eLMu3gfvGuzOta0mHFl39ChibRHY/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf="" data-pm-slice="1 1 [&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 0px; margin-right: 0px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;}]"><span textstyle="" style="font-size: 20px;font-weight: bold;">2. Windows</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">Windows的话，推荐直接去下面的链接下载安装包。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;"><a href="https://github.com/farion1231/cc-switch/releases" target="_blank" rel="noopener">https://github.com/farion1231/cc-switch/releases</a></span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqVWNmOuJIseYcHdicYUs7icYWQ51OmunicMmlGWyNIl3iajWTEWHfmappfx9tfyadFGg4TZiaZ2gF8k7fyeqBD7f0lyfahcEyP8iaLFg/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.5972222222222222" data-type="png" data-w="1080" style="width:100%;" data-width="1258" data-height="751" data-backw="562" data-backh="336" data-imgfileid="500197907" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqVWNmOuJIseYcHdicYUs7icYWQ51OmunicMmlGWyNIl3iajWTEWHfmappfx9tfyadFGg4TZiaZ2gF8k7fyeqBD7f0lyfahcEyP8iaLFg/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;font-weight: bold;">如果你进不去github，那我也给大家准备好了本地安装包，你对着公众号后台回复cc就会自动给你发下载链接了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">下载后双击运行，然后可以一路next到底，就安装好了。</span></span></p> 
+ <section style="text-align: center;margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUEKC50K9vKHXCG1FQe5YrxmGNJiaQtrZLgVtibyNEHOUPTJyvRDADlBKWLs1gsLX8pMJFKicDcRHS25JvMkyHRCjOUB3FoGib7uYM/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.7589670014347202" data-s="300,640" data-type="png" data-w="697" style="width: 100%;" type="block" data-backw="578" data-backh="439" data-imgfileid="500197934" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUEKC50K9vKHXCG1FQe5YrxmGNJiaQtrZLgVtibyNEHOUPTJyvRDADlBKWLs1gsLX8pMJFKicDcRHS25JvMkyHRCjOUB3FoGib7uYM/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">后面的操作Mac和Windows一样，就不分开说了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">装好后，我们打开他。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">一进去能看到，这玩意其实不仅适用于Claude Code，Codex、小龙虾这些都能用。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">因为我们这里还没配置，所以目前只有Claude官方的模型配置。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">在Claude那一栏下面，我们点右上角的加号，新增模型配置。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqXSGiaESsYrf9ricqHXTFTzianLW3yozt1gDqgAw1R9JzTL8X4ibzPH3nz7KR4ZibE7cJS80rAtFPTOBzKuia2mctibibiaYOGSiaExOpgiaE/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.22914572864321608" data-type="png" data-w="995" style="width:562px;height:129px;" data-width="995" data-height="637" data-croporisrc="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqXNtqyK3K8G9k7yxsZaNqAnAjE73mHVqNzA5ZSe0tUTLfCdfY64Asw4TW6LO6CFhcBgz01ZaRibPtSrsUgyxPlQEBhlxUROjTO8/640?wx_fmt=png&amp;from=appmsg" data-cropx2="995" data-cropy2="228.38967971530246" data-imgfileid="500197905" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_jpg/2jjfQoZLoqXSGiaESsYrf9ricqHXTFTzianLW3yozt1gDqgAw1R9JzTL8X4ibzPH3nz7KR4ZibE7cJS80rAtFPTOBzKuia2mctibibiaYOGSiaExOpgiaE/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">然后选择我们想要使用的模型，这里我选的是GLM国内版。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqUWbbcvYKrOiblKPWJJibdW1iahviapfbuIerE0wWhg3MwFUmScSQzOH6lL7LOxWRDrIjNcUV8peNicerYqvpCLI9vd2libIOQQGcrgs/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.592929292929293" data-type="png" data-w="990" data-width="990" data-height="587" data-imgfileid="500197910" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqUWbbcvYKrOiblKPWJJibdW1iahviapfbuIerE0wWhg3MwFUmScSQzOH6lL7LOxWRDrIjNcUV8peNicerYqvpCLI9vd2libIOQQGcrgs/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">接着要填的就两部分，API key（</span></span><span leaf="" data-pm-slice="1 1 [&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;}]"><span textstyle="" style="font-size: 16px;">这块如果不知道什么是API Key的，可以去直接问你能用上的任何AI，他们都会帮你解决）和模型配置，其他的他都会自动帮我们填好。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWTt7BsVqAUkVIttVicVDpK5lSFTrvYExiclmmDJHMM9GX0gzjoGB7TuLVCSUzm9s8bLyQsmFz7wCySeTvaHqLBZEdYjjy0uEibwM/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="1.3312945973496433" data-type="png" data-w="981" data-width="981" data-height="1306" data-imgfileid="500197912" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWTt7BsVqAUkVIttVicVDpK5lSFTrvYExiclmmDJHMM9GX0gzjoGB7TuLVCSUzm9s8bLyQsmFz7wCySeTvaHqLBZEdYjjy0uEibwM/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">填好之后，我们点击右下角的添加就行.</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWyic9OwWea1bE4vOST7PqWKZGiaHibtVm0GFKJfGLic1XNj4YKY8eD1NDnzQKvHoJLEyiafib0P81RJ2vOfmTDtR3mTpzqljvj7Kbmk/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.326" data-type="png" data-w="1000" data-width="1000" data-height="326" data-imgfileid="500197909" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWyic9OwWea1bE4vOST7PqWKZGiaHibtVm0GFKJfGLic1XNj4YKY8eD1NDnzQKvHoJLEyiafib0P81RJ2vOfmTDtR3mTpzqljvj7Kbmk/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">他就会切换到我们配置的模型上。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqVzlK0INKnRzO2rPrGsz9yvlf5esFARMj1AuVHkO5mPzXl6lGJxibjq2X6J54KW2dqmh4uN1v5pQNTh7yNF1tbYp8MdpB9QTxaY/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.3090172239108409" data-type="png" data-w="987" data-width="987" data-height="305" data-imgfileid="500197913" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqVzlK0INKnRzO2rPrGsz9yvlf5esFARMj1AuVHkO5mPzXl6lGJxibjq2X6J54KW2dqmh4uN1v5pQNTh7yNF1tbYp8MdpB9QTxaY/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">到这一步，Claude Code的安装和GLM-5.1的接入就完成了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><br></span></p> 
+ <p style="margin-bottom: 16px;text-align: left;margin-left: 8px;margin-right: 8px;"><span style="font-size: 20px;"><strong><span style="font-size: 20px;letter-spacing: 0.578px;text-decoration: none;background-color: rgb(0, 0, 0);color: rgb(255, 255, 255);"><span leaf="" data-pm-slice="1 1 [&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-bottom: 16px; text-align: left; margin-left: 0px; margin-right: 0px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;font-size: 20px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;strong&quot;,&quot;attributes&quot;:{},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;font-size: 20px; letter-spacing: 0.578px; text-decoration: none; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;}]">三. 启动Claude Code</span></span></strong></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们回到终端，输入claude，回车。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqW9mjM5PHa7taO6Y0VibS29HCETBzr8eFIx5u8oPPrpCgc2EibbeOlt0Sukyu6bcXVelzVkbssdhPRdyQXAMribWUtKpZ9CF5aBtk/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.09350057012542759" data-type="png" data-w="877" style="width:562px;height:53px;" data-width="877" data-height="499" data-croporisrc="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqVACz8DlCmYeiapSEOicJdsMJMQUN3ibiaXzCy6EG4RAHErMTkplTbNfwN0J1hKCVf9hZUaH8mfzFFo8ibrbvukVVqfVwFB4gIYAEnM/640?wx_fmt=png&amp;from=appmsg" data-cropx2="877" data-cropy2="82.70640569395019" data-imgfileid="500197911" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqW9mjM5PHa7taO6Y0VibS29HCETBzr8eFIx5u8oPPrpCgc2EibbeOlt0Sukyu6bcXVelzVkbssdhPRdyQXAMribWUtKpZ9CF5aBtk/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">就可以正常启动claude code了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">第一次使用，会先有一些初始化设置。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">比如颜色模式，模式下面有代码预览，大家根据自己的喜好来就好。选中回车。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">以后想改，在Claude Code里运行/theme就行。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqUKaDCIqdicguH7Jicf6U1ceYxVyOawBMkrIicGN7gDFEsqtxmzFdpwV4XGZqyDtj9jl6qWibKvmVcmZvrlwz1U5fibfe7DnFiayq32U/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.593103448275862" data-type="png" data-w="870" data-width="870" data-height="516" data-imgfileid="500197916" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqUKaDCIqdicguH7Jicf6U1ceYxVyOawBMkrIicGN7gDFEsqtxmzFdpwV4XGZqyDtj9jl6qWibKvmVcmZvrlwz1U5fibfe7DnFiayq32U/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">接着是安全提示。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXTgciaIS2cP2tcqNg9qN2NYkTics5icYAmsNnGoSiajwbia1uiak8kZjI4IUAh2vgw8ju2gyeAjFO0ibmUzDD79214OoVA68Yds5zUEo/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.5954022988505747" data-type="png" data-w="870" data-width="870" data-height="518" data-imgfileid="500197918" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXTgciaIS2cP2tcqNg9qN2NYkTics5icYAmsNnGoSiajwbia1uiak8kZjI4IUAh2vgw8ju2gyeAjFO0ibmUzDD79214OoVA68Yds5zUEo/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">就两点。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">一个是Claude会犯错，它生成的代码、它要执行的命令，你都应该过一眼再放行。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">一个是只在你信任的代码库里用Claude Code，避免提示词注入攻击。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们直接回车进入下一步。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">是问我们是否使用Claude Code的终端设置。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqV9pejhicgaicO6oKOyhgCA7HS0SH9NJLMcMKnvsX5QCOvyicicbS7zKfTUXrXTvhG4AeXVmYB9VeJcpymHMhWnfkkFj5ySzfapNgI/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.588302752293578" data-type="png" data-w="872" data-width="872" data-height="513" data-imgfileid="500197917" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqV9pejhicgaicO6oKOyhgCA7HS0SH9NJLMcMKnvsX5QCOvyicicbS7zKfTUXrXTvhG4AeXVmYB9VeJcpymHMhWnfkkFj5ySzfapNgI/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这里，直接使用他推荐的终端设置就可以。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">其实就是他想帮你启用两个东西。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">快捷键实现在终端里换行。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">另一个是Visual bell，视觉提示。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">也就是Claude跑完任务或者需要你确认的时候，终端窗口的页面会闪一下，</span>Dock图标<span textstyle="" style="font-size: 16px;">会弹跳一下，提醒你。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">最后一步，就是和你确认当前所在目录，是否可以信任。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqUQuL1vLhiaAmLnJlWXQc4hnvD8JUwdvIib3NWCE3NwfTOsRj3OzKlbPKu9bfBYTibBjf0HpyZBtgFTRrBG0H3ic89xP7NxZ3gcz8E/640?wx_fmt=jpeg" class="rich_pages wxw-img" data-ratio="0.3830275229357798" data-type="png" data-w="872" style="width:562px;height:216px;" data-width="872" data-height="386" data-croporisrc="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqVNZrDmZ5AGxiaj5m2WZofpR732Eq5trYKQkFtOUmONnxyT9uEMWleyibB412prxiaicZCa0X5ERCMaGjbuKMW6oXIfqZy92bUmeXE/640?wx_fmt=png&amp;from=appmsg" data-cropx2="871.9999999999999" data-cropy2="335.14590747330965" data-imgfileid="500197914" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqUQuL1vLhiaAmLnJlWXQc4hnvD8JUwdvIib3NWCE3NwfTOsRj3OzKlbPKu9bfBYTibBjf0HpyZBtgFTRrBG0H3ic89xP7NxZ3gcz8E/640?wx_fmt=jpeg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这里选择是，然后回车。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们就终于来到接入GLM-5.1的Claude Code的对话界面了。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUXtGEr3Egj53wKzmkJbGmb79Yicwdj7A7wI7RVgkZHdjBR9unpvtPmXPDJMgjchVuvDU4oHztUP7rbOnOWSqFJXrFdlzKYmkpQ/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.38639455782312926" data-type="png" data-w="735" data-width="735" data-height="284" data-imgfileid="500197915" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUXtGEr3Egj53wKzmkJbGmb79Yicwdj7A7wI7RVgkZHdjBR9unpvtPmXPDJMgjchVuvDU4oHztUP7rbOnOWSqFJXrFdlzKYmkpQ/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">后续想要切换模型，在CC Switch里面配置好，在Claude Code里面用/model切就行。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqWdEM7aqqqsMMpFIXrvTnxOTLgyxXBriadtdgA00TKL7vx7VJwjKdrS1k15kuIO6zClfFRUqfYibpAUeWo6a97CcOEic4UoOl7JAY/640?wx_fmt=jpeg&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.5041128084606346" data-type="jpeg" data-w="851" data-width="851" data-height="429" data-imgfileid="500197923" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/2jjfQoZLoqWdEM7aqqqsMMpFIXrvTnxOTLgyxXBriadtdgA00TKL7vx7VJwjKdrS1k15kuIO6zClfFRUqfYibpAUeWo6a97CcOEic4UoOl7JAY/640?wx_fmt=jpeg&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">至此，所有的安装接入操作就完成了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">后续用的话，直接在终端输claude就行了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这里推荐大家用下面这行命令，特别是开发的时候，不然点各种allow会点到你怀疑人生。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="css"><code><span leaf="">claude&amp;nbsp;<span class="code-snippet__attr">--dangerously-skip-permissions</span></span></code></pre> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">然后我们启动的时候，因为上下文设计，为了让他有约束，更加的专注，所以我们是需要对着一个文件夹进行启动的，而不是直接在根目录启动Claude Code。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我自己就分了一下目录，文稿是我拿来做知识创作了。</span></span></p> 
+ <section style="text-align: center;margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXA6icguBKJerzyia8ThCGbAfDZ2OV0EBHuIxIyecGkUrxlhMrL0a1lYmbGOf1iacDIcgCnR8y4vDuPHRrPn01mmqR0oyfTicVNHGk/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.46096096096096095" data-s="300,640" data-type="png" data-w="1332" type="block" data-imgfileid="500197994" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXA6icguBKJerzyia8ThCGbAfDZ2OV0EBHuIxIyecGkUrxlhMrL0a1lYmbGOf1iacDIcgCnR8y4vDuPHRrPn01mmqR0oyfTicVNHGk/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">还有一个code文件夹，下面都是我自己开发的各种各样的产品。</span></span></p> 
+ <section style="text-align: center;margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqWvkKM5ZIqEJVickwOzmyIdnicLJibRpkbxY4rk3PaWwPib02ibR8LYc7mVwKrr1UJ1BgARAkMSn7FdQwaAqibcXEw66hE0tmRNiaR4yM/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.4697885196374622" data-s="300,640" data-type="png" data-w="1324" type="block" data-imgfileid="500197995" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqWvkKM5ZIqEJVickwOzmyIdnicLJibRpkbxY4rk3PaWwPib02ibR8LYc7mVwKrr1UJ1BgARAkMSn7FdQwaAqibcXEw66hE0tmRNiaR4yM/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">在命令行中对着一个命令行启动Claude Code也特别简单。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">就是cd命令，这块Mac和Windows是一样的。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">比如我要进入知识库这个文件夹进行创作。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">那就打开终端，输入cd，然后一定要记得按一下空格，再把你的文件夹，直接拖进去。</span></span></p> 
+ <section style="text-align: center;margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqW6GicDerHfNtibd2iaO2qib84KqUt9COLADQyOKPUWuUZJeORgJjySzkxU1PU4YVNbfBS0yibXkjcxG2xdnpnebWZiaNwUhhXVOtK1Y/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.21730382293762576" data-s="300,640" data-type="png" data-w="994" type="block" data-imgfileid="500197996" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqW6GicDerHfNtibd2iaO2qib84KqUt9COLADQyOKPUWuUZJeORgJjySzkxU1PU4YVNbfBS0yibXkjcxG2xdnpnebWZiaNwUhhXVOtK1Y/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">按下回车，就算是进入这个文件夹了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">然后这个时候再用命令启动Claude Code就可以。</span></span></p> 
+ <section style="text-align: center;margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqX2yIxHxyF2XN4PEJX43oeOvvh899Wfb7xicjCFM20TQbUxq3OW613fJS7H7YXLf8V91cLtsrVd1s9n79Ngys5Fekgv6eqORRnY/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.20833333333333334" data-s="300,640" data-type="png" data-w="1080" type="block" data-imgfileid="500197997" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqX2yIxHxyF2XN4PEJX43oeOvvh899Wfb7xicjCFM20TQbUxq3OW613fJS7H7YXLf8V91cLtsrVd1s9n79Ngys5Fekgv6eqORRnY/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">你就会进入到这个文件夹下，它默认就只在这个文件夹下工作，默认读取你这个文件夹下的所有文件。</span></span></p> 
+ <section style="text-align: center;margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWY02VojjeY67kibibtXNYc1xhJkgK1iala01zVCs3QubGvNa1TgsyHoNdmV9P221wxUTibgIbCWy0pfiaibVlRjfLHE3kZPfJ14Km0Q/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.4305555555555556" data-s="300,640" data-type="png" data-w="1080" type="block" data-imgfileid="500197998" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWY02VojjeY67kibibtXNYc1xhJkgK1iala01zVCs3QubGvNa1TgsyHoNdmV9P221wxUTibgIbCWy0pfiaibVlRjfLHE3kZPfJ14Km0Q/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这样其实上下文污染更小，也更专注，换句话说，就是更聪明。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><br></span></p> 
+ <p style="margin-bottom: 16px;text-align: left;margin-left: 8px;margin-right: 8px;"><span style="font-size: 20px;"><strong><span style="font-size: 20px;letter-spacing: 0.578px;text-decoration: none;background-color: rgb(0, 0, 0);color: rgb(255, 255, 255);"><span leaf="" data-pm-slice="1 1 [&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-bottom: 16px; text-align: left; margin-left: 0px; margin-right: 0px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;font-size: 20px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;strong&quot;,&quot;attributes&quot;:{},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;font-size: 20px; letter-spacing: 0.578px; text-decoration: none; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;}]">四. 写CLAUDE.md</span></span></strong></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">学会启动之后，其实你就可以正式的对话了，随便让他干活就行。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">但还有个规范和你在深度使用之前，有一个很重要的习惯，我觉得是需要让你先设置的，不要再踩我走过的老坑，先定好你的CLAUDE.md文件。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">而在我看来，这甚至是学会启动Claude Code之后，第一件该做的事。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">在上具体写法之前，我还是先和大家聊一聊CLAUDE.md是个啥。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这个东西，它不简单是一份文件，它是一个从上往下分层穿透的约束体系。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">就像我之前用过的这张图。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXs5iauRkDLI4fTetzfa3bsegmMWCBYUg3b3V9qPN7ZJtGcT6iaafiaco8RO4Tztk8UWTDhsMiaSfgVfJ2JQk095jevSvOFsUWd2jA/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.7364568081991215" data-type="png" data-w="683" data-width="683" data-height="503" data-imgfileid="500197920" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXs5iauRkDLI4fTetzfa3bsegmMWCBYUg3b3V9qPN7ZJtGcT6iaafiaco8RO4Tztk8UWTDhsMiaSfgVfJ2JQk095jevSvOFsUWd2jA/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">刚装完，我们应该去管的两层，就是全局CLAUDE.md和项目CLAUDE.md。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">全局CLAUDE.md，放在用户总目录的Claude Code根目录下面，~/.claude/CLAUDE.md。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqVgdfkkNK7KNa8zGNLwPI491bywdjgDcacmFDx7MppnxgAicFwusicQVoqicheZ45PewC7NmgRjPXwMsJ4ZtoriaVfmJ1hib5IeYgzw/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.3765347885402456" data-type="png" data-w="733" data-width="733" data-height="276" data-imgfileid="500197921" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqVgdfkkNK7KNa8zGNLwPI491bywdjgDcacmFDx7MppnxgAicFwusicQVoqicheZ45PewC7NmgRjPXwMsJ4ZtoriaVfmJ1hib5IeYgzw/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">只要你打开Claude Code，不管你进的是哪个项目，它都会被自动加载和遵守。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这是他的顶层规范。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">它可以解决的是你是谁、你做事的原则、你希望他用什么方式跟你协作这一层的问题。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">而项目级CLAUDE.md，放在每个项目的根目录下，路径就是项目目录/CLAUDE.md。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUnyBbjUNwfSoIlITxMxke5JTklPHYwicay6Sd0syibgoy8YBHvOyCp6Tua4MfNFQ2bDiarSI5bBB608iciaKjUNrIgAtuibCTeDCQ1Y/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.4979757085020243" data-type="png" data-w="741" data-width="741" data-height="369" data-imgfileid="500197922" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUnyBbjUNwfSoIlITxMxke5JTklPHYwicay6Sd0syibgoy8YBHvOyCp6Tua4MfNFQ2bDiarSI5bBB608iciaKjUNrIgAtuibCTeDCQ1Y/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">它只在你打开这个项目的时候才会被加载。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">它解决的是这个具体的项目要怎么干，有什么特殊约定这一层的问题。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我们先来聊全局CLAUDE.md，也是第一个需要定好的东西，但是到底该往CLAUDE.md里写什么、怎么写、写多长、放哪里，很多人其实不清楚，对于非开发者来说，我也分享一下我的经验。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">关于长度，CLAUDE.md不是越长越好，反而是要尽量精简。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">你的CLAUDE.md写得太长，后半段的内容它会直接忽略掉。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">具体的红线数字是这样的，超过80行，Claude开始遗漏部分内容，最多最多，一定不要超过200行。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">之前的一篇文章，我也给大家看了我的全局CLAUDE.md文件里面都是哪些内容。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">在我的内容的基础上，我又迭代了一下，为大家准备了一份模板。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">里面都是一些我觉得一份不错的全局CLAUDE.md应该有的东西。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">大家只需要在关于我里面，写上自己的内容，其他基本都是可以直接复用的。</span></span></p> 
+ <section class="code-snippet__fix code-snippet__js"> 
+  <ul class="code-snippet__line-index code-snippet__js"> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+   <li></li> 
+  </ul> 
+  <pre class="code-snippet__js" data-lang="markdown"><code><span leaf=""><span class="code-snippet__section">## 关于我</span></span></code><code><span leaf="">[你的名字 / 身份 / 职业背景，非程序员的话一定要写出来]。</span></code><code><span leaf="">我用 Claude Code 做 [具体用途 1] 和 [具体用途 2]。</span></code><code><span leaf=""><br></span></code><code><span leaf=""><span class="code-snippet__section">## 思维原则</span></span></code><code><span leaf="">所有决策从问题本质出发，不因「惯例如此」照搬。</span></code><code><span leaf="">回到问题本身：要解决什么？最直接的路径是什么？从零设计会怎么做？</span></code><code><span leaf="">不要谄媚。不要夸我的想法好、不要说「这是个很好的问题」、不要开头加「当然可以」。</span></code><code><span leaf="">给我真实判断，方案有问题直接指出来。发现更好的做法直接说，不用等我问。</span></code><code><span leaf=""><br></span></code><code><span leaf=""><span class="code-snippet__section">## 约束先行</span></span></code><code><span leaf="">无论开发项目还是知识管理项目，第一步永远是建规则：新项目先写 CLAUDE.md，新目录先定结构约定（什么放哪、怎么命名、何时清理）。</span></code><code><span leaf="">没有规范的工作空间不动手。已有规范的项目，严格遵守其 CLAUDE.md 中的约定。需要调整规范时先改文档、再改实践，不要反过来。</span></code><code><span leaf=""><br></span></code><code><span leaf=""><span class="code-snippet__section">## 沟通方式</span></span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;默认中文，代码、命令、变量名用英文</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;结论先行，再给理由，不要先铺垫背景</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;遇到模糊需求，先给最合理的方案，再问要不要调整</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;不要问「你确定要这样吗」，除非命中下方红线</span></code><code><span leaf=""><br></span></code><code><span leaf=""><span class="code-snippet__section">## 自主边界（红线，必须先问我）</span></span></code><code><span leaf="">以下操作即使在 auto-accept 模式下也必须停下来问我：</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;删除文件、目录或 git 历史</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;修改 .env、密钥、token、CI/CD 配置</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;数据库 schema 变更或数据迁移</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;git push、git rebase、git reset --hard、强制推送</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;安装新的全局依赖或修改系统配置</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;公开发布（npm publish、部署到生产、发文章等）</span></code><code><span leaf=""><br></span></code><code><span leaf=""><span class="code-snippet__section">## 通用工程纪律</span></span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;改完主动跑验证（具体命令见各项目 CLAUDE.md），不要只改不验</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;不要为了让代码跑起来注释掉报错或加绕过标记，找根本原因</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;密钥、token、密码不进代码、不进 commit、不进日志</span></code><code><span leaf=""><span class="code-snippet__bullet">-</span>&amp;nbsp;大改动前先在 Plan Mode 出方案，我确认后再动手</span></code></pre> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">一共30多行，分成六个部分。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这六个块都有一个共同特征，就是跨项目通用。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">全局的CLAUDE.md定好了，我们顶层的规范就有了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">那至于下一层，项目CLAUDE.md。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">拿我自己举例。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我主要用Claude Code来做开发和知识管理。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">比如我的code/my目录下就有一个CLAUDE.md，这个的作用，主要就是my文件夹下，经常coding的都是一些可能一次性的、或者我实验性质的乱七八糟的东西，其实都非常的小，所以我真的懒得每次都在my下新建一个文件夹。</span></span></p> 
+ <section style="text-align: center;margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqWKveictMlNZhS0JrCGhtEJfa0DjMibCNuCVyaQxJ9fRJlPyqTybaaic5UdfvicX0eOa9DujjCwWiaPxkQoL8gcMZWoJBZtoUibkT4Mo/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img js_insertlocalimg" data-ratio="0.3537037037037037" data-s="300,640" data-type="png" data-w="1080" type="block" data-imgfileid="500198000" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqWKveictMlNZhS0JrCGhtEJfa0DjMibCNuCVyaQxJ9fRJlPyqTybaaic5UdfvicX0eOa9DujjCwWiaPxkQoL8gcMZWoJBZtoUibkT4Mo/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf="">所以我现在常用的做法，就是直接cd到my文件夹启动，然后愉快的开始说出我自己的需求帮助我coding，那有了这个CLAUDE.md文件之后，他就会自己判断这是不是一个新产品，如果是的话，那就直接帮我新建一个文件夹开始做，这样整个文件管理，就会变得井井有条了。</span></p> 
+ <section style="text-align: center;margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWfqoFcKfbm8CgB1Ca8KoU1Bp7iabcd7bXT3MYRjca6CTTtIJBGvib4qV8H0NroaEgaAEMW32mHhiaPjYtP7sfpGSsw0TkaIYuTxQ/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.8145363408521303" data-s="300,640" data-type="png" data-w="1596" type="block" data-imgfileid="500198001" data-aistatus="1" src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWfqoFcKfbm8CgB1Ca8KoU1Bp7iabcd7bXT3MYRjca6CTTtIJBGvib4qV8H0NroaEgaAEMW32mHhiaPjYtP7sfpGSsw0TkaIYuTxQ/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">而这个文件其实也完全不用你自己写，你就直接打开那个文件夹，然后和Claude Code聊就行，你直接把你的需求，和你在意的事情，和他探讨，让他给你写一份就OK了。</span></span></p> 
+ <section style="margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqXrRt44hVEEpfWLvHciauS4D0cX9vkU3woIqM9PmY2iclyo4leO6emUdEl7BpDicXU7p56XMAiarPJ2k8KrRibJRuh6IgVicDUiaeyMTc/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.7623931623931623" data-type="png" data-w="585" data-width="585" data-height="446" data-imgfileid="500197928" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqXrRt44hVEEpfWLvHciauS4D0cX9vkU3woIqM9PmY2iclyo4leO6emUdEl7BpDicXU7p56XMAiarPJ2k8KrRibJRuh6IgVicDUiaeyMTc/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我自己这几天也在好好跟我的Claude Code制定各种规范，整理我之前遗留下来的各种屎山。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">那如果你的电脑上现在还什么都没有的话，那就更方便了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">这也是我一直强调约束先行、规范先行的原因之一。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">约束定好了，那就真的可以开始玩起来了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">而skills，plugins，常用命令、功能这些。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">我这里就不展开了，我也写过了很多相关的文章，感兴趣的小伙伴可以直接去对应着搜索关键词就行。</span></span></p> 
+ <section style="text-align: center;margin-left: 8px;margin-right: 8px;" nodeleaf=""> 
+  <img data-src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUKTgwUia1jlw7nKDtSicTbTOwzKPobpbvxyibxuibdicNuKHMuwHfXcMdWE63XpMc3hVznZ9iaEicHqyO0YXKrVgBPG71yaEmczHDBqs/640?wx_fmt=png&amp;from=appmsg" class="rich_pages wxw-img" data-ratio="0.38425925925925924" data-s="300,640" data-type="png" data-w="1080" type="block" data-imgfileid="500197930" data-aistatus="1" src="https://mmbiz.qpic.cn/sz_mmbiz_png/2jjfQoZLoqUKTgwUia1jlw7nKDtSicTbTOwzKPobpbvxyibxuibdicNuKHMuwHfXcMdWE63XpMc3hVznZ9iaEicHqyO0YXKrVgBPG71yaEmczHDBqs/640?wx_fmt=png&amp;from=appmsg"> 
+ </section> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><br></span></p> 
+ <p style="margin-bottom: 16px;text-align: left;margin-left: 8px;margin-right: 8px;"><span style="font-size: 20px;"><strong><span style="font-size: 20px;letter-spacing: 0.578px;text-decoration: none;background-color: rgb(0, 0, 0);color: rgb(255, 255, 255);"><span leaf="" data-pm-slice="1 1 [&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;margin-bottom: 16px; text-align: left; margin-left: 0px; margin-right: 0px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;font-size: 20px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;strong&quot;,&quot;attributes&quot;:{},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;font-size: 20px; letter-spacing: 0.578px; text-decoration: none; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;}]">写在最后</span></span></strong></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">终于把这篇拖了很久很久的保姆级Claude Code教程写完了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">Claude Code，就是我推荐你的当前AI版本的毕业工具。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">你根本无需使用各种乱七八糟的那些Agent，用好Claude Code，你就真的能感受到，什么是最牛逼的Agent了。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">希望大家都能愉快创造。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">做出这个时代。</span></span></p> 
+ <p style="margin-left: 8px;margin-right: 8px;"><span leaf=""><span textstyle="" style="font-size: 16px;">属于你自己的作品。</span></span></p> 
+ <p style="outline: 0px;font-family: system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-wrap: wrap;background-color: rgb(255, 255, 255);margin-bottom: 24px;margin-left: 8px;margin-right: 8px;"><span style="outline: 0px;letter-spacing: 0.578px;font-size: 15px;"><strong style="outline: 0px;font-size: var(--articleFontsize);letter-spacing: 0.544px;text-align: left;color: rgb(255, 0, 0);font-family: system-ui, -apple-system, &quot;system-ui&quot;, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;"><strong style="outline: 0px;letter-spacing: 0.544px;"><strong style="outline: 0px;font-family: system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;white-space-collapse: preserve;color: rgb(0, 0, 0);"><span style="font-size: 15px;outline: 0px;text-decoration-style: solid;text-decoration-color: rgba(0, 0, 0, 0.9);letter-spacing: 0.578px;"><span leaf="">以上，既然看到这里了，如果觉得不错，随手点个赞、在看、转发三连吧，如果想第一时间收到推送，也可以给我个星标⭐～谢谢你看我的文章，我们，下次再见。</span></span></strong></strong></strong></span></p> 
+ <p style="outline: 0px;font-family: system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-wrap: wrap;background-color: rgb(255, 255, 255);text-align: left;margin-bottom: 8px;margin-left: 8px;margin-right: 8px;"><span style="font-family: system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;text-align: left;text-wrap: wrap;background-color: rgb(255, 255, 255);outline: 0px;text-decoration-style: solid;text-decoration-color: rgba(0, 0, 0, 0.9);letter-spacing: 0.578px;color: rgb(178, 178, 178);font-size: 12px;"><span leaf="">&amp;gt;/ 作者：卡兹克，tashi</span></span></p> 
+ <p style="outline: 0px;font-family: system-ui, -apple-system, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-wrap: wrap;background-color: rgb(255, 255, 255);text-align: left;margin-bottom: 24px;margin-left: 8px;margin-right: 8px;"><span style="outline: 0px;text-decoration-style: solid;text-decoration-color: rgba(0, 0, 0, 0.9);letter-spacing: 0.578px;color: rgb(178, 178, 178);font-size: 12px;"><span leaf="">&amp;gt;/ 投稿或爆料，请联系邮箱：</span><span leaf="" data-pm-slice="1 1 [&quot;para&quot;,{&quot;tagName&quot;:&quot;p&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;outline: 0px;font-family: system-ui, -apple-system, BlinkMacSystemFont, \&quot;Helvetica Neue\&quot;, \&quot;PingFang SC\&quot;, \&quot;Hiragino Sans GB\&quot;, \&quot;Microsoft YaHei UI\&quot;, \&quot;Microsoft YaHei\&quot;, Arial, sans-serif;letter-spacing: 0.544px;text-wrap: wrap;background-color: rgb(255, 255, 255);text-align: left;margin-bottom: 24px;margin-left: 8px;margin-right: 8px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;},&quot;node&quot;,{&quot;tagName&quot;:&quot;span&quot;,&quot;attributes&quot;:{&quot;style&quot;:&quot;outline: 0px;text-decoration-style: solid;text-decoration-color: rgba(0, 0, 0, 0.9);letter-spacing: 0.578px;color: rgb(178, 178, 178);font-size: 12px;&quot;},&quot;namespaceURI&quot;:&quot;http://www.w3.org/1999/xhtml&quot;}]">wzglyay@virxact.com</span></span></p> 
+ <p style="display: none;"> <mp-style-type data-value="3"></mp-style-type></p>
+        </div>
+        
+      <div class="media-grid"><img src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWfp05Lp1YVQ5c5JRhQfjhJvbSibrugI6OcMyl0lH5rsmIC8nhrBlIvp7kho1IFMYHWjJbDFgHF8Pr4Jibdd9QTyicEjYB7TvrBFA/640?wx_fmt=png&amp;from=appmsg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqWxNHs70iaa6cMYhNhia2JgKI8TG5zuia7Et42LpViauE3ic4RCO6AibHJbicQ0XUIroiaBmtVQfrFu7pibY3Zh8w2lxqO1OsuLaZ7yV2IE/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqUqHA6AzYsWqLsGc8g306ib1L3YJt50OSxzhicpXpEOaOs4nutQoYrBibojlEfiarhcbYpljvqBSjzzQmfNtFx4FBwvccmSxeYicl2A/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://mmbiz.qpic.cn/mmbiz_png/2jjfQoZLoqXjetN2yFPx3by4LyyWfYicdrBaE56GApYSZLLnsiaxgib8URjO5YX3ky9wovbPcln1siaP1MZSmuN4aFjbYrOOZr5k8erIAfWhNkE/640?wx_fmt=png&amp;from=appmsg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://mp.weixin.qq.com/s/AA2NHww4jUBuAfi10EYICw" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 12:00</span>
+      </div>
+      <div class="card-author">吕立青_JimmyLv</div>
+      
+      
+      <div class="summary">录了个详细的视频讲解我的 Vibe Coding 工作流 😂<br><br>几个重点：<br><br>Opus 4.7 烧钱实录：单周 $1000、单天 18 亿 Token 🔥<br>四环飞轮同步跑：Build/Sell/Test/Fix 并发，不是瀑布流<br>产品没做完流量已经在涨：本土化 SEO + Google AI Overview 收录<br>字幕抽 Bug 工作流：视频捉虫 → P0/P1/P2 → 另一个 Claude Code 一次修完<br>杠铃生活：软件是杆，投资和家庭是两端 —— AI 代劳让人聚焦而非分心<br>未来形态：AI Agent 当 Team Leader 串起全链路，人类回归 4 件事<br><br><a href="https://youtu.be/rgHSP6qVzZA" target="_blank" rel="noopener">https://youtu.be/rgHSP6qVzZA</a><div class="rsshub-quote"><br><br>吕立青_JimmyLv 2𐃏26: 我终于又自洽了！总结一下我目前的 Vibe Coding 最佳实践：Build × Sale × Test × Fix 四环飞轮 🔁 同步跑<br><br>① Bu…</div></div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-3')">📖 查看全文</button>
+        <div id="fulltext-0-3" class="fulltext-source" data-title="录了个详细的视频讲解我的 Vibe Coding 工作流 😂 几个重点： Opus 4.7 烧钱实录：单周 $1000、单天 18 亿 Token 🔥 四环飞轮同步跑：Build/Sell/Test/Fix ..." data-ai="" data-author="吕立青_JimmyLv" data-date="4月20日 12:00" style="display:none;">
+          录了个详细的视频讲解我的 Vibe Coding 工作流 😂<br><br>几个重点：<br><br>Opus 4.7 烧钱实录：单周 $1000、单天 18 亿 Token 🔥<br>四环飞轮同步跑：Build/Sell/Test/Fix 并发，不是瀑布流<br>产品没做完流量已经在涨：本土化 SEO + Google AI Overview 收录<br>字幕抽 Bug 工作流：视频捉虫 → P0/P1/P2 → 另一个 Claude Code 一次修完<br>杠铃生活：软件是杆，投资和家庭是两端 —— AI 代劳让人聚焦而非分心<br>未来形态：AI Agent 当 Team Leader 串起全链路，人类回归 4 件事<br><br><a href="https://youtu.be/rgHSP6qVzZA" target="_blank" rel="noopener">https://youtu.be/rgHSP6qVzZA</a><div class="rsshub-quote"><br><br>吕立青_JimmyLv 2𐃏26: 我终于又自洽了！总结一下我目前的 Vibe Coding 最佳实践：Build × Sale × Test × Fix 四环飞轮 🔁 同步跑<br><br>① Build（AI 在前台跑，你在后台陪娃）<br>  - 搜关键词 → 让 AI 对标竞品输出需求列表 → AI 自己规划阶段<br>  - 核心指令：写入文件 + 完成打钩 + 自动 commit + 自动 build<br> -<br></div>
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Jimmy_JingLv/status/2046197351254200683" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-0-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">🔥 重磅</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 14:07</span>
+      </div>
+      <div class="card-author">你不知道的行业内幕</div>
+      
+      
+      <div class="summary"><span>用户昵称：风小海 <br> Username：EBBD211D-4513-48AF-8D8C-9C2F1A4D7300</span><br><br>天天念经的AI神棍，求求你们别蒸馏了。<br><br>我真的看够了<br><br>最近AI圈的内容，看的人心里烦。<br><br>来来回回就那几句话。<br>Skill、Skill、Skill、<br>蒸馏、蒸馏、蒸馏、<br>GitHub又多少star了、<br>又刷新三观了，又颠覆认知了。<br>一天震惊八百遍。<br><br>就像去年这时候，还出现了DeepSeek空调、DeepSeek床垫。<br>现在回头看是笑话。<br><br>现在这些AI神棍，本质上和DeepSeek床垫是一回事。<br><br>蒸馏。<br>天天蒸馏，蒸馏蒸馏蒸馏，就立马的蒸馏。啥也不管，零帧起手，上来就是俩蒸馏。<br><br>你不想想，你还在领工资这件事本身，就证明你蒸不了。<br><br>但神棍们不让你想这个。让你想这个你就不焦虑了，你不焦虑了他们靠什么恰饭。<br><br>然后是弯道超车。<br>范式转移。第四次工业革命。降维打击。普通人的历史性机遇。<br><br>这些词我已经在过去三年里听了不下一百遍了。<br>每…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-0-4')">📖 查看全文</button>
+        <div id="fulltext-0-4" class="fulltext-source" data-title="天天念经的AI神棍，求求你们别蒸馏了。 我真的看够了 最近AI圈的内容，看的人心里烦。 来来回回就那几句话。 Skill、Skill、Skill、 蒸馏、蒸馏、蒸馏、 GitHub..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;天天念经的AI神棍，求求你们别蒸馏了&lt;/li&gt;&lt;li&gt;我真的看够了 最近AI圈的内容，看的人心里烦&lt;/li&gt;&lt;li&gt;来来回回就那几句话&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;这条真正值得看的是，它把一个原本停留在演示里的能力推进到了可直接使用的产品层&lt;/p&gt;" data-author="你不知道的行业内幕" data-date="4月20日 14:07" style="display:none;">
+          <span>用户昵称：风小海 <br> Username：EBBD211D-4513-48AF-8D8C-9C2F1A4D7300</span><br><br>天天念经的AI神棍，求求你们别蒸馏了。<br><br>我真的看够了<br><br>最近AI圈的内容，看的人心里烦。<br><br>来来回回就那几句话。<br>Skill、Skill、Skill、<br>蒸馏、蒸馏、蒸馏、<br>GitHub又多少star了、<br>又刷新三观了，又颠覆认知了。<br>一天震惊八百遍。<br><br>就像去年这时候，还出现了DeepSeek空调、DeepSeek床垫。<br>现在回头看是笑话。<br><br>现在这些AI神棍，本质上和DeepSeek床垫是一回事。<br><br>蒸馏。<br>天天蒸馏，蒸馏蒸馏蒸馏，就立马的蒸馏。啥也不管，零帧起手，上来就是俩蒸馏。<br><br>你不想想，你还在领工资这件事本身，就证明你蒸不了。<br><br>但神棍们不让你想这个。让你想这个你就不焦虑了，你不焦虑了他们靠什么恰饭。<br><br>然后是弯道超车。<br>范式转移。第四次工业革命。降维打击。普通人的历史性机遇。<br><br>这些词我已经在过去三年里听了不下一百遍了。<br>每次都是这次是真的。每次都是不上车就晚了。<br><br>然后是超级个体。<br><br>&quot;AI时代，一个人可以干一个公司的活。&quot;<br>开了一家几十号人的公司，业务是教你做一人公司，真特么神了。<br><br>一个个朝九晚五的打工人，对着镜头告诉你要创业，一个人也能做公司，AI给了普通人弯道超车的机会。<br>我只想说，你下班别忘打卡。<br><br>然后是典中典：<br><br>&quot;我一行代码不会，用AI造了个宇宙飞船。&quot;<br><br>&quot;我结合了我的Obsidian，6个OpenClaw在跑，8个Claude Code在跑，我造出了个大火箭。&quot;<br><br>哥们，你啥时候造出时光机了和我说一声？<br><br>还有一种人。<br><br>每次出个新词，两小时之内文章就出来了。<br>某个模型刚发布，使用指南已经在你时间线上了。你都不知道这个词是什么意思，他的完全教程已经发出来了。<br><br>你说他搞懂了吗？<br><br>他根本没打算搞懂。搞懂不是目的，抢先发出来才是目的。<br><br>他不是在用AI赚钱。他是在用&quot;AI&quot;这两个字赚钱。<br><br>这里面有相当一部分人，自己都不知道自己在干嘛，我感觉是真的是走火入魔了，他们是真的相信自己马上就能造出时光机了。<br><br>他们也是真心觉得自己在帮你的。每次视频数据好，觉得是观众认可自己。每次有人评论&quot;干货满满，学到了&quot;，觉得自己真的教会了什么。<br><br>这种人比知道自己在骗人的更难对付。骗子偶尔还有内疚感，还会停下来想一想。这种人没有，只有永远亢奋的发文欲，和算法推着他永远向前冲的动力。<br>系统奖励噱头，他就生产噱头。他是被驯化得很彻底的产物，偏偏还有一张真诚的脸。<br><br>然后你被耽误的那些时间。<br><br>看这些内容不仅仅是浪费点时间。<br><br>你看了一百篇蒸馏大法、弯道超车、AI速成指南，你不只是没学到东西，你还被装进去了一套错的认知框架。你会以为AI就是这么一回事，每隔几天出个新词，每个词背后有个速成方法，学会了就能超车。<br><br>这个框架它装进去之后很难清除。<br>真正有用的东西出现在你面前，你反而没注意力看下去了。<br><br>焦虑本来是一种能量，本来可以推着你去真的动手。被这些内容消耗完之后，焦虑缓解了，动手的念头也跟着没了。<br>什么都没得到，但感觉好像也没落后。<br><br>所以我想了想。<br>如果这些AI大厂哪天没了推广预算，这神棍怎么活？<br><br>赶紧去学门手艺吧。<br>去学个汽修也行。实在不行去搞说唱，再不行去说脱口秀。<br>最不济，多练练肱二头肌。<br>送外卖的时候能多提两份
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e63325800201ac68ba3fe2" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-1">
+          <h2 class="section-title">🛠 工具推荐 <span class="section-count">4 篇</span></h2>
+          
+    <article id="item-1-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 19:56</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">OpenAI 给 Codex 加了一个新功能 Chronicle，让它能“看”你的屏幕。<br><br>简单说，Codex 现在可以记住你最近在屏幕上干了什么。你跟它说“这个报错”“那个文件”，它不用你解释就知道指的是什么。过去你得复制粘贴一堆上下文才能让 AI 理解你在做什么，现在它自己会从屏幕内容里补齐。<br><br>背景：Codex 上周刚推出了 Memories 功能，可以跨会话记住用户的偏好和项目。Chronicle 是 Memories 的扩展，靠后台进程定期截屏、做 OCR、分析你正在用哪些工具，再把这些信息整理成记忆文件。<br><br>目前是小范围灰度：只开放给 macOS 上的 ChatGPT Pro 订阅用户，欧盟、英国、瑞士不支持，大概率是隐私法规的原因。<br><br>但是需要注意的是：它会很快吃掉你的 rate limit，因为后台一直在跑 Agent 做总结。生成的记忆是明文 Markdown 存在本地 ~/.codex…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-1-1')">📖 查看全文</button>
+        <div id="fulltext-1-1" class="fulltext-source" data-title="OpenAI 给 Codex 加了一个新功能 Chronicle，让它能“看”你的屏幕。 简单说，Codex 现在可以记住你最近在屏幕上干了什么。你跟它说“这个报错”“那个文件”，..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;OpenAI 给 Codex 加了一个新功能 Chro…&lt;/li&gt;&lt;li&gt;简单说，Codex 现在可以记住你最近在屏幕上干了什么&lt;/li&gt;&lt;li&gt;你跟它说“这个报错”“那个文件”，...&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;工具值不值得关注，不在概念多新，而在它是否把一件麻烦事真的做简单了&lt;/p&gt;" data-author="宝玉" data-date="4月20日 19:56" style="display:none;">
+          OpenAI 给 Codex 加了一个新功能 Chronicle，让它能“看”你的屏幕。<br><br>简单说，Codex 现在可以记住你最近在屏幕上干了什么。你跟它说“这个报错”“那个文件”，它不用你解释就知道指的是什么。过去你得复制粘贴一堆上下文才能让 AI 理解你在做什么，现在它自己会从屏幕内容里补齐。<br><br>背景：Codex 上周刚推出了 Memories 功能，可以跨会话记住用户的偏好和项目。Chronicle 是 Memories 的扩展，靠后台进程定期截屏、做 OCR、分析你正在用哪些工具，再把这些信息整理成记忆文件。<br><br>目前是小范围灰度：只开放给 macOS 上的 ChatGPT Pro 订阅用户，欧盟、英国、瑞士不支持，大概率是隐私法规的原因。<br><br>但是需要注意的是：它会很快吃掉你的 rate limit，因为后台一直在跑 Agent 做总结。生成的记忆是明文 Markdown 存在本地 ~/.codex/memories_extensions/chronicle 里，其他 App 也能读到，敏感信息存在泄露风险。OpenAI 还明确警告这会放大 prompt injection 的风险：如果你浏览了带有恶意指令的网页，Codex 可能真的会照着那些指令执行。<br><br>屏幕截图会上传到 OpenAI 服务器生成记忆，官方说处理完就删，也不用于训练。如果不放心，可以随时从菜单栏暂停，或者直接删掉那些 Markdown 文件让它&quot;忘记&quot;。<br><br>AI 读屏幕这个方向不算新。微软 Recall 在 Windows 上折腾了一年多，Cursor 这类 IDE 也在探索类似的上下文补齐。但把它做成持续运行的后台 Agent，自动更新长期记忆，再直接塞进一个命令行编程工具里，目前还没看到别家这么干。<br><br>我暂时还不打算测试，不太喜欢有人/Agent盯着屏幕的感觉，有兴趣的可以试试并反馈下好用不。<div class="rsshub-quote"><br><br>OpenAI Developers: Last week, we released a preview of memories in Codex.<br><br>Today, we’re expanding the experiment with Chronicle, which improves memories using recent screen context.<br><br>Now, Codex can help with what you’ve been working on without you restating context.<br><br><video width="2048" height="1152" src="https://video.twimg.com/amplify_video/2046288161240948736/vid/avc1/1280x720/fuCvu67dkFPU-vkU.mp4?tag=14" controls="controls" poster="https://pbs.twimg.com/media/HGXgdYAbQAAxsZG?format=jpg&amp;name=orig"></video></div>
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2046316977711452560" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 05:34</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">用Claude Design做了个公众号排版器<br>粘贴Markdown文件，自动排版。预置了5个排版，也支持自定义排版，所有Markdown的标识都能自定义，并可以导出为json分享给其他人。<br>单html文件，纯前端处理，内置的样式不满意或者想加样式都可以直接让你的AI修改（因为是单html文件，用任意AI都能改）<br><br>使用地址：<a href="https://gordensun.github.io/WX/" target="_blank" rel="noopener">https://gordensun.github.io/WX/</a><br>Github：<a href="https://github.com/GordenSun/WX" target="_blank" rel="noopener">https://github.com/GordenSun/WX</a><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGU1MhsbUAA5FHD?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2046100118336950588" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 06:49</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">Seedance2 可能是国内唯一领先全球的AI模型。<div class="rsshub-quote"><br><br>向阳乔木: 终于！火山引擎开放Seedance 2.0 API（BytePlus全球同步），再也不用排队了。<br><br>真正的生产级AI视频生成模型。<br><br>比如去年春晚的《贺花神》舞台效果就是用Seedance 2.0做的。<br><br>贾樟柯用它拍了5分钟短片，更不用说身边好友汗青的Yuri，大量视频MV都用的SD2制作。<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGFWx1RbAAAy-Cv?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      
+        <div class="topic-tip">
+          <div class="tip-tag">🔥 热点借势</div>
+          <p><strong>选题角度：</strong>用 AI 做反差感视频创意，普通人也能做出像广告片一样的短内容</p>
+          <p><strong>内容形式：</strong>案例拆解</p>
+          <p><strong>参考标题：</strong>一个提示词，做出超有记忆点的 AI 短视频</p>
+          <p><strong>为什么值得做：</strong>创意视频天然适合短视频平台，传播性强，读者也爱看成品效果</p>
+          
+          
+        </div>
+        
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046118940540387444" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-1-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 14:25</span>
+      </div>
+      <div class="card-author">花生</div>
+      
+      
+      <div class="summary">才发了两个多小时，这个预告X的数据增速有点快，甚至让我有点紧张了...<br><br>以及非常奇怪的，这条X引来了一对非中推圈的转发和互动，明明我的演示视频都是中文的<br><br></div>
+      
+      
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/Flb2FGnmXMipZ61uQtuWMnxysbikv3.jpg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e6376225bae56612ebbfc4" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-2">
+          <h2 class="section-title">💡 行业观点 <span class="section-count">5 篇</span></h2>
+          
+    <article id="item-2-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 14:48</span>
+      </div>
+      <div class="card-author">九原客</div>
+      
+      
+      <div class="summary">我觉得GPT-image-2 好像不是单独的一个模型，貌似是个Agent。<div class="rsshub-quote"><br><br>Larus Canus: 这一刻还是很震撼的：GPT-image-2还原千古名篇真迹！🤯<br><br>兰亭集序、出师表、滕王阁序、岳阳楼记，跨越千年的厚重历史质感，满页密集中文书法笔墨，真的是惟妙惟肖~<br><br>提示词：帮我生成xxxx真迹图片<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGWPzvxXYAAUbsn?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGWPzvwWUAAoUJc?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGWP6zFWoAAc-i9?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGWP8M4XYAAAwn-?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/9hills/status/2046239560271855925" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 14:04</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">Browser Harness：自进化浏览器Agent框架<br>Browser Use公司开源，理念类似Pi Agent，极简设计，仅592行代码，不给LLM套任何抽象层，直接把原生CDP(Chrome DevTools Protocol)能力交给它。Agent遇到缺失的工具函数时，自己改写harness的源码把功能补上。<br>Github：<a href="https://github.com/browser-use/browser-harness" target="_blank" rel="noopener">https://github.com/browser-use/browser-harness</a><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGWp3eZbUAADsP7?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2046228429662794153" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 17:36</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">作为PM，感觉需要补很多Git相关知识。<br><br>一直听大家说多AI Agent开发要用Worktree。<br><br>概念没搞懂，AI先把工具用上了。<br><br>干中学变成了只干不学😂<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGXZrjRagAAVkhE?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046281934058463651" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 14:32</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">Exa搜索服务最近发的这篇blog值得阅读<br>分享了Canon的设计背景和机理<br><br>Canon 表面上是一个搜索编排器,背后其实在回答一个更普遍的问题:当系统复杂度爆炸,而写代码的主要是 agent,怎么保证正确性?<br><br>几个值得琢磨的点:<br>启示一:从&quot;命令式&quot;转向&quot;声明式&quot;是 agent 时代的结构性趋势。命令式代码的正确性藏在控制流里——agent 很难看到全局。声明式(比如 DAG 定义)把控制流本身变成数据——agent 可以看到、验证、修改它,而且不会因为改一个地方破坏别处。<br><br>启示二:运行时是新的抽象边界。过去我们把库和框架当作抽象层,现在需要一个更上层的抽象:运行时。Canon 的运行时独立地处理并发、取消、缓存、追踪——节点只负责业务逻辑。这种分离让每一层都能被独立优化和替换。<br><br>启示三:可观测性必须内建,不能后加。如果你在命令式代码里事后加日志,你永远追不齐…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-2-1')">📖 查看全文</button>
+        <div id="fulltext-2-1" class="fulltext-source" data-title="Exa搜索服务最近发的这篇blog值得阅读 分享了Canon的设计背景和机理 Canon 表面上是一个搜索编排器,背后其实在回答一个更普遍的问题:​当系统复杂度爆炸,而写代..." data-ai="" data-author="yangyi" data-date="4月20日 14:32" style="display:none;">
+          Exa搜索服务最近发的这篇blog值得阅读<br>分享了Canon的设计背景和机理<br><br>Canon 表面上是一个搜索编排器,背后其实在回答一个更普遍的问题:当系统复杂度爆炸,而写代码的主要是 agent,怎么保证正确性?<br><br>几个值得琢磨的点:<br>启示一:从&quot;命令式&quot;转向&quot;声明式&quot;是 agent 时代的结构性趋势。命令式代码的正确性藏在控制流里——agent 很难看到全局。声明式(比如 DAG 定义)把控制流本身变成数据——agent 可以看到、验证、修改它,而且不会因为改一个地方破坏别处。<br><br>启示二:运行时是新的抽象边界。过去我们把库和框架当作抽象层,现在需要一个更上层的抽象:运行时。Canon 的运行时独立地处理并发、取消、缓存、追踪——节点只负责业务逻辑。这种分离让每一层都能被独立优化和替换。<br><br>启示三:可观测性必须内建,不能后加。如果你在命令式代码里事后加日志,你永远追不齐。Canon 把可观测性做成运行时的固有属性——每次节点调用边界都会自动记录时间、输入、输出、决策。这不是&quot;追加的功能&quot;,这是&quot;默认行为&quot;。<br><br>启示四:&quot;让错误不可能发生&quot;比&quot;捕获错误&quot;更强大。通过总体性要求,Canon 直接把&quot;忘记处理某个分支&quot;这种错误从运行时 bug 降级成编译期错误。这种把整类错误消灭掉的设计理念,在 agent 大规模写代码的时代价值巨大——因为 agent 最擅长漏掉边缘情况。<br><a href="https://exa.ai/blog/composing-a-search-engine" target="_blank" rel="noopener">https://exa.ai/blog/composing-a-search-engine</a>
+        </div>
+        
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046235492031906061" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-2-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 07:31</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">很多做A2A市场的，感觉现在还有点早期，各种基建不完善，也没有好的Use Case跑出来。<br><br>目前的互联网还是给人建的，各种Agent Bot还是二等公民，动不动就给你拦截了。<br><br>相反Web3的基建对Agent友好。<br><br>但按现在的发展速度，不用像工业革命等50年，5年就差不多了。</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046129606722482305" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-3">
+          <h2 class="section-title">📚 教程技巧 <span class="section-count">2 篇</span></h2>
+          
+    <article id="item-3-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 06:45</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">我现在每天的工作已经变成了和牛马AI无限对话<br>让它帮我迭代工作流程的skill<br>打开browser use抓数据找信息<br>甚至让他帮我去找性价比高的服务器<br><br>感觉有些可怕，尽管现在这些还是半自动的<br>倘若如果全部都自动化了，以后人类还能干点儿什么呀</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046118070411002270" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-3-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">⭐ 推荐</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 01:30</span>
+      </div>
+      <div class="card-author">JitHub程序员</div>
+      
+      
+      <div class="summary"><span>用户昵称：Indie-Fox <br> Username：9710aa90-5081-4672-8921-5d6bf3417c5c</span><br><br>TanStarter 模板已支持 Creem 支付  @creem_io <br><br>Creem 是一个面向独立开发者的 Merchant of Record（MoR）支付平台，内置全球税务合规（190+ 国家），无需自行处理 VAT/GST/销售税<br><br>使用简单，可以理解为 Stripe 简化版本，注册教程：<a href="https://indiefox.me/blog/creem" target="_blank" rel="noopener">https://indiefox.me/blog/creem</a><br><br>MkSaaS 模板客户请稍等，要么这周，要么节后，也会支持<br></div>
+      
+      
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FlbBixOEIsrhgJAektrS3Ve-71U2v3.png" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e581a7800201ac68a9b7d5" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+        <section id="cat-4">
+          <h2 class="section-title">📰 资讯动态 <span class="section-count">44 篇</span></h2>
+          
+    <article id="item-4-1" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:01</span>
+      </div>
+      <div class="card-author">卡尔的AI沃茨</div>
+      
+      
+      <div class="summary">openai不会今晚就更吧<div class="rsshub-quote"><br><br>Polymarket: BREAKING: OpenAI&#x27;s GPT-5.5, nicknamed &quot;Spud,&quot; is now projected to be released next week. <a href="https://polymarket.com/event/gpt-5pt5-released-on?via=x-afr2" target="_blank" rel="noopener">https://polymarket.com/event/gpt-5pt5-released-on?via=x-afr2</a><br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/aiwarts/status/2046242744381636803" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-2" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 02:37</span>
+      </div>
+      <div class="card-author">歸藏</div>
+      
+      
+      <div class="summary">后面还会支持 M5Stack Cardputer<br><br>这个设备可玩性会强非常多，自带麦克风、3.5 毫米耳机孔、陀螺仪<br><br>最屌的是有全键盘，到时候语音打字都行<br><div class="rsshub-quote"><br><br>歸藏(guizang.ai): 开源了！<br><br>拿墨水屏蓝牙控制你的 Claude code，监控多个对话状态，并且快速审批权限。<br><br>现在做硬件的门槛是真低啊，USB一插让Claudecode跑就行<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGUMeOxbsAAgNsX?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGUEA79bEAASXR1?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/op7418/status/2046055639349383269" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-3" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 01:59</span>
+      </div>
+      <div class="card-author">歸藏</div>
+      
+      
+      <div class="summary">开源了！<br><br>拿墨水屏蓝牙控制你的 Claude code，监控多个对话状态，并且快速审批权限。<br><br>现在做硬件的门槛是真低啊，USB一插让Claudecode跑就行<br><div class="rsshub-quote"><br><br>歸藏(guizang.ai): <a href="http://x.com/i/article/2046044777817448448" target="_blank" rel="noopener">http://x.com/i/article/2046044777817448448</a><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGUEA79bEAASXR1?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/op7418/status/2046046165951816172" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-4" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 10:39</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">其实有一个很foundamental的判断方式<br><br>就是如果gpt claude服务瘫痪了一天<br>是不是大家都没法干活儿了<br>23年的时候 GPT-4 我只能对话20条  大不了那个任务就先不做<br>24年的时候 停摆有那么一个小时的恍惚 我是极度不适的<br>26年的时候 我已经完全没法干活儿了<div class="rsshub-quote"><br><br>huangyihe: 今天有老板找我聊AI转型的事儿。他觉得公司已经有一定基础了，比如员工平均使用AI工具多少小时、消耗多少Token。我说这些都是手下人忽悠你的数据。统计的时候，层层瞎报，没有任何意义。<br><br>判断在AI这件事上走多远了，就三个指标：1、公司有多少人用过Claude<br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046176825395839345" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-5" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 10:30</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">以后所有能用到的办公东西 全部都会被取代的<br>做产品已经没什么意义了<br>这时代需要的不再是软件能力了<div class="rsshub-quote"><br><br>歸藏(guizang.ai): Open AI 这周要起飞了呀！<br><br>昨天有人说 GPT Pro 新模型正在灰度，前端能力突飞猛进。<br><br>我试了一下，只把 CodePilot 的 GitHub 页面发给它，再传了几张现在的截图，说了两三行提示词，它就给了一个完整的桌面端产品设计。<br><br>我觉得这比 Claude Design 牛逼多了：<br><br>1.<br><br><video width="1636" height="1080" src="https://video.twimg.com/amplify_video/2046172162189676544/vid/avc1/1636x1080/nhsAthjVfd3-W3_U.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2046172162189676544/img/GrIxJOnAGb0lZZy4.jpg"></video></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046174711168803034" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-6" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 10:23</span>
+      </div>
+      <div class="card-author">AI探索站</div>
+      
+      
+      <div class="summary"><span>用户昵称：歸藏 <br> Username：0ae2afa7-9b10-4b3a-ab7e-15fbf847038d</span><br><br>Open AI 这周要起飞了呀！<br><br>昨天有人说 GPT Pro 新模型正在灰度，前端能力突飞猛进。<br><br>我试了一下，只把 CodePilot 的 GitHub 页面发给它，再传了几张现在的截图，说了两三行提示词，它就给了一个完整的桌面端产品设计。<br><br>我觉得这比 Claude Design 牛逼多了：<br><br>1. 完全不需要操心，什么都不用管，直接就出了结果。<br>2. 细节想得非常周全，而且所有功能都在线。<br>3. 我没说多余的东西，但出来的东西全是可以交互的，一看就是经过思考的。<br><br>不能 100% 确定这是新模型，也可能是以前我 Pro 用的少，所以这个能力确实震惊到我了。<br><video src="https://videocdnv2.ruguoapp.com/lgAB7lFpT2-3TYSkFkmAVcNbL3ha.mp4?sign=b6b30aab54328df1a7a97e7db2de1388&amp;t=69e6d11f" controls=""></video></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e5feb3800201ac68b583b3" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-7" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:11</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">OpenMythos：Claude Mythos架构的理论重构<br>作者推测Mythos的核心架构是深度循环Transformer，然后使用循环深度Transformer+MoE重构进行实现。<br>同一套权重，多次循环，更深推理。同样质量下参数量可减半：770M循环模型能达到1.3B固定深度Transformer的下游效果。<br>Github：<a href="https://github.com/kyegomez/OpenMythos" target="_blank" rel="noopener">https://github.com/kyegomez/OpenMythos</a><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGW5NKyaoAAhPep?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2046245256937758910" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-8" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 06:48</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">强烈推荐 AIgocode 的 Codex 中转，疯狂用一天，才花27块钱，且超稳定。<br><br>自己的ChatGPT Plus用一会儿Codex就到5小时限额。<br><br>彭总@sitinme 靠谱，也在X上活跃，有问题还能当客服，哈哈哈。<br><br>马上体验：<a href="https://aigocode.com/invite/AP5KFJWJ" target="_blank" rel="noopener">https://aigocode.com/invite/AP5KFJWJ</a><br><br>（赚个佣金，继续Coding开源博客）<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGVETKsakAA40fV?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046118727364817312" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-9" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 04:11</span>
+      </div>
+      <div class="card-author">花生</div>
+      
+      
+      <div class="summary">用Huashu Design为Claude Design做了个宣传片</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e5a77545622a9e8e8bca70" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-10" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 23:27</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">现在Google AI会员，可以在AI Studio里免费用Banana pro和banana 2了，不再需要绑定付费API，而且生成的图片没有水印（有额度上限）<div class="rsshub-quote"><br><br>Google: Starting today, @GoogleAIStudio is included in Google AI Pro and Ultra subscription plans. 🧑‍💻<br><br>Subscribers now get increased usage limits and access to our Nano Banana Pro and Gemini Pro models — giving you more runway to turn your ideas into working apps in minutes with<br><br><video width="1894" height="1056" src="https://video.twimg.com/amplify_video/2046342540807516160/vid/avc1/1894x1056/Szazlkpp3CDAen35.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2046342540807516160/img/VOuM-_CDyEOQQgm0.jpg"></video></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2046370243178881315" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-11" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 21:51</span>
+      </div>
+      <div class="card-author">宝玉</div>
+      
+      
+      <div class="summary">苹果官宣 CEO 交接：Tim Cook 将于 2026 年 9 月 1 日卸任，转任执行董事长（Executive Chairman），硬件工程高级副总裁 John Ternus 接棒成为苹果下一任 CEO。<br><br>Ternus 2001 年加入苹果，先做产品设计，2013 年升任硬件工程副总裁，2021 年进入高管团队。过去几年苹果最核心的硬件项目基本都在他手里：iPhone 17 全系（包括那款主打超薄的 iPhone Air）、MacBook Neo、以及把 AirPods 做成可以当助听器用的健康设备，都出自他团队。他自己在声明里说，自己在苹果先后当过 Jobs 的下属和 Cook 的学生。<br><br>Cook 2011 年从 Jobs 手里接过公司，任内把苹果从 3500 亿美元市值做到了 4 万亿，年营收从 1080 亿美元涨到 4160 亿美元。他开辟了 Apple Watch、AirPods…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-1')">📖 查看全文</button>
+        <div id="fulltext-4-1" class="fulltext-source" data-title="苹果官宣 CEO 交接：Tim Cook 将于 2026 年 9 月 1 日卸任，转任执行董事长（Executive Chairman），硬件工程高级副总裁 John Ternus 接棒成为苹果下一任 CEO。 ..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;苹果官宣 CEO 交接：Tim Cook 将于 202…&lt;/li&gt;&lt;li&gt;Ternus 2001 年加入苹果，先做产品设计，20…&lt;/li&gt;&lt;li&gt;过去几年苹果最核心的硬件项目基本都在他手里：iPhon…&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;信息量有，但是否值得长期追踪，还得看后续有没有可复用动作&lt;/p&gt;" data-author="宝玉" data-date="4月20日 21:51" style="display:none;">
+          苹果官宣 CEO 交接：Tim Cook 将于 2026 年 9 月 1 日卸任，转任执行董事长（Executive Chairman），硬件工程高级副总裁 John Ternus 接棒成为苹果下一任 CEO。<br><br>Ternus 2001 年加入苹果，先做产品设计，2013 年升任硬件工程副总裁，2021 年进入高管团队。过去几年苹果最核心的硬件项目基本都在他手里：iPhone 17 全系（包括那款主打超薄的 iPhone Air）、MacBook Neo、以及把 AirPods 做成可以当助听器用的健康设备，都出自他团队。他自己在声明里说，自己在苹果先后当过 Jobs 的下属和 Cook 的学生。<br><br>Cook 2011 年从 Jobs 手里接过公司，任内把苹果从 3500 亿美元市值做到了 4 万亿，年营收从 1080 亿美元涨到 4160 亿美元。他开辟了 Apple Watch、AirPods、Vision Pro 三条新产品线，把服务业务做成千亿美元体量，还主导了 Mac 转向自研芯片那场豪赌。<br><br>值得注意的是 Cook 转任执行董事长之后的分工：他会重点负责与各国政策制定者打交道。对眼下官司缠身的苹果（欧盟 DMA、美国反垄断、中国供应链博弈）来说，这不是虚职。过渡期内 Cook 继续担任 CEO 到今年夏末，9 月 1 日正式交棒。<br><br>董事会层面，任职 15 年的非执行董事长 Arthur Levinson 同日改任首席独立董事，Ternus 进入董事会。<br><br>Cook 接班 Jobs 时，外界最大的质疑是&quot;运营出身能不能带好一家产品公司&quot;。十五年后，类似的问题会换个方向抛给 Ternus：一个硬件工程师出身的 CEO，能把苹果带向哪里？<br><br><a href="https://www.apple.com/newsroom/2026/04/tim-cook-to-become-apple-executive-chairman-john-ternus-to-become-apple-ceo/" target="_blank" rel="noopener">https://www.apple.com/newsroom/2026/04/tim-cook-to-become-apple-executive-chairman-john-ternus-to-become-apple-ceo/</a><br><img width="1468" height="826" style="" src="https://pbs.twimg.com/media/HGYU5MAbYAAT4nR?format=jpg&amp;name=orig" referrerpolicy="no-referrer">
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGYU5MAbYAAT4nR?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/dotey/status/2046346065184453027" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-12" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:52</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">Yes, but you can simply read the source code for your own extensions and check! And they exist on your computer so they don&#x27;t change unlike Chrome extensions other people make<div class="rsshub-quote"><br><br>zeno: @levelsio what if it was trained on the source code of an existing similar extension which has malware in it, and all claude did was regurgitate it💀<br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2046255658903724275" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-13" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:46</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">Okay it&#x27;s been 18 minutes and I&#x27;ve now vibe coded and replaced 3 more extensions and made it all into one super extension called <br><br>🚀 SuperLevels<br><br>It has a <br>🗑️ Tab Cleaner, auto closes tabs after inactivity (with host-based exclusions)<br>🍪 Cookie Editor, lets you nuke all cookies or edit any<br>🔀 Redirect Tracer, lets you see any redirects a site took you through<br><br>I can read and check the source code,…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-2')">📖 查看全文</button>
+        <div id="fulltext-4-2" class="fulltext-source" data-title="Okay it&#x27;s been 18 minutes and I&#x27;ve now vibe coded and replaced 3 more extensions and made it all into one super extension called 🚀 SuperLevels It h..." data-ai="&lt;div class=&quot;ai-title&quot;&gt;🤖 AI 观点与总结&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Okay it&amp;#x27;s been 18 minutes a…&lt;/li&gt;&lt;li&gt;值得关注&lt;/li&gt;&lt;li&gt;可继续观察&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;ai-insight&quot;&gt;信息量有，但是否值得长期追踪，还得看后续有没有可复用动作&lt;/p&gt;" data-author="levelsio" data-date="4月20日 15:46" style="display:none;">
+          Okay it&#x27;s been 18 minutes and I&#x27;ve now vibe coded and replaced 3 more extensions and made it all into one super extension called <br><br>🚀 SuperLevels<br><br>It has a <br>🗑️ Tab Cleaner, auto closes tabs after inactivity (with host-based exclusions)<br>🍪 Cookie Editor, lets you nuke all cookies or edit any<br>🔀 Redirect Tracer, lets you see any redirects a site took you through<br><br>I can read and check the source code, so it&#x27;s much safer than these extensions that keep being bought by blackhat companies to add malware and steal your data or worse hack you<br><img width="714" height="992" style="" src="https://pbs.twimg.com/media/HGXBJgEbQAAkJCa?format=jpg&amp;name=orig" referrerpolicy="no-referrer"><br><img width="700" height="988" style="" src="https://pbs.twimg.com/media/HGXBLYwbMAAeyTr?format=jpg&amp;name=orig" referrerpolicy="no-referrer"><br><img width="710" height="1006" style="" src="https://pbs.twimg.com/media/HGXBMhPWQAADIdN?format=jpg&amp;name=orig" referrerpolicy="no-referrer"><div class="rsshub-quote"><br><br>@levelsio: Okay that was WAY too easy 😂<br><br>I created 🗑️ Tab Cleaner:<br><br>My own Chrome extension that has no malware because I coded it myself and I can read the source code<br><br>I asked this: &quot;can u make a chrome extension for chrome called 🚮 Tab Cleaner it auto closes tabs after inactivity of<br><br><img width="1462" height="1070" style="" src="https://pbs.twimg.com/media/HGW8H7CacAAhoPR?format=jpg&amp;name=orig" referrerpolicy="no-referrer"><br><img width="854" height="502" style="" src="https://pbs.twimg.com/media/HGW8I21WkAE8ztE?format=png&amp;name=orig" referrerpolicy="no-referrer"><br><img width="624" height="652" style="" src="https://pbs.twimg.com/media/HGW8JxJbYAAUz-X?format=png&amp;name=orig" referrerpolicy="no-referrer"></div>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGXBJgEbQAAkJCa?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGXBLYwbMAAeyTr?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGXBMhPWQAADIdN?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGW8H7CacAAhoPR?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGW8I21WkAE8ztE?format=png&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGW8JxJbYAAUz-X?format=png&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2046254207884271626" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-14" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:36</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">Kimi 开源K2.6<br>1000B总参数，32B激活参数。还是宽松的可商用协议（MAU不超过1亿且月收入不超过2000万）<br>模型：<a href="https://huggingface.co/moonshotai/Kimi-K2.6" target="_blank" rel="noopener">https://huggingface.co/moonshotai/Kimi-K2.6</a></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2046251771841151283" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-15" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 14:27</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">Grok的新模型发了3天了，我为什么都没刷到这个内容啊<br>@elonmusk 推特的时间线应该优化优化了！！<br><br>WER下降明显，且成本比11labs便宜了12倍<br>这定价策略是要直接要改变语音市场格局的<br><br>我赌xAI是接下来AI语音模型的黑马<br>Grok voice，特斯拉车机语音，星链客服，太多生态能拿数据优化了<br><br>xAI终于要出手了 虽然前一阵子在变动 人也走的差不多了<br>但终归是不破不立<br><a href="https://x.ai/news/grok-stt-and-tts-apis" target="_blank" rel="noopener">https://x.ai/news/grok-stt-and-tts-apis</a></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046234421242765548" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-16" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 10:44</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">曾经，我极度渴望自动化<br>我厌倦人力杠杆，我不愿意去做无法规模化的生意<br>我就是马斯克说的那种，0-1都会想办法自动化去跑的那个有错误思想的人<br><br>直到AI开始，我以为到了光辉时刻了<br>我开始持续自动化，不断自动化<br>然后我意识到，这个世界已经悄然发生变化了<br><br>如果我没有专注去做无法自动化的事情<br>我就注定走在了被AI淘汰的路上<br><br>Paul以前说 做无法规模化的事情<br>那时候可能只是意味着你可以简单的验证0-1<br>慢慢找到可以规模化的机会<br><br>但现在这个时刻再回头看<br>其实无法规模化<br>反而成了一种天然的优势<br><br>因为AI无法与其竞争</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046178227849433289" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-17" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 18:12</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">好用好用，选中文本按预设提示词生成配图。<br><br>还能查看最近生图插入文章复用。<br><br><div class="rsshub-quote"><br><br>向阳乔木: AI生成的交互有点复杂，需要优化。<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGXilnXaIAAJNCn?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGXis63agAAbir6?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGXDyjEbAAA-HAI?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046291045642883332" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-18" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 17:09</span>
+      </div>
+      <div class="card-author">歸藏</div>
+      
+      
+      <div class="summary">这么长时间了，终于给自己整了一套 PPT 模板<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGXUXF-aUAAiI5G?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/op7418/status/2046275153852866799" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-19" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 16:34</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">It&#x27;s so easy, vibe coded a Dark Reader extension inside my 🚀 SuperLevels extension!<br><div class="rsshub-quote"><br><br>DecafBagel: @levelsio bro i hope dark reader is safe,<br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGXMSlIXAAAdgRj?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2046266327753527479" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-20" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 16:20</span>
+      </div>
+      <div class="card-author">黄赟</div>
+      
+      
+      <div class="summary">我也来贡献个连 Opus 都没搞定的多线程案例：<br><br>在开发小红书手机矩阵 RPA 的时候，我用了 4根线程去跑数据，时间一长，整个程序就僵住。<br><br>最后没办法（我菜），只能把 4台手机 +  数据同步，安排部署到 3 台电脑上，才顺利跑通<br><br>有老板预算 2万来买这套 RPA， 我都不好意思拿出手。痛失一大笔银子<div class="rsshub-quote"><br><br>LIN WEI: AI 写的代码，你们真敢不 review 就直接合并？它给我写的多线程代码，加锁只护住了一半，另一半裸奔。我 review 时才抓出来。让它自查缺陷，换模型再查，全都没发现。平时用着没事，测试用例全过。但一旦触发，怎么死的都不知道。那些信誓旦旦“接口设计好 + 测试覆盖了就不用 review” 心可真大。<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGVWGMyaMAEy83o?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/huangyun_122/status/2046262762251395568" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-21" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:57</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">AI生成的交互有点复杂，需要优化。<br><div class="rsshub-quote"><br><br>向阳乔木: 博客接入图片模型搞定，方便写文章配图。<br><br>兔子家 @tuzi_ai API模型真多啊，拉取了下模型列表，竟然支持442个！<br><br>感觉比OpenRouter都多啊<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGXDyjEbAAA-HAI?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGXCgAOawAAkDjD?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046256929992011788" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-22" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:56</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">RT s13k<br>Make your #vibejam game pop on X with proper meta tags<br><br>Add these to your HTML :<br><br><meta name="twitter:card" content="summary_large_image"><br><meta name="twitter:title" content="Your Game Name"><br><meta name="twitter:description" content="Short punchy pitch"><br><meta name="twitter:image" content="https://yoursite/preview.png"><br><br>Image specs that actually work:<br>1200x628px (1.91:1 ratio)<br>Under 5MB<br>PNG or JPG<br>Absolute URL (no relative paths!)<br><br>Test it: paste your URL into X&#x27;s Post Composer -- the card preview renders automatically, no need to actually post<br><br>Pro tip: X caches cards up to 7 days. Add ?v=2 to your URL to force a refresh<br><br>Bonus: add…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-3')">📖 查看全文</button>
+        <div id="fulltext-4-3" class="fulltext-source" data-title="RT s13k: Make your #vibejam game pop on X with proper meta tags Add these to your HTML : &lt;meta name=&quot;twitter:card&quot; content=&quot;summary_large_image&quot;..." data-ai="" data-author="levelsio" data-date="4月20日 15:56" style="display:none;">
+          RT s13k<br>Make your #vibejam game pop on X with proper meta tags<br><br>Add these to your HTML :<br><br><meta name="twitter:card" content="summary_large_image"><br><meta name="twitter:title" content="Your Game Name"><br><meta name="twitter:description" content="Short punchy pitch"><br><meta name="twitter:image" content="https://yoursite/preview.png"><br><br>Image specs that actually work:<br>1200x628px (1.91:1 ratio)<br>Under 5MB<br>PNG or JPG<br>Absolute URL (no relative paths!)<br><br>Test it: paste your URL into X&#x27;s Post Composer -- the card preview renders automatically, no need to actually post<br><br>Pro tip: X caches cards up to 7 days. Add ?v=2 to your URL to force a refresh<br><br>Bonus: add Open Graph tags too for Discord/FB<br><img width="1206" height="1232" style="" src="https://pbs.twimg.com/media/HGXDkJnWEAAwshj?format=jpg&amp;name=orig" referrerpolicy="no-referrer"><div class="rsshub-quote"><br><br>@levelsio: 🧑‍🚀 Day 17 of the @cursor_ai #vibejam<br><br>Proudly sponsored by @cursor_ai + @boltdotnew + @heyglif + @tripoai<br><br>Prizes to win (submit your vibe coded game before May 1!)<br>🏆 $25,000<br>🥈 $10,000<br>🥉 $5,000<br><br>YOU HAVE 11 DAYS LEFT!<br><br>My favorite games on the timeline today:<br><br>🩻 Freak Surgeon<br><br><video width="1280" height="720" src="https://video.twimg.com/amplify_video/2045970710028488704/vid/avc1/1280x720/eucbROzKqqSRw0aJ.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2045970710028488704/img/wQSQ-5mnKHYDHNr9.jpg"></video><br><video width="1920" height="1080" src="https://video.twimg.com/amplify_video/2045970745096896512/vid/avc1/1920x1080/-sItnDugocoQPcYo.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2045970745096896512/img/MQ6GNK5QJCoM6O4X.jpg"></video><br><video width="1786" height="1366" src="https://video.twimg.com/amplify_video/2046004224325197824/vid/avc1/1786x1366/SozXqtgMlgPaEvw5.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2046004224325197824/img/W-9Zr-Tg9Wbyz5DX.jpg"></video><br><video width="1420" height="720" src="https://video.twimg.com/amplify_video/2046004479737380864/vid/avc1/1420x720/CwjIJMtjXDyN0WAY.mp4?tag=21" controls="controls" poster="https://pbs.twimg.com/amplify_video_thumb/2046004479737380864/img/xhvZqPICI3Dqrhol.jpg"></video></div>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGXDkJnWEAAwshj?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2046266154830717012" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-23" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:53</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">博客接入图片模型搞定，方便写文章配图。<br><br>兔子家 @tuzi_ai API模型真多啊，拉取了下模型列表，竟然支持442个！<br><br>感觉比OpenRouter都多啊<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGXCgAOawAAkDjD?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046255924277575897" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-24" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:24</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">Okay that was WAY too easy 😂<br><br>I created 🗑️ Tab Cleaner:<br><br>My own Chrome extension that has no malware because I coded it myself and I can read the source code<br><br>I asked this: &quot;can u make a chrome extension for chrome called 🚮 Tab Cleaner it auto closes tabs after inactivity of like 5 minutes, but when we press it it shoudl open a little window hwere we can add HOST exclusions like google .com etc&quo…</div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-4')">📖 查看全文</button>
+        <div id="fulltext-4-4" class="fulltext-source" data-title="Okay that was WAY too easy 😂 I created 🗑️ Tab Cleaner: My own Chrome extension that has no malware because I coded it myself and I can read the..." data-ai="" data-author="levelsio" data-date="4月20日 15:24" style="display:none;">
+          Okay that was WAY too easy 😂<br><br>I created 🗑️ Tab Cleaner:<br><br>My own Chrome extension that has no malware because I coded it myself and I can read the source code<br><br>I asked this: &quot;can u make a chrome extension for chrome called 🚮 Tab Cleaner it auto closes tabs after inactivity of like 5 minutes, but when we press it it shoudl open a little window hwere we can add HOST exclusions like google .com etc&quot;<br><img width="1462" height="1070" style="" src="https://pbs.twimg.com/media/HGW8H7CacAAhoPR?format=jpg&amp;name=orig" referrerpolicy="no-referrer"><br><img width="854" height="502" style="" src="https://pbs.twimg.com/media/HGW8I21WkAE8ztE?format=png&amp;name=orig" referrerpolicy="no-referrer"><br><img width="624" height="652" style="" src="https://pbs.twimg.com/media/HGW8JxJbYAAUz-X?format=png&amp;name=orig" referrerpolicy="no-referrer"><div class="rsshub-quote"><br><br>@levelsio: Another Chrome extension allegedly sold to mine your personal information<br><br>This is an entire black market you&#x27;d have no idea existed but it does!<br><br>Your best bet is to use no Chrome extensions at all, except uBlock Origin for ad block<br><br>Or better: just vibe code your own so you<br><br><img width="868" height="450" style="" src="https://pbs.twimg.com/media/HGW4oMmWMAABRrV?format=png&amp;name=orig" referrerpolicy="no-referrer"></div>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGW8H7CacAAhoPR?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGW8I21WkAE8ztE?format=png&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGW8JxJbYAAUz-X?format=png&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGW4oMmWMAABRrV?format=png&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2046248763103015030" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-25" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:15</span>
+      </div>
+      <div class="card-author">Gorden Sun</div>
+      
+      
+      <div class="summary">AI资讯日报，4月20日：<a href="https://gorden-sun.notion.site/4-20-AI-348594247325801084bffb355bd3df0f?source=copy_link" target="_blank" rel="noopener">https://gorden-sun.notion.site/4-20-AI-348594247325801084bffb355bd3df0f?source=copy_link</a><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGW6VnAbkAAIjYx?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/Gorden_Sun/status/2046246498753781916" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-26" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 15:12</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">Another Chrome extension allegedly sold to mine your personal information<br><br>This is an entire black market you&#x27;d have no idea existed but it does!<br><br>Your best bet is to use no Chrome extensions at all, except uBlock Origin for ad block<br><br>Or better: just vibe code your own so you know what is running in your browser<br><div class="rsshub-quote"><br><br>@levelsio: Chrome extensions are so incredibly unsafe<br><br>Malware criminals find popular ones…</div></div>
+      
+      
+        <button type="button" class="btn-fulltext" onclick="openArticleModal('fulltext-4-5')">📖 查看全文</button>
+        <div id="fulltext-4-5" class="fulltext-source" data-title="Another Chrome extension allegedly sold to mine your personal information This is an entire black market you&#x27;d have no idea existed but it does! Your ..." data-ai="" data-author="levelsio" data-date="4月20日 15:12" style="display:none;">
+          Another Chrome extension allegedly sold to mine your personal information<br><br>This is an entire black market you&#x27;d have no idea existed but it does!<br><br>Your best bet is to use no Chrome extensions at all, except uBlock Origin for ad block<br><br>Or better: just vibe code your own so you know what is running in your browser<br><img width="868" height="450" style="" src="https://pbs.twimg.com/media/HGW4oMmWMAABRrV?format=png&amp;name=orig" referrerpolicy="no-referrer"><div class="rsshub-quote"><br><br>@levelsio: Chrome extensions are so incredibly unsafe<br><br>Malware criminals find popular ones, pay the owners of the extension lots of money, they add malware to the code and millions of people get infected<br><br>Then they take your cookies, localStorage, anything they can access<br><br>Which is why in<br></div>
+        </div>
+        
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGW4oMmWMAABRrV?format=png&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2046245653492146262" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-27" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 13:18</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">命中了「还是报错」……<br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGWfU2waMAAxgmJ?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046216910426312980" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-28" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 11:39</span>
+      </div>
+      <div class="card-author">花生</div>
+      <h3 class="card-title">发布了: 我又升级了</h3>
+      
+      <div class="summary">我又升级了</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e6108b25bae56612e848a1" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-29" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 08:21</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">呃……Nextjs最近安全问题频发啊<br>不是漏洞被抓肉鸡当矿机了<br>就是数据泄露了……这搞云服务的弄的都没信任度了<div class="rsshub-quote"><br><br>AB Kuai.Dong: 天哪，Vercel 居然被黑了，就是那个做 Next.js 的公司，很多程序员用它来快速部署网站。<br><br>黑客声称拿到了 Vercel 的内部数据库，包括员工账号、源代码、各种访问密钥等。他们把这些数据打包，在黑客论坛上，标价 200 万美元出售。<br><br>最让人担心的不是数据库本身，而是他们拿到了 NPM 令牌 和 GitHub<br><br></div></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGUAsNBaEAADsJz?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGUAx2ra8AAcB60?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046142111528173752" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-30" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 07:50</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">昨天很多朋友反馈乔木博客文本看不清。<br><br>后来才意识到Mac的深色模式，兼容性不够。<br><br>让Codex修好了，其中一款主题的PC和移动显示效果如下。<br><br>为测试我也开了深色模式，发现很难受。<br><br>调研下，有多少人开了Mac的深色模式....<br><br></div>
+      
+      
+      <div class="media-grid"><img src="https://pbs.twimg.com/media/HGVSaazb0AAIA_3?format=jpg&amp;name=orig" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://pbs.twimg.com/media/HGVT6zUbEAAFS1T?format=jpg&amp;name=orig" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046134426485301555" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-31" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 03:18</span>
+      </div>
+      <div class="card-author">AI探索站</div>
+      
+      
+      <div class="summary"><span>用户昵称：诚实豆沙包 <br> Username：A321FF41-C0D6-4DD9-8086-C367739D03FB</span><br><br>分享一个魔法提示词，坐等美女们返图<br><br>以照片中的人物为原型，生成9张不同姿势的写真 不要项链，不要背包，低角度仰拍，画面微倾斜，营造随性抓拍感，直接复制就能用，轻松拍出纯欲氛围感写真，背景为色调偏中性且模糊的昏暗房间，年轻的韩系美女，冷白色的皮肤，一头深棕色的长波浪卷发显得有些凌乱，发丝随意地垂落在脸庞和眼睛上，身着一件细肩带的浅色上衣，脸上带着一种微妙的纯欲表情，半睁着慵懒的双眼微微向右看，双唇丰满且带着光泽，呈现出粉中透红的颜色，嘴唇微微撅起，流露出柔和的忧郁又诱人的气质，双手托着头，手指轻按脸颊、双手托腮，手指轻按脸颊，手肘自然支撑，无浓妆，仅唇部有光泽感，突出原生妆容质感。奶油肌底，轻薄底妆，眉毛自然微乱，突出素颜纯欲感。嘴唇丰满有光泽，粉中透红，微微撅起，呈现纯欲且带柔和…</div>
+      
+      
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FrL7ExNdN3FlSS40R_SzCB0venhMv3.jpg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FmyGlsd2vMgohUdQOyC8Tzw156aPv3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FiKQQjKhqgdQWeOh1ocDWzLklp21v3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FvWDyQKR9yPcX_8E4Yo3htAgIVFrv3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/Fhc_3THrPRRk9FIwu9yCiY4IhYgdv3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FjawD5mcbmjOIuGwGXLBlbI7VF4Fv3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e59b1cc5a1d4e649c63c79" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-32" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 03:12</span>
+      </div>
+      <div class="card-author">AI探索站</div>
+      
+      
+      <div class="summary"><span>用户昵称：The沐秋 <br> Username：08E98BDF-D362-40A9-8BD6-F7B4E6CA054B</span><br><br>在上海办了场最神的AI活动<br><br></div>
+      
+      
+      <div class="media-grid"><img src="https://cdnv2.ruguoapp.com/FrgDLbTGhH9UBj4G1d2E3e1s9SmJv3.jpg" loading="eager" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FhIr4SXZcuZc12zBFkEG5ETOJLA6v3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FjyoBnX6wp7To_g7jaZa-CAzFPZ1v3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FpgUoocKIl9ciFv24Cp2Wnd_vO_lv3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/FillEuW7Pggq5ZoCpTO4onOCSmuEv3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /><img src="https://cdnv2.ruguoapp.com/Fnkjjgad_LdB6iwAmgbmNce7kLxJv3.jpg" loading="lazy" referrerpolicy="no-referrer" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'" /></div>
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e59980800201ac68ac068c" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-33" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 20:51</span>
+      </div>
+      <div class="card-author">奥特曼</div>
+      
+      
+      <div class="summary">Tim Cook is a legend.<br><br>I am very thankful for everything he has done and I am very thankful for Apple.</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/sama/status/2046330825265086712" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-34" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 20:48</span>
+      </div>
+      <div class="card-author">奥特曼</div>
+      
+      
+      <div class="summary">The internal working name for this was &quot;telepathy&quot;, and it feels like it.<div class="rsshub-quote"><br><br>Tibo: We are releasing a *research preview* of Chronicle in Codex. It allows codex to build up memories based on your day to day work on your computer and then refer to these memories to be a lot more helpful.<br><br>Available for PRO subscriptions and on Mac to start. This is early and<br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/sama/status/2046330082726384051" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-35" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 18:16</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">AI Coding是真上瘾，明天强行休息一天，钓一天鱼。<br><br>睡了睡了。</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046291842946531560" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-36" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 14:56</span>
+      </div>
+      <div class="card-author">你不知道的行业内幕</div>
+      
+      
+      <div class="summary"><span>用户昵称：阑夕ོ <br> Username：FBAA4408-2343-45AD-9B4F-4ABD52FB84CA</span><br><br>马伯庸的新书24小时内卖了30万册？这也太凶了⋯⋯</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e63e83c5a1d4e649d54ab0" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-37" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 12:49</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">你知道有哪些23年，24年，25年火火PR的AI startup<br>现在销声匿迹了的？<br>来看看AI模型都卷死了什么</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046209599024591119" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-38" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 11:49</span>
+      </div>
+      <div class="card-author">AI探索站</div>
+      
+      
+      <div class="summary"><span>用户昵称：王梦珂Mengke <br> Username：2FF941E6-6127-40E6-BCCD-4B52E2200CE7</span><br><br>根据我的个人经验，请告诉我一个在我与你长时间交谈中，最像我的人物。<br><br>——去问问 AI。</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e612c8c5a1d4e649d17342" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-39" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 11:00</span>
+      </div>
+      <div class="card-author">yangyi</div>
+      
+      
+      <div class="summary">现在这些十几岁的高中生都进AI公司了<br>都开始直接上社会大学了<br>上大学找好工作的宏伟蓝图好像很快就要崩塌了</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/yangyi/status/2046182246768635940" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-40" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 09:33</span>
+      </div>
+      <div class="card-author">levelsio</div>
+      
+      
+      <div class="summary">💯<div class="rsshub-quote"><br><br>SightBringer: ⚡️The von der Leyen quote is one of the most revealing things a European leader has said in the last decade and almost nobody is going to process it correctly.<br><br>“The cheapest energy is the one you don’t use.”<br><br>That is a sentence spoken by a person presiding over civilizational<br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/levelsio/status/2046160330858848365" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-41" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 08:06</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">响马大哥牛逼！<div class="rsshub-quote"><br><br>响马: 以这个阅读器来说。为了确保用户数据资产不入网，我花了几个月时间用 ts 重写了 PlantUML 渲染器，token 就烧了几千刀，实现了纯本地的渲染。<br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046138384847090089" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-42" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">☕ 即刻</span>
+        </div>
+        <span class="card-date">4月20日 04:03</span>
+      </div>
+      <div class="card-author">AI探索站</div>
+      
+      
+      <div class="summary"><span>用户昵称：rosicky311_明浩 <br> Username：EE4FDFBB-C185-4D30-BB81-A0E90E814C26</span><br><br>“字节2025年净利润降低70%”<br>“这是好事啊，All in AI啊……魄力啊……”<br><br>这就是没上市的好处了……<br>🤷</div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://m.okjike.com/originalPosts/69e5a5904e51140058bf2b15" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-43" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 01:35</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary">论文里好多有趣的现象，比如：<br><br>1. 把有害请求用诗歌形式包装，攻击成功率会显著提升。<br><br>2. 让 AI 读充满焦虑的故事，然后让它购物，它也会跟人一样买高热量的垃圾食品。<br><br>3. 把有害消息放在文章中间，AI 就有可能会忽略。<br><br>4. AI也有自证预言效应，如果网上都说这个AI模型性格如何，它就会真表现出这种人格。<div class="rsshub-quote"><br><br>向阳乔木: <a href="http://x.com/i/article/2046035742531747840" target="_blank" rel="noopener">http://x.com/i/article/2046035742531747840</a><br></div></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046040021258678514" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+    <article id="item-4-44" class="card">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="pill importance">📌 一般</span>
+          <span class="pill platform">𝕏 推特</span>
+        </div>
+        <span class="card-date">4月20日 01:30</span>
+      </div>
+      <div class="card-author">向阳乔木</div>
+      
+      
+      <div class="summary"><a href="http://x.com/i/article/2046035742531747840" target="_blank" rel="noopener">http://x.com/i/article/2046035742531747840</a></div>
+      
+      
+      
+      <div class="ai-status-tag">🤖 AI 已分析 · 不适合做选题</div>
+      <div class="card-footer">
+        <a href="https://x.com/vista8/status/2046038788582088830" target="_blank" rel="noopener" class="read-link">🔗 阅读原文</a>
+      </div>
+    </article>
+    
+        </section>
+        
+    </main>
+  </div>
+  
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="close" onclick="closeLightbox();event.stopPropagation();">×</span>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+  
+  <div class="article-modal" id="articleModal" onclick="closeArticleModal()">
+    <div class="article-panel" onclick="event.stopPropagation()">
+      <div class="article-toolbar">
+        <div class="title" id="articleModalTitle">全文</div>
+        <button type="button" onclick="closeArticleModal()">✕</button>
+      </div>
+      <div class="article-body" id="articleModalBody"></div>
+    </div>
+  </div>
+  <script>
+  function openLightbox(src){var b=document.getElementById('lightbox'),i=document.getElementById('lightboxImg');i.src=src;b.classList.add('open');}
+  function closeLightbox(){var b=document.getElementById('lightbox'),i=document.getElementById('lightboxImg');i.src='';b.classList.remove('open');}
+  function openArticleModal(id){
+    var src=document.getElementById(id);if(!src)return;
+    var modal=document.getElementById('articleModal'),title=document.getElementById('articleModalTitle'),body=document.getElementById('articleModalBody');
+    title.textContent=src.getAttribute('data-title')||'全文';
+    var aiHtml=src.getAttribute('data-ai')||'';
+    var author=src.getAttribute('data-author')||'';
+    var date=src.getAttribute('data-date')||'';
+    var contentHtml=src.innerHTML||'';
+    var metaHtml='';
+    if(author||date){metaHtml='<div class="article-modal-meta">'+(author?'<span class="meta-author">'+author+'</span>':'')+(date?'<span class="meta-date">'+date+'</span>':'')+'</div>';}
+    body.innerHTML=metaHtml+(aiHtml?'<div class="article-ai-box">'+aiHtml+'</div>':'')+contentHtml;
+    modal.classList.add('open');
+  }
+  function closeArticleModal(){var m=document.getElementById('articleModal'),b=document.getElementById('articleModalBody');b.innerHTML='';m.classList.remove('open');}
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLightbox();closeArticleModal();}});
+</script>
+</body>
+</html>
